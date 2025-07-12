@@ -1,0 +1,666 @@
+openapi: 3.0.3
+info:
+  title: Redmine OpenAPI Specification
+  version: 6.0.0
+servers:
+  - url: http://127.0.0.1:3000
+security:
+  - ApiKeyHeaderAuth: []
+  - ApiKeyQueryAuth: []
+  - BasicAuth: []
+paths:
+  /projects.json:
+    get:
+      description: |
+        Returns all projects (including all public projects and private projects to which the user has access).
+      operationId: projects#index
+      parameters:
+        - name: X-Redmine-Nometa
+          in: header
+          description: |
+            If set to 1, the response will not include pagination information.
+          schema:
+            type: integer
+            enum:
+              - 1
+        - name: pagination
+          in: query
+          description: |
+            Pagination parameters to control the number of items returned in the response.
+            If not specified, it defaults to 25 items per page.
+          schema:
+            type: object
+            properties:
+              offset:
+                type: integer
+                description: |
+                  The offset of the first object to retrieve
+                  If not specified, it defaults to 0.
+                default: 0
+              limit:
+                type: integer
+                description: |
+                  The number of items to be present in the response.
+                  If not specified, it defaults to 25.
+                default: 25
+                maximum: 100
+              nometa:
+                type: integer
+                description: |
+                  If set to 1, the response will not include pagination information.
+                enum:
+                  - 1
+        - name: query
+          in: query
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: |
+                  The expression of status of the project.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+                  Possible values are:
+                  - `1`: active
+                  - `5`: closed
+
+                  examples:
+                  - active or closed: `1|5`
+                  - not closed: `!5`
+              id:
+                type: string
+                description: |
+                  The expression of identifier of the project.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              name:
+                type: string
+                description: |
+                  The expression of name of the project.
+                  The expression format is "\<operator>\<value>".
+                  examples:
+                  - contains "test": `~test`
+                  - not contains "test": `!~test`
+              description:
+                type: string
+                description: |
+                  The expression of description of the project.
+                  The expression format is "\<operator>\<value>".
+                  examples:
+                  - contains "test": `~test`
+                  - not contains "test": `!~test`
+              parent_id:
+                type: string
+                description: |
+                  The expression of parent project id of the project.
+                  The expression format is "\<operator>\<values>". Values should be separated by a pipe "|".
+              is_public:
+                type: string
+                description: |
+                  The expression of visibility of the project.
+                  The expression format is "\<operator>\<values>". Values should be separated by a pipe "|".
+                  Possible values are:
+                  - `0`: private
+                  - `1`: public
+
+                  examples:
+                  - public only: `1`
+                  - public or private: `0|1`
+              created_on:
+                type: string
+                description: |
+                  The expression of created_on of the project.
+                  The expression format is "[operator]\<value>".
+                  examples:
+                  - last week : `lw`
+                  - before "2025/7/12": `<=2025-07-12`
+              updated_on:
+                type: string
+                description: |
+                  The expression of updated_on of the project.
+                  The expression format is "[operator]\<value>".
+                  examples:
+                  - last week : `lw`
+                  - before "2025/7/12": `<=2025-07-12`
+            additionalProperties:
+              type: string
+        - name: include
+          in: query
+          description: |
+            fetch associated data (optional). Values should be separated by a comma ",".
+            Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
+          required: false
+          schema: &ref_2
+            type: array
+            items:
+              type: string
+              enum:
+                - trackers
+                - issue_categories
+                - enabled_modules
+                - time_entry_activities
+                - issue_custom_fields
+          style: form
+          explode: false
+      responses:
+        '200':
+          description: |
+            Returns all projects (including all public projects and private projects to which the user has access).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  projects:
+                    type: array
+                    items:
+                      description: |
+                        A single project.
+                      type: object
+                      properties: &ref_0
+                        id:
+                          type: integer
+                          description: The ID of the project.
+                        name:
+                          type: string
+                          description: The name of the project.
+                        identifier:
+                          type: string
+                          description: The identifier of the project.
+                        description:
+                          type: string
+                          description: The description of the project.
+                        homepage:
+                          type: string
+                          description: The homepage URL of the project.
+                        parent:
+                          type: object
+                          description: |
+                            The parent project of the project. If the project has no parent, this will be `null`.
+                          properties:
+                            id:
+                              type: integer
+                              description: The ID of the parent project.
+                            name:
+                              type: string
+                              description: The name of the parent project.
+                        status:
+                          type: integer
+                          description: |
+                            The status of the project. Possible values are:
+                            - `1`: active
+                            - `5`: closed
+                            - `9`: archived
+                            - `10`: scheduled for deletion
+                        is_public:
+                          type: boolean
+                          description: The visibility of the project. `true` if the project is public, `false` if it is private.
+                        inherit_members:
+                          type: boolean
+                          description: |
+                            Whether the project inherits members from its parent project. `true` if it does, `false` if it does not.
+                        custom_fields:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                description: The ID of the custom field.
+                              name:
+                                type: string
+                                description: The name of the custom field.
+                              multiple:
+                                type: boolean
+                                description: Whether the custom field can have multiple values.
+                              value:
+                                oneOf:
+                                  - type: array
+                                    items:
+                                      type: string
+                                      description: The value of the custom field when it can have multiple values.
+                                  - type: string
+                                    description: The value of the custom field when it has a single value.
+                        trackers:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                description: The ID of the tracker.
+                              name:
+                                type: string
+                                description: The name of the tracker.
+                        issue_categories:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                description: The ID of the issue category.
+                              name:
+                                type: string
+                                description: The name of the issue category.
+                        time_entry_activities:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                description: The ID of the time entry activity.
+                              name:
+                                type: string
+                                description: The name of the time entry activity.
+                        enabled_modules:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                description: The ID of the enabled module.
+                              name:
+                                type: string
+                                description: The name of the enabled module.
+                        issue_custom_fields:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                description: The ID of the issue custom field.
+                              name:
+                                type: string
+                                description: The name of the issue custom field.
+                        created_on:
+                          type: string
+                          format: date-time
+                          description: The date and time when the project was created.
+                        updated_on:
+                          type: string
+                          format: date-time
+                          description: The date and time when the project was last updated.
+                  total_count:
+                    type: integer
+                    description: The total number of projects.
+                  offset:
+                    type: integer
+                    description: The offset of the first project in the list.
+                  limit:
+                    type: integer
+                    description: The maximum number of projects returned in the list.
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        default:
+          description: |
+            An error occurred while processing the request.
+          content: &ref_1
+            application/json:
+              schema:
+                description: |
+                  A single error that occurred during the request.
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The HTTP status code of the error.
+                  error:
+                    type: string
+                    description: A description of the error.
+    post:
+      description: |
+        Creates a new project.
+      operationId: projects#create
+      requestBody:
+        description: |
+          The project to create or update.
+        content: &ref_5
+          application/json:
+            schema:
+              type: object
+              properties:
+                project:
+                  description: |
+                    A single project.
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: The name of the project.
+                    description:
+                      type: string
+                      description: The description of the project.
+                    homepage:
+                      type: string
+                      description: The homepage URL of the project.
+                    identifier:
+                      type: string
+                      description: The identifier of the project.
+                    custom_field_values:
+                      type: object
+                      description: |
+                        The values of the custom fields associated with the project.
+                      additionalProperties:
+                        oneOf:
+                          - type: array
+                            items:
+                              type: string
+                              description: The value of the custom field when it can have multiple values.
+                          - type: string
+                            description: The value of the custom field when it has a single value.
+                    custom_fields:
+                      type: array
+                      items:
+                        type: object
+                        description: |
+                          The custom field associated with the project.
+                        properties:
+                          id:
+                            type: integer
+                            description: The ID of the custom field.
+                          value:
+                            oneOf:
+                              - type: array
+                                items:
+                                  type: string
+                                  description: The value of the custom field when it can have multiple values.
+                              - type: string
+                                description: The value of the custom field when it has a single value.
+                    tracker_ids:
+                      type: array
+                      description: The IDs of the trackers associated with the project.
+                      items:
+                        type: integer
+                    issue_custom_field_ids:
+                      type: array
+                      description: The IDs of the issue custom fields associated with the project.
+                      items:
+                        type: integer
+                    parent_id:
+                      type: integer
+                      description: The ID of the parent project.
+                    default_version_id:
+                      type: integer
+                      description: The ID of the default version of the project.
+                    default_issue_query_id:
+                      type: integer
+                      description: The ID of the default issue query of the project
+                    default_assigned_to_id:
+                      type: integer
+                      description: The ID of the default assignee of the project.
+                    is_public:
+                      type: boolean
+                      description: The visibility of the project. `true` if the project is public, `false` if it is private.
+                    enabled_module_names:
+                      type: array
+                      description: The names of the enabled modules for the project.
+                      items:
+                        type: string
+                    inherit_members:
+                      type: boolean
+                      description: |
+                        Whether the project inherits members from its parent project. `true` if it does, `false` if it does not.
+        required: true
+      responses:
+        '201':
+          description: |
+            Returns the project with the specified ID or identifier.
+          content: &ref_3
+            application/json:
+              schema:
+                type: object
+                properties:
+                  project:
+                    description: |
+                      A single project.
+                    allOf: &ref_8
+                      - description: |
+                          A single project.
+                        type: object
+                        properties: *ref_0
+                      - type: object
+                        properties:
+                          default_version:
+                            type: object
+                            description: |
+                              The default version of the project. If the project has no default version, this will be `null`.
+                            properties:
+                              id:
+                                type: integer
+                                description: The ID of the default version.
+                              name:
+                                type: string
+                                description: The name of the default version.
+                          default_assignee:
+                            type: object
+                            description: |
+                              The default assignee of the project. If the project has no default assignee, this will be `null`.
+                            properties:
+                              id:
+                                type: integer
+                                description: The ID of the default assignee.
+                              name:
+                                type: string
+                                description: The name of the default assignee.
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: &ref_6
+            application/json:
+              schema:
+                description: |
+                  A list of errors that occurred during the request.
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+        default:
+          description: |
+            An error occurred while processing the request.
+          content: *ref_1
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: &ref_7
+          type: string
+  /projects/{id}.json:
+    get:
+      description: |
+        Returns the project with the specified ID or identifier.
+      operationId: projects#show
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID or identifier of the project.
+          required: true
+          schema: &ref_4
+            type: string
+        - name: include
+          in: query
+          description: |
+            fetch associated data (optional). Values should be separated by a comma ",".
+            Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
+          required: false
+          schema: *ref_2
+          style: form
+          explode: false
+      responses:
+        '200':
+          description: |
+            Returns the project with the specified ID or identifier.
+          content: *ref_3
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+        default:
+          description: |
+            An error occurred while processing the request.
+          content: *ref_1
+    put:
+      description: |
+        Updates the project with the specified ID or identifier.
+      operationId: projects#update
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID or identifier of the project.
+          required: true
+          schema: *ref_4
+      requestBody:
+        description: |
+          The project to create or update.
+        content: *ref_5
+        required: true
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_6
+        default:
+          description: |
+            An error occurred while processing the request.
+          content: *ref_1
+    delete:
+      description: |
+        Deletes the project with the specified ID or identifier.
+      operationId: projects#destroy
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID or identifier of the project.
+          required: true
+          schema: *ref_4
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+        default:
+          description: |
+            An error occurred while processing the request.
+          content: *ref_1
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_7
+  /projects/{id}/archive.json:
+    put:
+      description: |
+        Archives the project with the specified ID or identifier.
+      operationId: projects#archive
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID or identifier of the project.
+          required: true
+          schema: *ref_4
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_6
+        default:
+          description: |
+            An error occurred while processing the request.
+          content: *ref_1
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_7
+  /projects/{id}/unarchive.json:
+    put:
+      description: |
+        Unarchives the project with the specified ID or identifier.
+      operationId: projects#unarchive
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID or identifier of the project.
+          required: true
+          schema: *ref_4
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+        default:
+          description: |
+            An error occurred while processing the request.
+          content: *ref_1
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_7
+components:
+  securitySchemes:
+    ApiKeyHeaderAuth:
+      type: apiKey
+      in: header
+      name: X-Redmine-API-Key
+    ApiKeyQueryAuth:
+      type: apiKey
+      in: query
+      name: key
+    BasicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    project_detail:
+      description: |
+        A single project.
+      allOf: *ref_8

@@ -1,0 +1,7 @@
+extends:
+  - recommended
+rules:
+  info-license:
+    severity: off
+  operation-summary:
+    severity: off
