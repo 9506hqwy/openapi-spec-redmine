@@ -9,17 +9,16 @@ security:
   - ApiKeyQueryAuth: []
   - BasicAuth: []
 paths:
-  /projects.json:
+  /groups.json:
     get:
-      description: |
-        Returns all projects (including all public projects and private projects to which the user has access).
-      operationId: projects#index
+      description: Returns a list of groups.
+      operationId: groups#index
       parameters:
         - name: X-Redmine-Nometa
           in: header
           description: |
             If set to 1, the response will not include pagination information.
-          schema: &ref_9
+          schema: &ref_8
             type: integer
             enum:
               - 1
@@ -28,7 +27,7 @@ paths:
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: &ref_10
+          schema: &ref_9
             type: object
             properties:
               offset:
@@ -50,6 +49,368 @@ paths:
                   If set to 1, the response will not include pagination information.
                 enum:
                   - 1
+      responses:
+        '200':
+          description: |
+            Returns a list of groups.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  groups:
+                    type: array
+                    items:
+                      description: |
+                        A single group.
+                      type: object
+                      required: &ref_1
+                        - id
+                        - name
+                      properties: &ref_2
+                        id:
+                          type: integer
+                          description: The ID of the group.
+                        name:
+                          type: string
+                          description: The name of the group.
+                        builtin:
+                          type: string
+                          description: The builtin type of the group.
+                        custom_fields:
+                          type: array
+                          items:
+                            type: object
+                            properties: &ref_0
+                              id:
+                                type: integer
+                                description: The ID of the custom field.
+                              name:
+                                type: string
+                                description: The name of the custom field.
+                              multiple:
+                                type: boolean
+                                description: Whether the custom field can have multiple values.
+                              value: {}
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+    post:
+      description: Creates a new group.
+      operationId: groups#create
+      requestBody:
+        description: |
+          The group to create or update.
+        content: &ref_5
+          application/json:
+            schema:
+              type: object
+              properties:
+                group:
+                  description: |
+                    A single group.
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: The name of the group.
+                    twofa_required:
+                      type: boolean
+                      description: The 2FA required of the group.
+                    user_ids:
+                      type: array
+                      description: The user id of the group.
+                      items:
+                        type: integer
+                    custom_field_values:
+                      type: object
+                      description: |
+                        The values of the custom fields.
+                      additionalProperties: true
+                    custom_fields:
+                      type: array
+                      items:
+                        type: object
+                        properties: *ref_0
+        required: true
+      responses:
+        '201':
+          description: |
+            Returns the group with the specified ID.
+          content: &ref_3
+            application/json:
+              schema:
+                type: object
+                properties:
+                  group:
+                    description: |
+                      A single group.
+                    allOf: &ref_22
+                      - description: |
+                          A single group.
+                        type: object
+                        required: *ref_1
+                        properties: *ref_2
+                      - type: object
+                        properties:
+                          users:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                  description: The ID of the user.
+                                name:
+                                  type: string
+                                  description: The name of the user.
+                          memberships:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                  description: The ID of the mebership.
+                                project:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                      description: The ID of the project.
+                                    name:
+                                      type: string
+                                      description: The name of the project.
+                                roles:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      id:
+                                        type: integer
+                                        description: The ID of the role.
+                                      name:
+                                        type: string
+                                        description: The name of the role.
+                                      inherited:
+                                        type: boolean
+                                        description: Whether the role is inherited from a parent project.
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: &ref_6
+            application/json:
+              schema:
+                description: |
+                  A list of errors that occurred during the request.
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: &ref_7
+          type: string
+  /groups/{id}.json:
+    get:
+      description: |
+        Returns the group with the specified ID.
+      operationId: groups#show
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID of the group.
+          required: true
+          schema: &ref_4
+            type: string
+        - name: include
+          in: query
+          description: |
+            fetch associated data (optional). Values should be separated by a comma ",".
+            Possible values: `users`, `memberships`.
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - users
+                - memberships
+          style: form
+          explode: false
+      responses:
+        '200':
+          description: |
+            Returns the group with the specified ID.
+          content: *ref_3
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+    put:
+      description: |
+        Updates the group with the specified ID.
+      operationId: groups#update
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID of the group.
+          required: true
+          schema: *ref_4
+      requestBody:
+        description: |
+          The group to create or update.
+        content: *ref_5
+        required: true
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_6
+    delete:
+      description: |
+        Deletes the group with the specified ID.
+      operationId: groups#destroy
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID of the group.
+          required: true
+          schema: *ref_4
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_7
+  /groups/{id}/users.json:
+    post:
+      description: Adds an existing user to a group.
+      operationId: groups#add_users
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID of the group.
+          required: true
+          schema: *ref_4
+      requestBody:
+        description: |
+          The user ID list.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_ids:
+                  type: array
+                  items:
+                    type: integer
+        required: true
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_6
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_7
+  /groups/{id}/users/{user_id}.json:
+    delete:
+      description: Removes a user from a group.
+      operationId: groups#remove_user
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID of the group.
+          required: true
+          schema: *ref_4
+        - name: user_id
+          in: path
+          description: |
+            The ID of the user.
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_7
+  /projects.json:
+    get:
+      description: |
+        Returns all projects (including all public projects and private projects to which the user has access).
+      operationId: projects#index
+      parameters:
+        - name: X-Redmine-Nometa
+          in: header
+          description: |
+            If set to 1, the response will not include pagination information.
+          schema: *ref_8
+        - name: pagination
+          in: query
+          description: |
+            Pagination parameters to control the number of items returned in the response.
+            If not specified, it defaults to 25 items per page.
+          schema: *ref_9
         - name: query
           in: query
           schema:
@@ -128,7 +489,7 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
-          schema: &ref_3
+          schema: &ref_12
             type: array
             items:
               type: string
@@ -155,11 +516,11 @@ paths:
                       description: |
                         A single project.
                       type: object
-                      required: &ref_1
+                      required: &ref_10
                         - id
                         - name
                         - identifier
-                      properties: &ref_2
+                      properties: &ref_11
                         id:
                           type: integer
                           description: The ID of the project.
@@ -205,17 +566,7 @@ paths:
                           type: array
                           items:
                             type: object
-                            properties: &ref_0
-                              id:
-                                type: integer
-                                description: The ID of the custom field.
-                              name:
-                                type: string
-                                description: The name of the custom field.
-                              multiple:
-                                type: boolean
-                                description: Whether the custom field can have multiple values.
-                              value: {}
+                            properties: *ref_0
                         trackers:
                           type: array
                           items:
@@ -299,7 +650,7 @@ paths:
       requestBody:
         description: |
           The project to create or update.
-        content: &ref_6
+        content: &ref_15
           application/json:
             schema:
               type: object
@@ -370,7 +721,7 @@ paths:
         '201':
           description: |
             Returns the project with the specified ID or identifier.
-          content: &ref_4
+          content: &ref_13
             application/json:
               schema:
                 type: object
@@ -378,12 +729,12 @@ paths:
                   project:
                     description: |
                       A single project.
-                    allOf: &ref_17
+                    allOf: &ref_23
                       - description: |
                           A single project.
                         type: object
-                        required: *ref_1
-                        properties: *ref_2
+                        required: *ref_10
+                        properties: *ref_11
                       - type: object
                         properties:
                           default_version:
@@ -415,25 +766,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: &ref_7
-            application/json:
-              schema:
-                description: |
-                  A list of errors that occurred during the request.
-                type: object
-                properties:
-                  errors:
-                    type: array
-                    items:
-                      type: string
+          content: *ref_6
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: &ref_8
-          type: string
+        schema: *ref_7
   /projects/{id}.json:
     get:
       description: |
@@ -445,21 +785,21 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_5
+          schema: &ref_14
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
-          schema: *ref_3
+          schema: *ref_12
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the project with the specified ID or identifier.
-          content: *ref_4
+          content: *ref_13
         '401':
           description: not provided
         '403':
@@ -476,11 +816,11 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_5
+          schema: *ref_14
       requestBody:
         description: |
           The project to create or update.
-        content: *ref_6
+        content: *ref_15
         required: true
       responses:
         '204':
@@ -494,7 +834,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_6
     delete:
       description: |
         Deletes the project with the specified ID or identifier.
@@ -505,7 +845,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_5
+          schema: *ref_14
       responses:
         '204':
           description: not provided
@@ -521,7 +861,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_8
+        schema: *ref_7
   /projects/{id}/archive.json:
     put:
       description: |
@@ -533,7 +873,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_5
+          schema: *ref_14
       responses:
         '204':
           description: not provided
@@ -546,14 +886,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_6
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_8
+        schema: *ref_7
   /projects/{id}/unarchive.json:
     put:
       description: |
@@ -565,7 +905,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_5
+          schema: *ref_14
       responses:
         '204':
           description: not provided
@@ -581,7 +921,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_8
+        schema: *ref_7
   /users.json:
     get:
       description: Returns a list of users.
@@ -591,13 +931,13 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include pagination information.
-          schema: *ref_9
+          schema: *ref_8
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_10
+          schema: *ref_9
         - name: query
           in: query
           schema:
@@ -694,7 +1034,7 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: &ref_13
+          schema: &ref_18
             type: array
             items:
               type: string
@@ -719,12 +1059,12 @@ paths:
                       description: |
                         A single user.
                       type: object
-                      required: &ref_11
+                      required: &ref_16
                         - id
                         - login
                         - firstname
                         - lastname
-                      properties: &ref_12
+                      properties: &ref_17
                         id:
                           type: integer
                           description: The ID of the user.
@@ -806,7 +1146,7 @@ paths:
       requestBody:
         description: |
           The user to create or update.
-        content: &ref_16
+        content: &ref_21
           application/json:
             schema:
               type: object
@@ -952,7 +1292,7 @@ paths:
         '201':
           description: |
             Returns the user with the specified ID or identifier.
-          content: &ref_14
+          content: &ref_19
             application/json:
               schema:
                 type: object
@@ -960,12 +1300,12 @@ paths:
                   user:
                     description: |
                       A single user.
-                    allOf: &ref_18
+                    allOf: &ref_24
                       - description: |
                           A single user.
                         type: object
-                        required: *ref_11
-                        properties: *ref_12
+                        required: *ref_16
+                        properties: *ref_17
                       - type: object
                         properties:
                           api_key:
@@ -1020,14 +1360,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_6
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_8
+        schema: *ref_7
   /users/{id}.json:
     get:
       description: |
@@ -1039,21 +1379,21 @@ paths:
           description: |
             The ID or identifier of the user.
           required: true
-          schema: &ref_15
+          schema: &ref_20
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: *ref_13
+          schema: *ref_18
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the user with the specified ID or identifier.
-          content: *ref_14
+          content: *ref_19
         '401':
           description: not provided
         '403':
@@ -1070,11 +1410,11 @@ paths:
           description: |
             The ID or identifier of the user.
           required: true
-          schema: *ref_15
+          schema: *ref_20
       requestBody:
         description: |
           The user to create or update.
-        content: *ref_16
+        content: *ref_21
         required: true
       responses:
         '204':
@@ -1088,7 +1428,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_6
     delete:
       description: |
         Deletes the user with the specified ID or identifier.
@@ -1099,7 +1439,7 @@ paths:
           description: |
             The ID or identifier of the user.
           required: true
-          schema: *ref_15
+          schema: *ref_20
       responses:
         '204':
           description: not provided
@@ -1112,29 +1452,33 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_6
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_8
+        schema: *ref_7
 components:
   schemas:
+    group_detail:
+      description: |
+        A single group.
+      allOf: *ref_22
     project_detail:
       description: |
         A single project.
-      allOf: *ref_17
+      allOf: *ref_23
     user_detail:
       description: |
         A single user.
-      allOf: *ref_18
+      allOf: *ref_24
   responses:
     unprocessable_entity:
       description: |
         The request was well-formed but was unable to be followed due to semantic errors.
-      content: *ref_7
+      content: *ref_6
     error:
       description: |
         An error occurred while processing the request.

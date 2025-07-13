@@ -1,0 +1,295 @@
+paths:
+  /groups.json:
+    get:
+      description: Returns a list of groups.
+      operationId: groups#index
+      parameters:
+        - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
+        - $ref: "./openapi.yml#/components/parameters/pagination"
+      responses:
+        "200":
+          $ref: "#/components/responses/groups"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    post:
+      description: Creates a new group.
+      operationId: groups#create
+      requestBody:
+        $ref: "#/components/requestBody/group"
+      responses:
+        "201":
+          $ref: "#/components/responses/group"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /groups/{id}.json:
+    get:
+      description: |
+        Returns the group with the specified ID.
+      operationId: groups#show
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/include"
+      responses:
+        "200":
+          $ref: "#/components/responses/group"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    put:
+      description: |
+        Updates the group with the specified ID.
+      operationId: groups#update
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBody/group"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    delete:
+      description: |
+        Deletes the group with the specified ID.
+      operationId: groups#destroy
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /groups/{id}/users.json:
+    post:
+      description: Adds an existing user to a group.
+      operationId: groups#add_users
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBody/user_ids"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /groups/{id}/users/{user_id}.json:
+    delete:
+      description: Removes a user from a group.
+      operationId: groups#remove_user
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/user_id"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  schemas:
+    group:
+      description: |
+        A single group.
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          description: The ID of the group.
+        name:
+          type: string
+          description: The name of the group.
+        builtin:
+          type: string
+          description: The builtin type of the group.
+        custom_fields:
+          type: array
+          items:
+            $ref: "./openapi.yml#/components/schemas/custom_field"
+    group_detail:
+      description: |
+        A single group.
+      allOf:
+        - $ref: "#/components/schemas/group"
+        - type: object
+          properties:
+            users:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: The ID of the user.
+                  name:
+                    type: string
+                    description: The name of the user.
+            memberships:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: The ID of the mebership.
+                  project:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: The ID of the project.
+                      name:
+                        type: string
+                        description: The name of the project.
+                  roles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: The ID of the role.
+                        name:
+                          type: string
+                          description: The name of the role.
+                        inherited:
+                          type: boolean
+                          description: Whether the role is inherited from a parent project.
+    group_new:
+      description: |
+        A single group.
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the group.
+        twofa_required:
+          type: boolean
+          description: The 2FA required of the group.
+        user_ids:
+          type: array
+          description: The user id of the group.
+          items:
+            type: integer
+        custom_field_values:
+          $ref: "./openapi.yml#/components/schemas/custom_field_values"
+        custom_fields:
+          type: array
+          items:
+            $ref: "./openapi.yml#/components/schemas/custom_field"
+  responses:
+    groups:
+      description: |
+        Returns a list of groups.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              groups:
+                type: array
+                items:
+                  $ref: "#/components/schemas/group"
+    group:
+      description: |
+        Returns the group with the specified ID.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              group:
+                $ref: "#/components/schemas/group_detail"
+  parameters:
+    id:
+      name: id
+      in: path
+      description: |
+        The ID of the group.
+      required: true
+      schema:
+        type: string
+    user_id:
+      name: user_id
+      in: path
+      description: |
+        The ID of the user.
+      required: true
+      schema:
+        type: string
+    include:
+      name: include
+      in: query
+      description: |
+        fetch associated data (optional). Values should be separated by a comma ",".
+        Possible values: `users`, `memberships`.
+      schema:
+        type: array
+        items:
+          type: string
+          enum: [users, memberships]
+      style: form
+      explode: false
+  requestBody:
+    group:
+      description: |
+        The group to create or update.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              group:
+                $ref: "#/components/schemas/group_new"
+      required: true
+    user_ids:
+      description: |
+        The user ID list.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              user_ids:
+                type: array
+                items:
+                  type: integer
+      required: true
