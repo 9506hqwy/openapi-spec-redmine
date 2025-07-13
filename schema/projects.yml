@@ -166,6 +166,10 @@ components:
       description: |
         A single project.
       type: object
+      required:
+        - id
+        - name
+        - identifier
       properties:
         id:
           type: integer
@@ -408,7 +412,6 @@ components:
       description: |
         fetch associated data (optional). Values should be separated by a comma ",".
         Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
-      required: false
       schema:
         type: array
         items:

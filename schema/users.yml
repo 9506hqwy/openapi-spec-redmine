@@ -92,6 +92,11 @@ components:
       description: |
         A single user.
       type: object
+      required:
+        - id
+        - login
+        - firstname
+        - lastname
       properties:
         id:
           type: integer
@@ -381,7 +386,6 @@ components:
       description: |
         fetch associated data (optional). Values should be separated by a comma ",".
         Possible values: `auth_source`, `memberships`, `groups`.
-      required: false
       schema:
         type: array
         items:
