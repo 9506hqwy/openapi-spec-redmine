@@ -34,7 +34,7 @@ paths:
   /users/{id}.json:
     get:
       description: |
-        Returns the user with the specified ID or identifier.
+        Returns the user with the specified ID.
       operationId: users#show
       parameters:
         - $ref: "#/components/parameters/id"
@@ -50,7 +50,7 @@ paths:
           $ref: "./openapi.yml#/components/responses/no_content"
     put:
       description: |
-        Updates the user with the specified ID or identifier.
+        Updates the user with the specified ID.
       operationId: users#update
       parameters:
         - $ref: "#/components/parameters/id"
@@ -69,7 +69,7 @@ paths:
           $ref: "./openapi.yml#/components/responses/unprocessable_entity"
     delete:
       description: |
-        Deletes the user with the specified ID or identifier.
+        Deletes the user with the specified ID.
       operationId: users#destroy
       parameters:
         - $ref: "#/components/parameters/id"
@@ -363,7 +363,7 @@ components:
                 description: The maximum number of users returned in the list.
     user:
       description: |
-        Returns the user with the specified ID or identifier.
+        Returns the user with the specified ID.
       content:
         application/json:
           schema:
@@ -376,7 +376,7 @@ components:
       name: id
       in: path
       description: |
-        The ID or identifier of the user.
+        The ID of the user.
       required: true
       schema:
         type: string

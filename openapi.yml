@@ -1291,7 +1291,7 @@ paths:
       responses:
         '201':
           description: |
-            Returns the user with the specified ID or identifier.
+            Returns the user with the specified ID.
           content: &ref_19
             application/json:
               schema:
@@ -1371,13 +1371,13 @@ paths:
   /users/{id}.json:
     get:
       description: |
-        Returns the user with the specified ID or identifier.
+        Returns the user with the specified ID.
       operationId: users#show
       parameters:
         - name: id
           in: path
           description: |
-            The ID or identifier of the user.
+            The ID of the user.
           required: true
           schema: &ref_20
             type: string
@@ -1392,7 +1392,7 @@ paths:
       responses:
         '200':
           description: |
-            Returns the user with the specified ID or identifier.
+            Returns the user with the specified ID.
           content: *ref_19
         '401':
           description: not provided
@@ -1402,13 +1402,13 @@ paths:
           description: not provided
     put:
       description: |
-        Updates the user with the specified ID or identifier.
+        Updates the user with the specified ID.
       operationId: users#update
       parameters:
         - name: id
           in: path
           description: |
-            The ID or identifier of the user.
+            The ID of the user.
           required: true
           schema: *ref_20
       requestBody:
@@ -1431,13 +1431,13 @@ paths:
           content: *ref_6
     delete:
       description: |
-        Deletes the user with the specified ID or identifier.
+        Deletes the user with the specified ID.
       operationId: users#destroy
       parameters:
         - name: id
           in: path
           description: |
-            The ID or identifier of the user.
+            The ID of the user.
           required: true
           schema: *ref_20
       responses:
