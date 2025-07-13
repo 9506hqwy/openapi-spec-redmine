@@ -31,26 +31,12 @@ components:
         multiple:
           type: boolean
           description: Whether the custom field can have multiple values.
-        value:
-          oneOf:
-            - type: array
-              items:
-                type: string
-                description: The value of the custom field when it can have multiple values.
-            - type: string
-              description: The value of the custom field when it has a single value.
+        value: {}
     custom_field_values:
       type: object
       description: |
         The values of the custom fields.
-      additionalProperties:
-        oneOf:
-          - type: array
-            items:
-              type: string
-              description: The value of the custom field when it can have multiple values.
-          - type: string
-            description: The value of the custom field when it has a single value.
+      additionalProperties: true
     errors:
       description: |
         A list of errors that occurred during the request.

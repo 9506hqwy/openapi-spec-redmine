@@ -215,14 +215,7 @@ paths:
                               multiple:
                                 type: boolean
                                 description: Whether the custom field can have multiple values.
-                              value:
-                                oneOf:
-                                  - type: array
-                                    items:
-                                      type: string
-                                      description: The value of the custom field when it can have multiple values.
-                                  - type: string
-                                    description: The value of the custom field when it has a single value.
+                              value: {}
                         trackers:
                           type: array
                           items:
@@ -332,14 +325,7 @@ paths:
                       type: object
                       description: |
                         The values of the custom fields.
-                      additionalProperties: &ref_11
-                        oneOf:
-                          - type: array
-                            items:
-                              type: string
-                              description: The value of the custom field when it can have multiple values.
-                          - type: string
-                            description: The value of the custom field when it has a single value.
+                      additionalProperties: true
                     custom_fields:
                       type: array
                       items:
@@ -392,7 +378,7 @@ paths:
                   project:
                     description: |
                       A single project.
-                    allOf: &ref_18
+                    allOf: &ref_17
                       - description: |
                           A single project.
                         type: object
@@ -708,7 +694,7 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: &ref_14
+          schema: &ref_13
             type: array
             items:
               type: string
@@ -733,12 +719,12 @@ paths:
                       description: |
                         A single user.
                       type: object
-                      required: &ref_12
+                      required: &ref_11
                         - id
                         - login
                         - firstname
                         - lastname
-                      properties: &ref_13
+                      properties: &ref_12
                         id:
                           type: integer
                           description: The ID of the user.
@@ -820,7 +806,7 @@ paths:
       requestBody:
         description: |
           The user to create or update.
-        content: &ref_17
+        content: &ref_16
           application/json:
             schema:
               type: object
@@ -861,7 +847,7 @@ paths:
                       type: object
                       description: |
                         The values of the custom fields.
-                      additionalProperties: *ref_11
+                      additionalProperties: true
                     custom_fields:
                       type: array
                       items:
@@ -966,7 +952,7 @@ paths:
         '201':
           description: |
             Returns the user with the specified ID or identifier.
-          content: &ref_15
+          content: &ref_14
             application/json:
               schema:
                 type: object
@@ -974,12 +960,12 @@ paths:
                   user:
                     description: |
                       A single user.
-                    allOf: &ref_19
+                    allOf: &ref_18
                       - description: |
                           A single user.
                         type: object
-                        required: *ref_12
-                        properties: *ref_13
+                        required: *ref_11
+                        properties: *ref_12
                       - type: object
                         properties:
                           api_key:
@@ -1053,21 +1039,21 @@ paths:
           description: |
             The ID or identifier of the user.
           required: true
-          schema: &ref_16
+          schema: &ref_15
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: *ref_14
+          schema: *ref_13
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the user with the specified ID or identifier.
-          content: *ref_15
+          content: *ref_14
         '401':
           description: not provided
         '403':
@@ -1084,11 +1070,11 @@ paths:
           description: |
             The ID or identifier of the user.
           required: true
-          schema: *ref_16
+          schema: *ref_15
       requestBody:
         description: |
           The user to create or update.
-        content: *ref_17
+        content: *ref_16
         required: true
       responses:
         '204':
@@ -1113,7 +1099,7 @@ paths:
           description: |
             The ID or identifier of the user.
           required: true
-          schema: *ref_16
+          schema: *ref_15
       responses:
         '204':
           description: not provided
@@ -1139,11 +1125,11 @@ components:
     project_detail:
       description: |
         A single project.
-      allOf: *ref_18
+      allOf: *ref_17
     user_detail:
       description: |
         A single user.
-      allOf: *ref_19
+      allOf: *ref_18
   responses:
     unprocessable_entity:
       description: |
