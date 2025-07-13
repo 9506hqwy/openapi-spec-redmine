@@ -19,7 +19,7 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include pagination information.
-          schema: &ref_9
+          schema: &ref_8
             type: integer
             enum:
               - 1
@@ -28,7 +28,7 @@ paths:
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: &ref_10
+          schema: &ref_9
             type: object
             properties:
               offset:
@@ -129,7 +129,7 @@ paths:
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
           required: false
-          schema: &ref_3
+          schema: &ref_2
             type: array
             items:
               type: string
@@ -296,22 +296,6 @@ paths:
           description: not provided
         '403':
           description: not provided
-        default:
-          description: |
-            An error occurred while processing the request.
-          content: &ref_2
-            application/json:
-              schema:
-                description: |
-                  A single error that occurred during the request.
-                type: object
-                properties:
-                  status:
-                    type: integer
-                    description: The HTTP status code of the error.
-                  error:
-                    type: string
-                    description: A description of the error.
     post:
       description: |
         Creates a new project.
@@ -319,7 +303,7 @@ paths:
       requestBody:
         description: |
           The project to create or update.
-        content: &ref_6
+        content: &ref_5
           application/json:
             schema:
               type: object
@@ -345,7 +329,7 @@ paths:
                       type: object
                       description: |
                         The values of the custom fields.
-                      additionalProperties: &ref_11
+                      additionalProperties: &ref_10
                         oneOf:
                           - type: array
                             items:
@@ -397,7 +381,7 @@ paths:
         '201':
           description: |
             Returns the project with the specified ID or identifier.
-          content: &ref_4
+          content: &ref_3
             application/json:
               schema:
                 type: object
@@ -405,7 +389,7 @@ paths:
                   project:
                     description: |
                       A single project.
-                    allOf: &ref_17
+                    allOf: &ref_16
                       - description: |
                           A single project.
                         type: object
@@ -441,7 +425,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: &ref_7
+          content: &ref_6
             application/json:
               schema:
                 description: |
@@ -452,17 +436,13 @@ paths:
                     type: array
                     items:
                       type: string
-        default:
-          description: |
-            An error occurred while processing the request.
-          content: *ref_2
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: &ref_8
+        schema: &ref_7
           type: string
   /projects/{id}.json:
     get:
@@ -475,7 +455,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_5
+          schema: &ref_4
             type: string
         - name: include
           in: query
@@ -483,24 +463,20 @@ paths:
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
           required: false
-          schema: *ref_3
+          schema: *ref_2
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the project with the specified ID or identifier.
-          content: *ref_4
+          content: *ref_3
         '401':
           description: not provided
         '403':
           description: not provided
         '404':
           description: not provided
-        default:
-          description: |
-            An error occurred while processing the request.
-          content: *ref_2
     put:
       description: |
         Updates the project with the specified ID or identifier.
@@ -511,11 +487,11 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_5
+          schema: *ref_4
       requestBody:
         description: |
           The project to create or update.
-        content: *ref_6
+        content: *ref_5
         required: true
       responses:
         '204':
@@ -529,11 +505,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
-        default:
-          description: |
-            An error occurred while processing the request.
-          content: *ref_2
+          content: *ref_6
     delete:
       description: |
         Deletes the project with the specified ID or identifier.
@@ -544,7 +516,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_5
+          schema: *ref_4
       responses:
         '204':
           description: not provided
@@ -554,17 +526,13 @@ paths:
           description: not provided
         '404':
           description: not provided
-        default:
-          description: |
-            An error occurred while processing the request.
-          content: *ref_2
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_8
+        schema: *ref_7
   /projects/{id}/archive.json:
     put:
       description: |
@@ -576,7 +544,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_5
+          schema: *ref_4
       responses:
         '204':
           description: not provided
@@ -589,18 +557,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
-        default:
-          description: |
-            An error occurred while processing the request.
-          content: *ref_2
+          content: *ref_6
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_8
+        schema: *ref_7
   /projects/{id}/unarchive.json:
     put:
       description: |
@@ -612,7 +576,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_5
+          schema: *ref_4
       responses:
         '204':
           description: not provided
@@ -622,17 +586,13 @@ paths:
           description: not provided
         '404':
           description: not provided
-        default:
-          description: |
-            An error occurred while processing the request.
-          content: *ref_2
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_8
+        schema: *ref_7
   /users.json:
     get:
       description: Returns a list of users.
@@ -642,13 +602,13 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include pagination information.
-          schema: *ref_9
+          schema: *ref_8
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_10
+          schema: *ref_9
         - name: query
           in: query
           schema:
@@ -746,7 +706,7 @@ paths:
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
           required: false
-          schema: &ref_13
+          schema: &ref_12
             type: array
             items:
               type: string
@@ -771,7 +731,7 @@ paths:
                       description: |
                         A single user.
                       type: object
-                      properties: &ref_12
+                      properties: &ref_11
                         id:
                           type: integer
                           description: The ID of the user.
@@ -847,17 +807,13 @@ paths:
           description: not provided
         '403':
           description: not provided
-        default:
-          description: |
-            An error occurred while processing the request.
-          content: *ref_2
     post:
       description: Creates a new user.
       operationId: users#create
       requestBody:
         description: |
           The user to create or update.
-        content: &ref_16
+        content: &ref_15
           application/json:
             schema:
               type: object
@@ -898,7 +854,7 @@ paths:
                       type: object
                       description: |
                         The values of the custom fields.
-                      additionalProperties: *ref_11
+                      additionalProperties: *ref_10
                     custom_fields:
                       type: array
                       items:
@@ -1003,7 +959,7 @@ paths:
         '201':
           description: |
             Returns the user with the specified ID or identifier.
-          content: &ref_14
+          content: &ref_13
             application/json:
               schema:
                 type: object
@@ -1011,11 +967,11 @@ paths:
                   user:
                     description: |
                       A single user.
-                    allOf: &ref_18
+                    allOf: &ref_17
                       - description: |
                           A single user.
                         type: object
-                        properties: *ref_12
+                        properties: *ref_11
                       - type: object
                         properties:
                           api_key:
@@ -1070,18 +1026,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
-        default:
-          description: |
-            An error occurred while processing the request.
-          content: *ref_2
+          content: *ref_6
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_8
+        schema: *ref_7
   /users/{id}.json:
     get:
       description: |
@@ -1093,7 +1045,7 @@ paths:
           description: |
             The ID or identifier of the user.
           required: true
-          schema: &ref_15
+          schema: &ref_14
             type: string
         - name: include
           in: query
@@ -1101,24 +1053,20 @@ paths:
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
           required: false
-          schema: *ref_13
+          schema: *ref_12
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the user with the specified ID or identifier.
-          content: *ref_14
+          content: *ref_13
         '401':
           description: not provided
         '403':
           description: not provided
         '404':
           description: not provided
-        default:
-          description: |
-            An error occurred while processing the request.
-          content: *ref_2
     put:
       description: |
         Updates the user with the specified ID or identifier.
@@ -1129,11 +1077,11 @@ paths:
           description: |
             The ID or identifier of the user.
           required: true
-          schema: *ref_15
+          schema: *ref_14
       requestBody:
         description: |
           The user to create or update.
-        content: *ref_16
+        content: *ref_15
         required: true
       responses:
         '204':
@@ -1147,11 +1095,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
-        default:
-          description: |
-            An error occurred while processing the request.
-          content: *ref_2
+          content: *ref_6
     delete:
       description: |
         Deletes the user with the specified ID or identifier.
@@ -1162,7 +1106,7 @@ paths:
           description: |
             The ID or identifier of the user.
           required: true
-          schema: *ref_15
+          schema: *ref_14
       responses:
         '204':
           description: not provided
@@ -1175,37 +1119,45 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
-        default:
-          description: |
-            An error occurred while processing the request.
-          content: *ref_2
+          content: *ref_6
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_8
+        schema: *ref_7
 components:
   schemas:
     project_detail:
       description: |
         A single project.
-      allOf: *ref_17
+      allOf: *ref_16
     user_detail:
       description: |
         A single user.
-      allOf: *ref_18
+      allOf: *ref_17
   responses:
     unprocessable_entity:
       description: |
         The request was well-formed but was unable to be followed due to semantic errors.
-      content: *ref_7
+      content: *ref_6
     error:
       description: |
         An error occurred while processing the request.
-      content: *ref_2
+      content:
+        application/json:
+          schema:
+            description: |
+              A single error that occurred during the request.
+            type: object
+            properties:
+              status:
+                type: integer
+                description: The HTTP status code of the error.
+              error:
+                type: string
+                description: A description of the error.
   securitySchemes:
     ApiKeyHeaderAuth:
       type: apiKey

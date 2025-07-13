@@ -10,8 +10,6 @@ paths:
         - $ref: "#/components/parameters/query"
         - $ref: "#/components/parameters/include"
       responses:
-        default:
-          $ref: "./openapi.yml#/components/responses/error"
         "200":
           $ref: "#/components/responses/projects"
         "401":
@@ -25,8 +23,6 @@ paths:
       requestBody:
         $ref: "#/components/requestBody/project"
       responses:
-        default:
-          $ref: "./openapi.yml#/components/responses/error"
         "201":
           $ref: "#/components/responses/project"
         "401":
@@ -46,8 +42,6 @@ paths:
         - $ref: "#/components/parameters/id"
         - $ref: "#/components/parameters/include"
       responses:
-        default:
-          $ref: "./openapi.yml#/components/responses/error"
         "200":
           $ref: "#/components/responses/project"
         "401":
@@ -65,8 +59,6 @@ paths:
       requestBody:
         $ref: "#/components/requestBody/project"
       responses:
-        default:
-          $ref: "./openapi.yml#/components/responses/error"
         "204":
           $ref: "./openapi.yml#/components/responses/no_content"
         "401":
@@ -84,8 +76,6 @@ paths:
       parameters:
         - $ref: "#/components/parameters/id"
       responses:
-        default:
-          $ref: "./openapi.yml#/components/responses/error"
         "204":
           $ref: "./openapi.yml#/components/responses/no_content"
         "401":
@@ -104,8 +94,6 @@ paths:
       parameters:
         - $ref: "#/components/parameters/id"
       responses:
-        default:
-          $ref: "./openapi.yml#/components/responses/error"
         "204":
           $ref: "./openapi.yml#/components/responses/no_content"
         "401":
@@ -126,8 +114,6 @@ paths:
       parameters:
         - $ref: "#/components/parameters/id"
       responses:
-        default:
-          $ref: "./openapi.yml#/components/responses/error"
         "204":
           $ref: "./openapi.yml#/components/responses/no_content"
         "401":
@@ -146,8 +132,6 @@ paths:
       parameters:
         - $ref: "#/components/parameters/id"
       responses:
-        default:
-          $ref: "./openapi.yml#/components/responses/error"
         "204":
           $ref: "./openapi.yml#/components/responses/no_content"
         "401":
@@ -166,8 +150,6 @@ paths:
       parameters:
         - $ref: "#/components/parameters/id"
       responses:
-        default:
-          $ref: "./openapi.yml#/components/responses/error"
         "204":
           $ref: "./openapi.yml#/components/responses/no_content"
         "401":
