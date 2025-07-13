@@ -19,7 +19,7 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include pagination information.
-          schema:
+          schema: &ref_9
             type: integer
             enum:
               - 1
@@ -28,7 +28,7 @@ paths:
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema:
+          schema: &ref_10
             type: object
             properties:
               offset:
@@ -129,7 +129,7 @@ paths:
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
           required: false
-          schema: &ref_2
+          schema: &ref_3
             type: array
             items:
               type: string
@@ -156,7 +156,7 @@ paths:
                       description: |
                         A single project.
                       type: object
-                      properties: &ref_0
+                      properties: &ref_1
                         id:
                           type: integer
                           description: The ID of the project.
@@ -202,7 +202,7 @@ paths:
                           type: array
                           items:
                             type: object
-                            properties:
+                            properties: &ref_0
                               id:
                                 type: integer
                                 description: The ID of the custom field.
@@ -299,7 +299,7 @@ paths:
         default:
           description: |
             An error occurred while processing the request.
-          content: &ref_1
+          content: &ref_2
             application/json:
               schema:
                 description: |
@@ -319,7 +319,7 @@ paths:
       requestBody:
         description: |
           The project to create or update.
-        content: &ref_5
+        content: &ref_6
           application/json:
             schema:
               type: object
@@ -344,8 +344,8 @@ paths:
                     custom_field_values:
                       type: object
                       description: |
-                        The values of the custom fields associated with the project.
-                      additionalProperties:
+                        The values of the custom fields.
+                      additionalProperties: &ref_11
                         oneOf:
                           - type: array
                             items:
@@ -357,20 +357,7 @@ paths:
                       type: array
                       items:
                         type: object
-                        description: |
-                          The custom field associated with the project.
-                        properties:
-                          id:
-                            type: integer
-                            description: The ID of the custom field.
-                          value:
-                            oneOf:
-                              - type: array
-                                items:
-                                  type: string
-                                  description: The value of the custom field when it can have multiple values.
-                              - type: string
-                                description: The value of the custom field when it has a single value.
+                        properties: *ref_0
                     tracker_ids:
                       type: array
                       description: The IDs of the trackers associated with the project.
@@ -410,7 +397,7 @@ paths:
         '201':
           description: |
             Returns the project with the specified ID or identifier.
-          content: &ref_3
+          content: &ref_4
             application/json:
               schema:
                 type: object
@@ -418,11 +405,11 @@ paths:
                   project:
                     description: |
                       A single project.
-                    allOf: &ref_8
+                    allOf: &ref_17
                       - description: |
                           A single project.
                         type: object
-                        properties: *ref_0
+                        properties: *ref_1
                       - type: object
                         properties:
                           default_version:
@@ -454,7 +441,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: &ref_6
+          content: &ref_7
             application/json:
               schema:
                 description: |
@@ -468,14 +455,14 @@ paths:
         default:
           description: |
             An error occurred while processing the request.
-          content: *ref_1
+          content: *ref_2
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: &ref_7
+        schema: &ref_8
           type: string
   /projects/{id}.json:
     get:
@@ -488,7 +475,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_4
+          schema: &ref_5
             type: string
         - name: include
           in: query
@@ -496,14 +483,14 @@ paths:
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
           required: false
-          schema: *ref_2
+          schema: *ref_3
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the project with the specified ID or identifier.
-          content: *ref_3
+          content: *ref_4
         '401':
           description: not provided
         '403':
@@ -513,7 +500,7 @@ paths:
         default:
           description: |
             An error occurred while processing the request.
-          content: *ref_1
+          content: *ref_2
     put:
       description: |
         Updates the project with the specified ID or identifier.
@@ -524,11 +511,11 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_4
+          schema: *ref_5
       requestBody:
         description: |
           The project to create or update.
-        content: *ref_5
+        content: *ref_6
         required: true
       responses:
         '204':
@@ -542,11 +529,11 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_6
+          content: *ref_7
         default:
           description: |
             An error occurred while processing the request.
-          content: *ref_1
+          content: *ref_2
     delete:
       description: |
         Deletes the project with the specified ID or identifier.
@@ -557,7 +544,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_4
+          schema: *ref_5
       responses:
         '204':
           description: not provided
@@ -570,14 +557,14 @@ paths:
         default:
           description: |
             An error occurred while processing the request.
-          content: *ref_1
+          content: *ref_2
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_7
+        schema: *ref_8
   /projects/{id}/archive.json:
     put:
       description: |
@@ -589,7 +576,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_4
+          schema: *ref_5
       responses:
         '204':
           description: not provided
@@ -602,18 +589,18 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_6
+          content: *ref_7
         default:
           description: |
             An error occurred while processing the request.
-          content: *ref_1
+          content: *ref_2
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_7
+        schema: *ref_8
   /projects/{id}/unarchive.json:
     put:
       description: |
@@ -625,7 +612,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_4
+          schema: *ref_5
       responses:
         '204':
           description: not provided
@@ -638,15 +625,587 @@ paths:
         default:
           description: |
             An error occurred while processing the request.
-          content: *ref_1
+          content: *ref_2
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_7
+        schema: *ref_8
+  /users.json:
+    get:
+      description: Returns a list of users.
+      operationId: users#index
+      parameters:
+        - name: X-Redmine-Nometa
+          in: header
+          description: |
+            If set to 1, the response will not include pagination information.
+          schema: *ref_9
+        - name: pagination
+          in: query
+          description: |
+            Pagination parameters to control the number of items returned in the response.
+            If not specified, it defaults to 25 items per page.
+          schema: *ref_10
+        - name: query
+          in: query
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: |
+                  The expression of status of the user.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+                  Possible values are:
+                  - `1`: active
+                  - `2`: registered
+                  - `3`: locked
+
+                  examples:
+                  - active or locked: `1|3`
+                  - not locked: `!3`
+              auth_source_id:
+                type: string
+                description: |
+                  The expression of auth source id of the user.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              is_member_of_group:
+                type: string
+                description: |
+                  The expression of group id of the user.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              twofa_scheme:
+                type: string
+                description: |
+                  The expression of 2FA scheme id of the user.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              name:
+                type: string
+                description: |
+                  The expression of name of the user.
+                  The expression format is "\<operator>\<value>".
+                  examples:
+                  - contains "test": `~test`
+                  - not contains "test": `!~test`
+              login:
+                type: string
+                description: |
+                  The expression of login of the user.
+                  The expression format is "\<operator>\<value>".
+              firstname:
+                type: string
+                description: |
+                  The expression of firstname of the user.
+                  The expression format is "\<operator>\<value>".
+              lastname:
+                type: string
+                description: |
+                  The expression of lastname of the user.
+                  The expression format is "\<operator>\<value>".
+              mail:
+                type: string
+                description: |
+                  The expression of mail of the user.
+                  The expression format is "\<operator>\<value>".
+              created_on:
+                type: string
+                description: |
+                  The expression of created_on of the user.
+                  The expression format is "[operator]\<value>".
+                  examples:
+                  - last week : `lw`
+                  - before "2025/7/12": `<=2025-07-12`
+              last_login_on:
+                type: string
+                description: |
+                  The expression of last_login_on of the user.
+                  The expression format is "[operator]\<value>".
+                  examples:
+                  - last week : `lw`
+                  - before "2025/7/12": `<=2025-07-12`
+              admin:
+                type: string
+                description: |
+                  The expression of administrative of the user.
+                  The expression format is "\<operator>\<values>". Values should be separated by a pipe "|".
+                  Possible values are:
+                  - `0`: no
+                  - `1`: yes
+
+                  examples:
+                  - administrator: `1`
+                  - non administrator: `0`
+            additionalProperties:
+              type: string
+        - name: include
+          in: query
+          description: |
+            fetch associated data (optional). Values should be separated by a comma ",".
+            Possible values: `auth_source`, `memberships`, `groups`.
+          required: false
+          schema: &ref_13
+            type: array
+            items:
+              type: string
+              enum:
+                - auth_source
+                - memberships
+                - groups
+          style: form
+          explode: false
+      responses:
+        '200':
+          description: |
+            Returns a list of users.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      description: |
+                        A single user.
+                      type: object
+                      properties: &ref_12
+                        id:
+                          type: integer
+                          description: The ID of the user.
+                        login:
+                          type: string
+                          description: The login of the user.
+                        admin:
+                          type: boolean
+                          description: The administrative of the user.
+                        firstname:
+                          type: string
+                          description: The firstname of the user.
+                        lastname:
+                          type: string
+                          description: The lastname of the user.
+                        mail:
+                          type: string
+                          description: The mail of the user.
+                        created_on:
+                          type: string
+                          format: date-time
+                          description: The date and time when the user was created.
+                        updated_on:
+                          type: string
+                          format: date-time
+                          description: The date and time when the user was last updated.
+                        last_login_on:
+                          type: string
+                          format: date-time
+                          description: The date and time when the user was last logon.
+                        passwd_changed_on:
+                          type: string
+                          format: date-time
+                          description: The date and time when the user was change password.
+                        avatar_url:
+                          type: string
+                          description: The avatar URL of the user.
+                        twofa_scheme:
+                          type: string
+                          description: The 2FA scheme of the user.
+                        status:
+                          type: integer
+                          description: |
+                            The status of the user. Possible values are:
+                            - `0`: anonymous
+                            - `1`: active
+                            - `2`: registered
+                            - `3`: locked
+                        auth_source:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: The ID of the auth source.
+                            name:
+                              type: string
+                              description: The name of the auth source.
+                        custom_fields:
+                          type: array
+                          items:
+                            type: object
+                            properties: *ref_0
+                  total_count:
+                    type: integer
+                    description: The total number of users.
+                  offset:
+                    type: integer
+                    description: The offset of the first user in the list.
+                  limit:
+                    type: integer
+                    description: The maximum number of users returned in the list.
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        default:
+          description: |
+            An error occurred while processing the request.
+          content: *ref_2
+    post:
+      description: Creates a new user.
+      operationId: users#create
+      requestBody:
+        description: |
+          The user to create or update.
+        content: &ref_16
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  description: |
+                    A single user.
+                  type: object
+                  properties:
+                    firstname:
+                      type: string
+                      description: The firstname of the user.
+                    lastname:
+                      type: string
+                      description: The lastname of the user.
+                    mail:
+                      type: string
+                      description: The mail address of the user.
+                    mail_notification:
+                      type: string
+                      description: |
+                        The mail notification of the user. Possible values are:
+                        - `all`: all events
+                        - `selected`: only selected events
+                        - `only_my_events`: only events related to the user
+                        - `only_assigned`: only events assigned to the user
+                        - `only_owner`: only events owned by the user
+                        - `none`: no events
+                    notified_project_ids:
+                      type: array
+                      description: The notified project id of the user.
+                      items:
+                        type: integer
+                    language:
+                      type: string
+                      description: The language of the user.
+                    custom_field_values:
+                      type: object
+                      description: |
+                        The values of the custom fields.
+                      additionalProperties: *ref_11
+                    custom_fields:
+                      type: array
+                      items:
+                        type: object
+                        properties: *ref_0
+                    login:
+                      type: string
+                      description: The login of the user.
+                    status:
+                      type: integer
+                      description: |
+                        The status of the user. Possible values are:
+                        - `0`: anonymous
+                        - `1`: active
+                        - `2`: registered
+                        - `3`: locked
+                    auth_source_id:
+                      type: integer
+                      description: The auth source id of the user.
+                    generate_password:
+                      type: boolean
+                      description: The generate password of the user.
+                    must_change_passwd:
+                      type: boolean
+                      description: The must change passwd of the user.
+                    admin:
+                      type: boolean
+                      description: The administrative of the user.
+                    group_ids:
+                      type: array
+                      description: The group id of the user.
+                      items:
+                        type: integer
+                    password:
+                      type: string
+                      description: The password of the user.
+                send_information:
+                  type: boolean
+                  description: |
+                    If set to true, an email will be sent to the user with their login information.
+                pref:
+                  description: |
+                    The preferences of the user.
+                  type: object
+                  properties:
+                    hide_mail:
+                      type: boolean
+                      description: Whether the user's email should be hidden.
+                    time_zone:
+                      type: string
+                      description: The time zone of the user.
+                    comments_sorting:
+                      type: string
+                      description: The sorting order of comments. Possible values are `asc` and `desc`.
+                    warn_on_leaving_unsaved:
+                      type: boolean
+                      description: Whether to warn the user when leaving a page with unsaved changes.
+                    no_self_notified:
+                      type: boolean
+                      description: Whether the user should not be notified of their own actions.
+                    notify_about_high_priority_issues:
+                      type: boolean
+                      description: Whether the user should be notified about high priority issues.
+                    textarea_font:
+                      type: string
+                      description: |
+                        The font used in text areas. Possible values are:
+                        - `monospace`
+                        - `proportional`
+                    recently_used_projects:
+                      type: integer
+                      description: The number of recently used projects to display.
+                    history_default_tab:
+                      type: string
+                      description: |
+                        The default tab for the user's history. Possible values are:
+                        - `notes`
+                        - `history`
+                        - `properties`
+                        - `time_entries`
+                        - `changesets`
+                        - `last_tab_visited`
+                    default_issue_query:
+                      type: integer
+                      description: The ID of the default issue query for the user.
+                    default_project_query:
+                      type: integer
+                      description: The ID of the default project query for the user.
+                    toolbar_language_options:
+                      type: string
+                      description: The language options for the toolbar.
+                    auto_watch_on:
+                      type: array
+                      description: |
+                        The auto watch setting for the user. Possible values are:
+                        - `issue_created`
+                        - `issue_contributed_to`
+                      items:
+                        type: string
+        required: true
+      responses:
+        '201':
+          description: |
+            Returns the user with the specified ID or identifier.
+          content: &ref_14
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    description: |
+                      A single user.
+                    allOf: &ref_18
+                      - description: |
+                          A single user.
+                        type: object
+                        properties: *ref_12
+                      - type: object
+                        properties:
+                          api_key:
+                            type: string
+                            description: The API key of the user.
+                          groups:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                  description: The ID of the group.
+                                name:
+                                  type: string
+                                  description: The name of the group.
+                          memberships:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                  description: The ID of the mebership.
+                                project:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                      description: The ID of the project.
+                                    name:
+                                      type: string
+                                      description: The name of the project.
+                                roles:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      id:
+                                        type: integer
+                                        description: The ID of the role.
+                                      name:
+                                        type: string
+                                        description: The name of the role.
+                                      inherited:
+                                        type: boolean
+                                        description: Whether the role is inherited from a parent project.
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_7
+        default:
+          description: |
+            An error occurred while processing the request.
+          content: *ref_2
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_8
+  /users/{id}.json:
+    get:
+      description: |
+        Returns the user with the specified ID or identifier.
+      operationId: users#show
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID or identifier of the user.
+          required: true
+          schema: &ref_15
+            type: string
+        - name: include
+          in: query
+          description: |
+            fetch associated data (optional). Values should be separated by a comma ",".
+            Possible values: `auth_source`, `memberships`, `groups`.
+          required: false
+          schema: *ref_13
+          style: form
+          explode: false
+      responses:
+        '200':
+          description: |
+            Returns the user with the specified ID or identifier.
+          content: *ref_14
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+        default:
+          description: |
+            An error occurred while processing the request.
+          content: *ref_2
+    put:
+      description: |
+        Updates the user with the specified ID or identifier.
+      operationId: users#update
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID or identifier of the user.
+          required: true
+          schema: *ref_15
+      requestBody:
+        description: |
+          The user to create or update.
+        content: *ref_16
+        required: true
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_7
+        default:
+          description: |
+            An error occurred while processing the request.
+          content: *ref_2
+    delete:
+      description: |
+        Deletes the user with the specified ID or identifier.
+      operationId: users#destroy
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID or identifier of the user.
+          required: true
+          schema: *ref_15
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_7
+        default:
+          description: |
+            An error occurred while processing the request.
+          content: *ref_2
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_8
 components:
+  schemas:
+    project_detail:
+      description: |
+        A single project.
+      allOf: *ref_17
+    user_detail:
+      description: |
+        A single user.
+      allOf: *ref_18
+  responses:
+    unprocessable_entity:
+      description: |
+        The request was well-formed but was unable to be followed due to semantic errors.
+      content: *ref_7
+    error:
+      description: |
+        An error occurred while processing the request.
+      content: *ref_2
   securitySchemes:
     ApiKeyHeaderAuth:
       type: apiKey
@@ -659,8 +1218,3 @@ components:
     BasicAuth:
       type: http
       scheme: basic
-  schemas:
-    project_detail:
-      description: |
-        A single project.
-      allOf: *ref_8

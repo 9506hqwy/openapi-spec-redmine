@@ -1,0 +1,512 @@
+paths:
+  /users.json:
+    get:
+      description: Returns a list of users.
+      operationId: users#index
+      parameters:
+        - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
+        - $ref: "./openapi.yml#/components/parameters/pagination"
+        - $ref: "#/components/parameters/query"
+        - $ref: "#/components/parameters/include"
+      responses:
+        default:
+          $ref: "./openapi.yml#/components/responses/error"
+        "200":
+          $ref: "#/components/responses/users"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    post:
+      description: Creates a new user.
+      operationId: users#create
+      requestBody:
+        $ref: "#/components/requestBody/user"
+      responses:
+        default:
+          $ref: "./openapi.yml#/components/responses/error"
+        "201":
+          $ref: "#/components/responses/user"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /users/{id}.json:
+    get:
+      description: |
+        Returns the user with the specified ID or identifier.
+      operationId: users#show
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/include"
+      responses:
+        default:
+          $ref: "./openapi.yml#/components/responses/error"
+        "200":
+          $ref: "#/components/responses/user"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    put:
+      description: |
+        Updates the user with the specified ID or identifier.
+      operationId: users#update
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBody/user"
+      responses:
+        default:
+          $ref: "./openapi.yml#/components/responses/error"
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    delete:
+      description: |
+        Deletes the user with the specified ID or identifier.
+      operationId: users#destroy
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        default:
+          $ref: "./openapi.yml#/components/responses/error"
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  schemas:
+    user:
+      description: |
+        A single user.
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the user.
+        login:
+          type: string
+          description: The login of the user.
+        admin:
+          type: boolean
+          description: The administrative of the user.
+        firstname:
+          type: string
+          description: The firstname of the user.
+        lastname:
+          type: string
+          description: The lastname of the user.
+        mail:
+          type: string
+          description: The mail of the user.
+        created_on:
+          type: string
+          format: date-time
+          description: The date and time when the user was created.
+        updated_on:
+          type: string
+          format: date-time
+          description: The date and time when the user was last updated.
+        last_login_on:
+          type: string
+          format: date-time
+          description: The date and time when the user was last logon.
+        passwd_changed_on:
+          type: string
+          format: date-time
+          description: The date and time when the user was change password.
+        avatar_url:
+          type: string
+          description: The avatar URL of the user.
+        twofa_scheme:
+          type: string
+          description: The 2FA scheme of the user.
+        status:
+          type: integer
+          description: |
+            The status of the user. Possible values are:
+            - `0`: anonymous
+            - `1`: active
+            - `2`: registered
+            - `3`: locked
+        auth_source:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the auth source.
+            name:
+              type: string
+              description: The name of the auth source.
+        custom_fields:
+          type: array
+          items:
+            $ref: "./openapi.yml#/components/schemas/custom_field"
+    user_detail:
+      description: |
+        A single user.
+      allOf:
+        - $ref: "#/components/schemas/user"
+        - type: object
+          properties:
+            api_key:
+              type: string
+              description: The API key of the user.
+            groups:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: The ID of the group.
+                  name:
+                    type: string
+                    description: The name of the group.
+            memberships:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: The ID of the mebership.
+                  project:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: The ID of the project.
+                      name:
+                        type: string
+                        description: The name of the project.
+                  roles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: The ID of the role.
+                        name:
+                          type: string
+                          description: The name of the role.
+                        inherited:
+                          type: boolean
+                          description: Whether the role is inherited from a parent project.
+    user_new:
+      description: |
+        A single user.
+      type: object
+      properties:
+        firstname:
+          type: string
+          description: The firstname of the user.
+        lastname:
+          type: string
+          description: The lastname of the user.
+        mail:
+          type: string
+          description: The mail address of the user.
+        mail_notification:
+          type: string
+          description: |
+            The mail notification of the user. Possible values are:
+            - `all`: all events
+            - `selected`: only selected events
+            - `only_my_events`: only events related to the user
+            - `only_assigned`: only events assigned to the user
+            - `only_owner`: only events owned by the user
+            - `none`: no events
+        notified_project_ids:
+          type: array
+          description: The notified project id of the user.
+          items:
+            type: integer
+        language:
+          type: string
+          description: The language of the user.
+        custom_field_values:
+          $ref: "./openapi.yml#/components/schemas/custom_field_values"
+        custom_fields:
+          type: array
+          items:
+            $ref: "./openapi.yml#/components/schemas/custom_field"
+        login:
+          type: string
+          description: The login of the user.
+        status:
+          type: integer
+          description: |
+            The status of the user. Possible values are:
+            - `0`: anonymous
+            - `1`: active
+            - `2`: registered
+            - `3`: locked
+        auth_source_id:
+          type: integer
+          description: The auth source id of the user.
+        generate_password:
+          type: boolean
+          description: The generate password of the user.
+        must_change_passwd:
+          type: boolean
+          description: The must change passwd of the user.
+        admin:
+          type: boolean
+          description: The administrative of the user.
+        group_ids:
+          type: array
+          description: The group id of the user.
+          items:
+            type: integer
+        password:
+          type: string
+          description: The password of the user.
+    user_pref:
+      description: |
+        The preferences of the user.
+      type: object
+      properties:
+        hide_mail:
+          type: boolean
+          description: Whether the user's email should be hidden.
+        time_zone:
+          type: string
+          description: The time zone of the user.
+        comments_sorting:
+          type: string
+          description: The sorting order of comments. Possible values are `asc` and `desc`.
+        warn_on_leaving_unsaved:
+          type: boolean
+          description: Whether to warn the user when leaving a page with unsaved changes.
+        no_self_notified:
+          type: boolean
+          description: Whether the user should not be notified of their own actions.
+        notify_about_high_priority_issues:
+          type: boolean
+          description: Whether the user should be notified about high priority issues.
+        textarea_font:
+          type: string
+          description: |
+            The font used in text areas. Possible values are:
+            - `monospace`
+            - `proportional`
+        recently_used_projects:
+          type: integer
+          description: The number of recently used projects to display.
+        history_default_tab:
+          type: string
+          description: |
+            The default tab for the user's history. Possible values are:
+            - `notes`
+            - `history`
+            - `properties`
+            - `time_entries`
+            - `changesets`
+            - `last_tab_visited`
+        default_issue_query:
+          type: integer
+          description: The ID of the default issue query for the user.
+        default_project_query:
+          type: integer
+          description: The ID of the default project query for the user.
+        toolbar_language_options:
+          type: string
+          description: The language options for the toolbar.
+        auto_watch_on:
+          type: array
+          description: |
+            The auto watch setting for the user. Possible values are:
+            - `issue_created`
+            - `issue_contributed_to`
+          items:
+            type: string
+  responses:
+    users:
+      description: |
+        Returns a list of users.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              users:
+                type: array
+                items:
+                  $ref: "#/components/schemas/user"
+              total_count:
+                type: integer
+                description: The total number of users.
+              offset:
+                type: integer
+                description: The offset of the first user in the list.
+              limit:
+                type: integer
+                description: The maximum number of users returned in the list.
+    user:
+      description: |
+        Returns the user with the specified ID or identifier.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              user:
+                $ref: "#/components/schemas/user_detail"
+  parameters:
+    id:
+      name: id
+      in: path
+      description: |
+        The ID or identifier of the user.
+      required: true
+      schema:
+        type: string
+    include:
+      name: include
+      in: query
+      description: |
+        fetch associated data (optional). Values should be separated by a comma ",".
+        Possible values: `auth_source`, `memberships`, `groups`.
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          enum: [auth_source, memberships, groups]
+      style: form
+      explode: false
+    query:
+      name: query
+      in: query
+      schema:
+        type: object
+        properties:
+          status:
+            type: string
+            description: |
+              The expression of status of the user.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              Possible values are:
+              - `1`: active
+              - `2`: registered
+              - `3`: locked
+
+              examples:
+              - active or locked: `1|3`
+              - not locked: `!3`
+          auth_source_id:
+            type: string
+            description: |
+              The expression of auth source id of the user.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          is_member_of_group:
+            type: string
+            description: |
+              The expression of group id of the user.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          twofa_scheme:
+            type: string
+            description: |
+              The expression of 2FA scheme id of the user.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          name:
+            type: string
+            description: |
+              The expression of name of the user.
+              The expression format is "\<operator>\<value>".
+              examples:
+              - contains "test": `~test`
+              - not contains "test": `!~test`
+          login:
+            type: string
+            description: |
+              The expression of login of the user.
+              The expression format is "\<operator>\<value>".
+          firstname:
+            type: string
+            description: |
+              The expression of firstname of the user.
+              The expression format is "\<operator>\<value>".
+          lastname:
+            type: string
+            description: |
+              The expression of lastname of the user.
+              The expression format is "\<operator>\<value>".
+          mail:
+            type: string
+            description: |
+              The expression of mail of the user.
+              The expression format is "\<operator>\<value>".
+          created_on:
+            type: string
+            description: |
+              The expression of created_on of the user.
+              The expression format is "[operator]\<value>".
+              examples:
+              - last week : `lw`
+              - before "2025/7/12": `<=2025-07-12`
+          last_login_on:
+            type: string
+            description: |
+              The expression of last_login_on of the user.
+              The expression format is "[operator]\<value>".
+              examples:
+              - last week : `lw`
+              - before "2025/7/12": `<=2025-07-12`
+          admin:
+            type: string
+            description: |
+              The expression of administrative of the user.
+              The expression format is "\<operator>\<values>". Values should be separated by a pipe "|".
+              Possible values are:
+              - `0`: no
+              - `1`: yes
+
+              examples:
+              - administrator: `1`
+              - non administrator: `0`
+        # custom_fields
+        additionalProperties:
+          type: string
+  requestBody:
+    user:
+      description: |
+        The user to create or update.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              user:
+                $ref: "#/components/schemas/user_new"
+              send_information:
+                type: boolean
+                description: |
+                  If set to true, an email will be sent to the user with their login information.
+              pref:
+                $ref: "#/components/schemas/user_pref"
+      required: true

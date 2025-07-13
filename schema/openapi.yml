@@ -13,7 +13,81 @@ paths:
     $ref: "./projects.yml#/paths/~1projects~1{id}~1archive.json"
   /projects/{id}/unarchive.json:
     $ref: "./projects.yml#/paths/~1projects~1{id}~1unarchive.json"
+  /users.json:
+    $ref: "./users.yml#/paths/~1users.json"
+  /users/{id}.json:
+    $ref: "./users.yml#/paths/~1users~1{id}.json"
 components:
+  schemas:
+    custom_field:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the custom field.
+        name:
+          type: string
+          description: The name of the custom field.
+        multiple:
+          type: boolean
+          description: Whether the custom field can have multiple values.
+        value:
+          oneOf:
+            - type: array
+              items:
+                type: string
+                description: The value of the custom field when it can have multiple values.
+            - type: string
+              description: The value of the custom field when it has a single value.
+    custom_field_values:
+      type: object
+      description: |
+        The values of the custom fields.
+      additionalProperties:
+        oneOf:
+          - type: array
+            items:
+              type: string
+              description: The value of the custom field when it can have multiple values.
+          - type: string
+            description: The value of the custom field when it has a single value.
+    errors:
+      description: |
+        A list of errors that occurred during the request.
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+    error:
+      description: |
+        A single error that occurred during the request.
+      type: object
+      properties:
+        status:
+          type: integer
+          description: The HTTP status code of the error.
+        error:
+          type: string
+          description: A description of the error.
+  responses:
+    no_content:
+      description: not provided
+    unprocessable_entity:
+      description: |
+        The request was well-formed but was unable to be followed due to semantic errors.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/errors"
+    error:
+      description: |
+        An error occurred while processing the request.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/error"
   parameters:
     # User Impersonation
     X-Redmine-Switch-User:

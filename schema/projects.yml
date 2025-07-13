@@ -11,13 +11,13 @@ paths:
         - $ref: "#/components/parameters/include"
       responses:
         default:
-          $ref: "#/components/responses/error"
+          $ref: "./openapi.yml#/components/responses/error"
         "200":
           $ref: "#/components/responses/projects"
         "401":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "403":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
     post:
       description: |
         Creates a new project.
@@ -26,15 +26,15 @@ paths:
         $ref: "#/components/requestBody/project"
       responses:
         default:
-          $ref: "#/components/responses/error"
+          $ref: "./openapi.yml#/components/responses/error"
         "201":
           $ref: "#/components/responses/project"
         "401":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "403":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "422":
-          $ref: "#/components/responses/unprocessable_entity"
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
     parameters:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /projects/{id}.json:
@@ -47,15 +47,15 @@ paths:
         - $ref: "#/components/parameters/include"
       responses:
         default:
-          $ref: "#/components/responses/error"
+          $ref: "./openapi.yml#/components/responses/error"
         "200":
           $ref: "#/components/responses/project"
         "401":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "403":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "404":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
     put:
       description: |
         Updates the project with the specified ID or identifier.
@@ -66,17 +66,17 @@ paths:
         $ref: "#/components/requestBody/project"
       responses:
         default:
-          $ref: "#/components/responses/error"
+          $ref: "./openapi.yml#/components/responses/error"
         "204":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "401":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "403":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "404":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "422":
-          $ref: "#/components/responses/unprocessable_entity"
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
     delete:
       description: |
         Deletes the project with the specified ID or identifier.
@@ -85,15 +85,15 @@ paths:
         - $ref: "#/components/parameters/id"
       responses:
         default:
-          $ref: "#/components/responses/error"
+          $ref: "./openapi.yml#/components/responses/error"
         "204":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "401":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "403":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "404":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
     parameters:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /projects/{id}/archive.json:
@@ -105,17 +105,17 @@ paths:
         - $ref: "#/components/parameters/id"
       responses:
         default:
-          $ref: "#/components/responses/error"
+          $ref: "./openapi.yml#/components/responses/error"
         "204":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "401":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "403":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "404":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "422":
-          $ref: "#/components/responses/unprocessable_entity"
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
     parameters:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /projects/{id}/close.json:
@@ -127,15 +127,15 @@ paths:
         - $ref: "#/components/parameters/id"
       responses:
         default:
-          $ref: "#/components/responses/error"
+          $ref: "./openapi.yml#/components/responses/error"
         "204":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "401":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "403":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "404":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
     parameters:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /projects/{id}/reopen.json:
@@ -147,15 +147,15 @@ paths:
         - $ref: "#/components/parameters/id"
       responses:
         default:
-          $ref: "#/components/responses/error"
+          $ref: "./openapi.yml#/components/responses/error"
         "204":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "401":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "403":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "404":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
     parameters:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /projects/{id}/unarchive.json:
@@ -167,19 +167,19 @@ paths:
         - $ref: "#/components/parameters/id"
       responses:
         default:
-          $ref: "#/components/responses/error"
+          $ref: "./openapi.yml#/components/responses/error"
         "204":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "401":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "403":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
         "404":
-          $ref: "#/components/responses/no_content"
+          $ref: "./openapi.yml#/components/responses/no_content"
     parameters:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
 components:
-  schema:
+  schemas:
     project:
       description: |
         A single project.
@@ -229,25 +229,7 @@ components:
         custom_fields:
           type: array
           items:
-            type: object
-            properties:
-              id:
-                type: integer
-                description: The ID of the custom field.
-              name:
-                type: string
-                description: The name of the custom field.
-              multiple:
-                type: boolean
-                description: Whether the custom field can have multiple values.
-              value:
-                oneOf:
-                  - type: array
-                    items:
-                      type: string
-                      description: The value of the custom field when it can have multiple values.
-                  - type: string
-                    description: The value of the custom field when it has a single value.
+            $ref: "./openapi.yml#/components/schemas/custom_field"
         trackers:
           type: array
           items:
@@ -315,7 +297,7 @@ components:
       description: |
         A single project.
       allOf:
-        - $ref: "#/components/schema/project"
+        - $ref: "#/components/schemas/project"
         - type: object
           properties:
             default_version:
@@ -358,35 +340,11 @@ components:
           type: string
           description: The identifier of the project.
         custom_field_values:
-          type: object
-          description: |
-            The values of the custom fields associated with the project.
-          additionalProperties:
-            oneOf:
-              - type: array
-                items:
-                  type: string
-                  description: The value of the custom field when it can have multiple values.
-              - type: string
-                description: The value of the custom field when it has a single value.
+          $ref: "./openapi.yml#/components/schemas/custom_field_values"
         custom_fields:
           type: array
           items:
-            type: object
-            description: |
-              The custom field associated with the project.
-            properties:
-              id:
-                type: integer
-                description: The ID of the custom field.
-              value:
-                oneOf:
-                  - type: array
-                    items:
-                      type: string
-                      description: The value of the custom field when it can have multiple values.
-                  - type: string
-                    description: The value of the custom field when it has a single value.
+            $ref: "./openapi.yml#/components/schemas/custom_field"
         tracker_ids:
           type: array
           description: The IDs of the trackers associated with the project.
@@ -421,26 +379,6 @@ components:
           type: boolean
           description: |
             Whether the project inherits members from its parent project. `true` if it does, `false` if it does not.
-    errors:
-      description: |
-        A list of errors that occurred during the request.
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: string
-    error:
-      description: |
-        A single error that occurred during the request.
-      type: object
-      properties:
-        status:
-          type: integer
-          description: The HTTP status code of the error.
-        error:
-          type: string
-          description: A description of the error.
   responses:
     projects:
       description: |
@@ -453,7 +391,7 @@ components:
               projects:
                 type: array
                 items:
-                  $ref: "#/components/schema/project"
+                  $ref: "#/components/schemas/project"
               total_count:
                 type: integer
                 description: The total number of projects.
@@ -472,23 +410,7 @@ components:
             type: object
             properties:
               project:
-                $ref: "#/components/schema/project_detail"
-    no_content:
-      description: not provided
-    unprocessable_entity:
-      description: |
-        The request was well-formed but was unable to be followed due to semantic errors.
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schema/errors"
-    error:
-      description: |
-        An error occurred while processing the request.
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schema/error"
+                $ref: "#/components/schemas/project_detail"
   parameters:
     id:
       name: id
@@ -604,5 +526,5 @@ components:
             type: object
             properties:
               project:
-                $ref: "#/components/schema/project_new"
+                $ref: "#/components/schemas/project_new"
       required: true
