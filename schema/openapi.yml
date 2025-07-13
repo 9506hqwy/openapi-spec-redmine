@@ -5,6 +5,8 @@ info:
 servers:
   - url: http://127.0.0.1:3000
 paths:
+  /custom_fields.json:
+    $ref: "./custom_fields.yml#/paths/~1custom_fields.json"
   /groups.json:
     $ref: "./groups.yml#/paths/~1groups.json"
   /groups/{id}.json:

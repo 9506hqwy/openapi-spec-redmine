@@ -9,6 +9,120 @@ security:
   - ApiKeyQueryAuth: []
   - BasicAuth: []
 paths:
+  /custom_fields.json:
+    get:
+      description: Returns all the custom fields definitions.
+      operationId: custom_fields#index
+      responses:
+        '200':
+          description: |
+            Returns a list of custom field.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  custom_fields:
+                    type: array
+                    items:
+                      description: |
+                        A single custom field.
+                      type: object
+                      required:
+                        - id
+                        - name
+                      properties:
+                        id:
+                          type: integer
+                          description: The ID of the custom field.
+                        name:
+                          type: string
+                          description: The name of the custom field.
+                        description:
+                          type: string
+                          description: The description of the custom field.
+                        customized_type:
+                          type: string
+                          description: The customized type of the custom field.
+                        field_format:
+                          type: string
+                          description: The field format of the custom field.
+                        regexp:
+                          type: string
+                          description: The regexp of the custom field.
+                        min_length:
+                          type: integer
+                          description: The min length of the custom field.
+                        max_length:
+                          type: integer
+                          description: The max length of the custom field.
+                        is_required:
+                          type: boolean
+                          description: The required of the custom field.
+                        is_filter:
+                          type: boolean
+                          description: The filter of the custom field.
+                        searchable:
+                          type: boolean
+                          description: The searchable of the custom field.
+                        multiple:
+                          type: boolean
+                          description: The multiple of the custom field.
+                        default_value:
+                          type: string
+                          description: The default value of the custom field.
+                        visible:
+                          type: boolean
+                          description: The visible of the custom field.
+                        editable:
+                          type: boolean
+                          description: The editable of the custom field.
+                        possible_values:
+                          type: array
+                          description: The possible values of the custom field.
+                          items:
+                            type: object
+                            properties:
+                              value:
+                                type: string
+                                description: The value of the possible value.
+                              label:
+                                type: string
+                                description: The label of the possible value.
+                        trackers:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                description: The id of the tracker.
+                              name:
+                                type: string
+                                description: The name of the tracker.
+                        roles:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                description: The id of the role.
+                              name:
+                                type: string
+                                description: The name of the role.
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: &ref_3
+          type: string
   /groups.json:
     get:
       description: Returns a list of groups.
@@ -102,7 +216,7 @@ paths:
       requestBody:
         description: |
           The group to create or update.
-        content: &ref_5
+        content: &ref_6
           application/json:
             schema:
               type: object
@@ -138,7 +252,7 @@ paths:
         '201':
           description: |
             Returns the group with the specified ID.
-          content: &ref_3
+          content: &ref_4
             application/json:
               schema:
                 type: object
@@ -203,7 +317,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: &ref_6
+          content: &ref_7
             application/json:
               schema:
                 description: |
@@ -220,8 +334,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: &ref_7
-          type: string
+        schema: *ref_3
   /groups/{id}.json:
     get:
       description: |
@@ -233,7 +346,7 @@ paths:
           description: |
             The ID of the group.
           required: true
-          schema: &ref_4
+          schema: &ref_5
             type: string
         - name: include
           in: query
@@ -253,7 +366,7 @@ paths:
         '200':
           description: |
             Returns the group with the specified ID.
-          content: *ref_3
+          content: *ref_4
         '401':
           description: not provided
         '403':
@@ -270,11 +383,11 @@ paths:
           description: |
             The ID of the group.
           required: true
-          schema: *ref_4
+          schema: *ref_5
       requestBody:
         description: |
           The group to create or update.
-        content: *ref_5
+        content: *ref_6
         required: true
       responses:
         '204':
@@ -288,7 +401,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_6
+          content: *ref_7
     delete:
       description: |
         Deletes the group with the specified ID.
@@ -299,7 +412,7 @@ paths:
           description: |
             The ID of the group.
           required: true
-          schema: *ref_4
+          schema: *ref_5
       responses:
         '204':
           description: not provided
@@ -315,7 +428,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_7
+        schema: *ref_3
   /groups/{id}/users.json:
     post:
       description: Adds an existing user to a group.
@@ -326,7 +439,7 @@ paths:
           description: |
             The ID of the group.
           required: true
-          schema: *ref_4
+          schema: *ref_5
       requestBody:
         description: |
           The user ID list.
@@ -352,14 +465,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_6
+          content: *ref_7
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_7
+        schema: *ref_3
   /groups/{id}/users/{user_id}.json:
     delete:
       description: Removes a user from a group.
@@ -370,7 +483,7 @@ paths:
           description: |
             The ID of the group.
           required: true
-          schema: *ref_4
+          schema: *ref_5
         - name: user_id
           in: path
           description: |
@@ -393,7 +506,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_7
+        schema: *ref_3
   /projects.json:
     get:
       description: |
@@ -766,14 +879,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_6
+          content: *ref_7
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_7
+        schema: *ref_3
   /projects/{id}.json:
     get:
       description: |
@@ -834,7 +947,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_6
+          content: *ref_7
     delete:
       description: |
         Deletes the project with the specified ID or identifier.
@@ -861,7 +974,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_7
+        schema: *ref_3
   /projects/{id}/archive.json:
     put:
       description: |
@@ -886,14 +999,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_6
+          content: *ref_7
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_7
+        schema: *ref_3
   /projects/{id}/unarchive.json:
     put:
       description: |
@@ -921,7 +1034,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_7
+        schema: *ref_3
   /roles.json:
     get:
       description: Returns a list of roles.
@@ -961,7 +1074,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_7
+        schema: *ref_3
   /roles/{id}.json:
     get:
       description: |
@@ -1024,7 +1137,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_7
+        schema: *ref_3
   /users.json:
     get:
       description: Returns a list of users.
@@ -1463,14 +1576,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_6
+          content: *ref_7
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_7
+        schema: *ref_3
   /users/{id}.json:
     get:
       description: |
@@ -1531,7 +1644,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_6
+          content: *ref_7
     delete:
       description: |
         Deletes the user with the specified ID.
@@ -1555,14 +1668,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_6
+          content: *ref_7
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_7
+        schema: *ref_3
 components:
   schemas:
     group_detail:
@@ -1585,7 +1698,7 @@ components:
     unprocessable_entity:
       description: |
         The request was well-formed but was unable to be followed due to semantic errors.
-      content: *ref_6
+      content: *ref_7
     error:
       description: |
         An error occurred while processing the request.

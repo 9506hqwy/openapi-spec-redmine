@@ -1,0 +1,116 @@
+paths:
+  /custom_fields.json:
+    get:
+      description: Returns all the custom fields definitions.
+      operationId: custom_fields#index
+      responses:
+        "200":
+          $ref: "#/components/responses/custom_fields"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  schemas:
+    custom_field:
+      description: |
+        A single custom field.
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          description: The ID of the custom field.
+        name:
+          type: string
+          description: The name of the custom field.
+        description:
+          type: string
+          description: The description of the custom field.
+        customized_type:
+          type: string
+          description: The customized type of the custom field.
+        field_format:
+          type: string
+          description: The field format of the custom field.
+        regexp:
+          type: string
+          description: The regexp of the custom field.
+        min_length:
+          type: integer
+          description: The min length of the custom field.
+        max_length:
+          type: integer
+          description: The max length of the custom field.
+        is_required:
+          type: boolean
+          description: The required of the custom field.
+        is_filter:
+          type: boolean
+          description: The filter of the custom field.
+        searchable:
+          type: boolean
+          description: The searchable of the custom field.
+        multiple:
+          type: boolean
+          description: The multiple of the custom field.
+        default_value:
+          type: string
+          description: The default value of the custom field.
+        visible:
+          type: boolean
+          description: The visible of the custom field.
+        editable:
+          type: boolean
+          description: The editable of the custom field.
+        possible_values:
+          type: array
+          description: The possible values of the custom field.
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+                description: The value of the possible value.
+              label:
+                type: string
+                description: The label of the possible value.
+        trackers:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: The id of the tracker.
+              name:
+                type: string
+                description: The name of the tracker.
+        roles:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: The id of the role.
+              name:
+                type: string
+                description: The name of the role.
+  responses:
+    custom_fields:
+      description: |
+        Returns a list of custom field.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              custom_fields:
+                type: array
+                items:
+                  $ref: "#/components/schemas/custom_field"
