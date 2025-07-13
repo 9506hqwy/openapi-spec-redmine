@@ -8,9 +8,22 @@ security:
   - ApiKeyHeaderAuth: []
   - ApiKeyQueryAuth: []
   - BasicAuth: []
+tags:
+  - name: custom_fields
+    description: custom_fields_controller's API
+  - name: groups
+    description: groups_controller's API
+  - name: projects
+    description: projects_controller's API
+  - name: roles
+    description: roles_controller's API
+  - name: users
+    description: users_controller's API
 paths:
   /custom_fields.json:
     get:
+      tags:
+        - custom_fields
       description: Returns all the custom fields definitions.
       operationId: custom_fields#index
       responses:
@@ -125,6 +138,8 @@ paths:
           type: string
   /groups.json:
     get:
+      tags:
+        - groups
       description: Returns a list of groups.
       operationId: groups#index
       parameters:
@@ -211,6 +226,8 @@ paths:
         '403':
           description: not provided
     post:
+      tags:
+        - groups
       description: Creates a new group.
       operationId: groups#create
       requestBody:
@@ -337,6 +354,8 @@ paths:
         schema: *ref_3
   /groups/{id}.json:
     get:
+      tags:
+        - groups
       description: |
         Returns the group with the specified ID.
       operationId: groups#show
@@ -374,6 +393,8 @@ paths:
         '404':
           description: not provided
     put:
+      tags:
+        - groups
       description: |
         Updates the group with the specified ID.
       operationId: groups#update
@@ -403,6 +424,8 @@ paths:
             The request was well-formed but was unable to be followed due to semantic errors.
           content: *ref_7
     delete:
+      tags:
+        - groups
       description: |
         Deletes the group with the specified ID.
       operationId: groups#destroy
@@ -431,6 +454,8 @@ paths:
         schema: *ref_3
   /groups/{id}/users.json:
     post:
+      tags:
+        - groups
       description: Adds an existing user to a group.
       operationId: groups#add_users
       parameters:
@@ -475,6 +500,8 @@ paths:
         schema: *ref_3
   /groups/{id}/users/{user_id}.json:
     delete:
+      tags:
+        - groups
       description: Removes a user from a group.
       operationId: groups#remove_user
       parameters:
@@ -509,6 +536,8 @@ paths:
         schema: *ref_3
   /projects.json:
     get:
+      tags:
+        - projects
       description: |
         Returns all projects (including all public projects and private projects to which the user has access).
       operationId: projects#index
@@ -757,6 +786,8 @@ paths:
         '403':
           description: not provided
     post:
+      tags:
+        - projects
       description: |
         Creates a new project.
       operationId: projects#create
@@ -889,6 +920,8 @@ paths:
         schema: *ref_3
   /projects/{id}.json:
     get:
+      tags:
+        - projects
       description: |
         Returns the project with the specified ID or identifier.
       operationId: projects#show
@@ -920,6 +953,8 @@ paths:
         '404':
           description: not provided
     put:
+      tags:
+        - projects
       description: |
         Updates the project with the specified ID or identifier.
       operationId: projects#update
@@ -949,6 +984,8 @@ paths:
             The request was well-formed but was unable to be followed due to semantic errors.
           content: *ref_7
     delete:
+      tags:
+        - projects
       description: |
         Deletes the project with the specified ID or identifier.
       operationId: projects#destroy
@@ -977,6 +1014,8 @@ paths:
         schema: *ref_3
   /projects/{id}/archive.json:
     put:
+      tags:
+        - projects
       description: |
         Archives the project with the specified ID or identifier.
       operationId: projects#archive
@@ -1009,6 +1048,8 @@ paths:
         schema: *ref_3
   /projects/{id}/unarchive.json:
     put:
+      tags:
+        - projects
       description: |
         Unarchives the project with the specified ID or identifier.
       operationId: projects#unarchive
@@ -1037,6 +1078,8 @@ paths:
         schema: *ref_3
   /roles.json:
     get:
+      tags:
+        - roles
       description: Returns a list of roles.
       operationId: roles#index
       responses:
@@ -1077,6 +1120,8 @@ paths:
         schema: *ref_3
   /roles/{id}.json:
     get:
+      tags:
+        - roles
       description: |
         Returns the role with the specified ID.
       operationId: roles#show
@@ -1140,6 +1185,8 @@ paths:
         schema: *ref_3
   /users.json:
     get:
+      tags:
+        - users
       description: Returns a list of users.
       operationId: users#index
       parameters:
@@ -1357,6 +1404,8 @@ paths:
         '403':
           description: not provided
     post:
+      tags:
+        - users
       description: Creates a new user.
       operationId: users#create
       requestBody:
@@ -1586,6 +1635,8 @@ paths:
         schema: *ref_3
   /users/{id}.json:
     get:
+      tags:
+        - users
       description: |
         Returns the user with the specified ID.
       operationId: users#show
@@ -1617,6 +1668,8 @@ paths:
         '404':
           description: not provided
     put:
+      tags:
+        - users
       description: |
         Updates the user with the specified ID.
       operationId: users#update
@@ -1646,6 +1699,8 @@ paths:
             The request was well-formed but was unable to be followed due to semantic errors.
           content: *ref_7
     delete:
+      tags:
+        - users
       description: |
         Deletes the user with the specified ID.
       operationId: users#destroy

@@ -1,6 +1,7 @@
 paths:
   /roles.json:
     get:
+      tags: ["roles"]
       description: Returns a list of roles.
       operationId: roles#index
       responses:
@@ -14,6 +15,7 @@ paths:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /roles/{id}.json:
     get:
+      tags: ["roles"]
       description: |
         Returns the role with the specified ID.
       operationId: roles#show

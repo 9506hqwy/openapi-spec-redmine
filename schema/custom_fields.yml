@@ -1,6 +1,7 @@
 paths:
   /custom_fields.json:
     get:
+      tags: ["custom_fields"]
       description: Returns all the custom fields definitions.
       operationId: custom_fields#index
       responses:

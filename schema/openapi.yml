@@ -151,3 +151,14 @@ security:
   - ApiKeyHeaderAuth: []
   - ApiKeyQueryAuth: []
   - BasicAuth: []
+tags:
+  - name: custom_fields
+    description: custom_fields_controller's API
+  - name: groups
+    description: groups_controller's API
+  - name: projects
+    description: projects_controller's API
+  - name: roles
+    description: roles_controller's API
+  - name: users
+    description: users_controller's API

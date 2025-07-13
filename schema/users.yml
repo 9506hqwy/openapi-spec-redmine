@@ -1,6 +1,7 @@
 paths:
   /users.json:
     get:
+      tags: ["users"]
       description: Returns a list of users.
       operationId: users#index
       parameters:
@@ -16,6 +17,7 @@ paths:
         "403":
           $ref: "./openapi.yml#/components/responses/no_content"
     post:
+      tags: ["users"]
       description: Creates a new user.
       operationId: users#create
       requestBody:
@@ -33,6 +35,7 @@ paths:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /users/{id}.json:
     get:
+      tags: ["users"]
       description: |
         Returns the user with the specified ID.
       operationId: users#show
@@ -49,6 +52,7 @@ paths:
         "404":
           $ref: "./openapi.yml#/components/responses/no_content"
     put:
+      tags: ["users"]
       description: |
         Updates the user with the specified ID.
       operationId: users#update
@@ -68,6 +72,7 @@ paths:
         "422":
           $ref: "./openapi.yml#/components/responses/unprocessable_entity"
     delete:
+      tags: ["users"]
       description: |
         Deletes the user with the specified ID.
       operationId: users#destroy

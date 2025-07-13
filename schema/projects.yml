@@ -1,6 +1,7 @@
 paths:
   /projects.json:
     get:
+      tags: ["projects"]
       description: |
         Returns all projects (including all public projects and private projects to which the user has access).
       operationId: projects#index
@@ -17,6 +18,7 @@ paths:
         "403":
           $ref: "./openapi.yml#/components/responses/no_content"
     post:
+      tags: ["projects"]
       description: |
         Creates a new project.
       operationId: projects#create
@@ -35,6 +37,7 @@ paths:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /projects/{id}.json:
     get:
+      tags: ["projects"]
       description: |
         Returns the project with the specified ID or identifier.
       operationId: projects#show
@@ -51,6 +54,7 @@ paths:
         "404":
           $ref: "./openapi.yml#/components/responses/no_content"
     put:
+      tags: ["projects"]
       description: |
         Updates the project with the specified ID or identifier.
       operationId: projects#update
@@ -70,6 +74,7 @@ paths:
         "422":
           $ref: "./openapi.yml#/components/responses/unprocessable_entity"
     delete:
+      tags: ["projects"]
       description: |
         Deletes the project with the specified ID or identifier.
       operationId: projects#destroy
@@ -88,6 +93,7 @@ paths:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /projects/{id}/archive.json:
     put:
+      tags: ["projects"]
       description: |
         Archives the project with the specified ID or identifier.
       operationId: projects#archive
@@ -108,6 +114,7 @@ paths:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /projects/{id}/close.json:
     put:
+      tags: ["projects"]
       description: |
         Closes the project with the specified ID or identifier.
       operationId: projects#close
@@ -126,6 +133,7 @@ paths:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /projects/{id}/reopen.json:
     put:
+      tags: ["projects"]
       description: |
         Reopens the project with the specified ID or identifier.
       operationId: projects#reopen
@@ -144,6 +152,7 @@ paths:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /projects/{id}/unarchive.json:
     put:
+      tags: ["projects"]
       description: |
         Unarchives the project with the specified ID or identifier.
       operationId: projects#unarchive

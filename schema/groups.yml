@@ -1,6 +1,7 @@
 paths:
   /groups.json:
     get:
+      tags: ["groups"]
       description: Returns a list of groups.
       operationId: groups#index
       parameters:
@@ -14,6 +15,7 @@ paths:
         "403":
           $ref: "./openapi.yml#/components/responses/no_content"
     post:
+      tags: ["groups"]
       description: Creates a new group.
       operationId: groups#create
       requestBody:
@@ -31,6 +33,7 @@ paths:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /groups/{id}.json:
     get:
+      tags: ["groups"]
       description: |
         Returns the group with the specified ID.
       operationId: groups#show
@@ -47,6 +50,7 @@ paths:
         "404":
           $ref: "./openapi.yml#/components/responses/no_content"
     put:
+      tags: ["groups"]
       description: |
         Updates the group with the specified ID.
       operationId: groups#update
@@ -66,6 +70,7 @@ paths:
         "422":
           $ref: "./openapi.yml#/components/responses/unprocessable_entity"
     delete:
+      tags: ["groups"]
       description: |
         Deletes the group with the specified ID.
       operationId: groups#destroy
@@ -84,6 +89,7 @@ paths:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /groups/{id}/users.json:
     post:
+      tags: ["groups"]
       description: Adds an existing user to a group.
       operationId: groups#add_users
       parameters:
@@ -105,6 +111,7 @@ paths:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /groups/{id}/users/{user_id}.json:
     delete:
+      tags: ["groups"]
       description: Removes a user from a group.
       operationId: groups#remove_user
       parameters:
