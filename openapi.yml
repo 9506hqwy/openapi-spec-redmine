@@ -146,7 +146,7 @@ paths:
                   group:
                     description: |
                       A single group.
-                    allOf: &ref_22
+                    allOf: &ref_24
                       - description: |
                           A single group.
                         type: object
@@ -729,7 +729,7 @@ paths:
                   project:
                     description: |
                       A single project.
-                    allOf: &ref_23
+                    allOf: &ref_25
                       - description: |
                           A single project.
                         type: object
@@ -922,6 +922,109 @@ paths:
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
         schema: *ref_7
+  /roles.json:
+    get:
+      description: Returns a list of roles.
+      operationId: roles#index
+      responses:
+        '200':
+          description: |
+            Returns a list of roles.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  roles:
+                    type: array
+                    items:
+                      description: |
+                        A single role.
+                      type: object
+                      required: &ref_16
+                        - id
+                        - name
+                      properties: &ref_17
+                        id:
+                          type: integer
+                          description: The ID of the role.
+                        name:
+                          type: string
+                          description: The name of the role.
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_7
+  /roles/{id}.json:
+    get:
+      description: |
+        Returns the role with the specified ID.
+      operationId: roles#show
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID of the role.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: |
+            Returns the role with the specified ID.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  role:
+                    description: |
+                      A single role.
+                    allOf: &ref_26
+                      - description: |
+                          A single role.
+                        type: object
+                        required: *ref_16
+                        properties: *ref_17
+                      - type: object
+                        properties:
+                          assignable:
+                            type: boolean
+                            description: The assignable of the role.
+                          issues_visibility:
+                            type: string
+                            description: The issues visibility of the role.
+                          time_entries_visibility:
+                            type: string
+                            description: The time entries visibility of the role.
+                          users_visibility:
+                            type: string
+                            description: The users visibility of the role.
+                          permissions:
+                            type: array
+                            items:
+                              type: string
+                              description: The permission of the role.
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_7
   /users.json:
     get:
       description: Returns a list of users.
@@ -1034,7 +1137,7 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: &ref_18
+          schema: &ref_20
             type: array
             items:
               type: string
@@ -1059,12 +1162,12 @@ paths:
                       description: |
                         A single user.
                       type: object
-                      required: &ref_16
+                      required: &ref_18
                         - id
                         - login
                         - firstname
                         - lastname
-                      properties: &ref_17
+                      properties: &ref_19
                         id:
                           type: integer
                           description: The ID of the user.
@@ -1146,7 +1249,7 @@ paths:
       requestBody:
         description: |
           The user to create or update.
-        content: &ref_21
+        content: &ref_23
           application/json:
             schema:
               type: object
@@ -1292,7 +1395,7 @@ paths:
         '201':
           description: |
             Returns the user with the specified ID.
-          content: &ref_19
+          content: &ref_21
             application/json:
               schema:
                 type: object
@@ -1300,12 +1403,12 @@ paths:
                   user:
                     description: |
                       A single user.
-                    allOf: &ref_24
+                    allOf: &ref_27
                       - description: |
                           A single user.
                         type: object
-                        required: *ref_16
-                        properties: *ref_17
+                        required: *ref_18
+                        properties: *ref_19
                       - type: object
                         properties:
                           api_key:
@@ -1379,21 +1482,21 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: &ref_20
+          schema: &ref_22
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: *ref_18
+          schema: *ref_20
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the user with the specified ID.
-          content: *ref_19
+          content: *ref_21
         '401':
           description: not provided
         '403':
@@ -1410,11 +1513,11 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: *ref_20
+          schema: *ref_22
       requestBody:
         description: |
           The user to create or update.
-        content: *ref_21
+        content: *ref_23
         required: true
       responses:
         '204':
@@ -1439,7 +1542,7 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: *ref_20
+          schema: *ref_22
       responses:
         '204':
           description: not provided
@@ -1465,15 +1568,19 @@ components:
     group_detail:
       description: |
         A single group.
-      allOf: *ref_22
+      allOf: *ref_24
     project_detail:
       description: |
         A single project.
-      allOf: *ref_23
+      allOf: *ref_25
+    role_detail:
+      description: |
+        A single role.
+      allOf: *ref_26
     user_detail:
       description: |
         A single user.
-      allOf: *ref_24
+      allOf: *ref_27
   responses:
     unprocessable_entity:
       description: |

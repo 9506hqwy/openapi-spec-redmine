@@ -1,0 +1,104 @@
+paths:
+  /roles.json:
+    get:
+      description: Returns a list of roles.
+      operationId: roles#index
+      responses:
+        "200":
+          $ref: "#/components/responses/roles"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /roles/{id}.json:
+    get:
+      description: |
+        Returns the role with the specified ID.
+      operationId: roles#show
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          $ref: "#/components/responses/role"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  schemas:
+    role:
+      description: |
+        A single role.
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          description: The ID of the role.
+        name:
+          type: string
+          description: The name of the role.
+    role_detail:
+      description: |
+        A single role.
+      allOf:
+        - $ref: "#/components/schemas/role"
+        - type: object
+          properties:
+            assignable:
+              type: boolean
+              description: The assignable of the role.
+            issues_visibility:
+              type: string
+              description: The issues visibility of the role.
+            time_entries_visibility:
+              type: string
+              description: The time entries visibility of the role.
+            users_visibility:
+              type: string
+              description: The users visibility of the role.
+            permissions:
+              type: array
+              items:
+                type: string
+                description: The permission of the role.
+  responses:
+    roles:
+      description: |
+        Returns a list of roles.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              roles:
+                type: array
+                items:
+                  $ref: "#/components/schemas/role"
+    role:
+      description: |
+        Returns the role with the specified ID.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              role:
+                $ref: "#/components/schemas/role_detail"
+  parameters:
+    id:
+      name: id
+      in: path
+      description: |
+        The ID of the role.
+      required: true
+      schema:
+        type: string

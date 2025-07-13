@@ -21,6 +21,10 @@ paths:
     $ref: "./projects.yml#/paths/~1projects~1{id}~1archive.json"
   /projects/{id}/unarchive.json:
     $ref: "./projects.yml#/paths/~1projects~1{id}~1unarchive.json"
+  /roles.json:
+    $ref: "./roles.yml#/paths/~1roles.json"
+  /roles/{id}.json:
+    $ref: "./roles.yml#/paths/~1roles~1{id}.json"
   /users.json:
     $ref: "./users.yml#/paths/~1users.json"
   /users/{id}.json:
