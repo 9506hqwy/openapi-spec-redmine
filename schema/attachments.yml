@@ -1,0 +1,45 @@
+components:
+  schemas:
+    attachments:
+      type: array
+      items:
+        $ref: "#/components/schemas/attachment"
+    attachment:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the attachment.
+        filename:
+          type: string
+          description: The filename of the attachment.
+        filesize:
+          type: integer
+          description: The filesize of the attachment.
+        content_type:
+          type: string
+          description: The content type of the attachment.
+        description:
+          type: string
+          description: The description of the attachment.
+        content_url:
+          type: string
+          description: The content URL of the attachment.
+        thumbnail_url:
+          type: string
+          description: The thumbnail URL of the attachment.
+        author:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the author.
+            name:
+              type: string
+              description: The name of the author.
+        created_on:
+          type: string
+          format: date-time
+          description: The date and time when the attachment was created.
+      # options
+      additionalProperties: true

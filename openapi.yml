@@ -17,6 +17,8 @@ tags:
     description: journals_controller's API
   - name: members
     description: members_controller's API
+  - name: news
+    description: news_controller's API
   - name: projects
     description: projects_controller's API
   - name: roles
@@ -283,7 +285,7 @@ paths:
                   group:
                     description: |
                       A single group.
-                    allOf: &ref_36
+                    allOf: &ref_44
                       - description: |
                           A single group.
                         type: object
@@ -614,7 +616,7 @@ paths:
         '200':
           description: |
             Returns the membership with the specified ID.
-          content: &ref_21
+          content: &ref_25
             application/json:
               schema:
                 type: object
@@ -623,11 +625,11 @@ paths:
                     description: |
                       A single membership.
                     type: object
-                    required: &ref_17
+                    required: &ref_21
                       - id
                       - project
                       - roles
-                    properties: &ref_18
+                    properties: &ref_22
                       id:
                         type: integer
                         description: The ID of the membership.
@@ -694,7 +696,7 @@ paths:
       requestBody:
         description: |
           The membership to create or update.
-        content: &ref_20
+        content: &ref_24
           application/json:
             schema:
               type: object
@@ -757,6 +759,323 @@ paths:
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
           content: *ref_7
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_3
+  /news.json:
+    get:
+      tags:
+        - news
+      description: Returns all news across all projects with pagination.
+      operationId: news#index
+      parameters:
+        - name: X-Redmine-Nometa
+          in: header
+          description: |
+            If set to 1, the response will not include pagination information.
+          schema: *ref_9
+        - name: pagination
+          in: query
+          description: |
+            Pagination parameters to control the number of items returned in the response.
+            If not specified, it defaults to 25 items per page.
+          schema: *ref_10
+      responses:
+        '200':
+          description: |
+            Returns all news across all projects with pagination.
+          content: &ref_26
+            application/json:
+              schema:
+                type: object
+                properties:
+                  news:
+                    type: array
+                    items:
+                      description: |
+                        A single news.
+                      type: object
+                      required: &ref_11
+                        - id
+                        - login
+                        - firstname
+                        - lastname
+                      properties: &ref_12
+                        id:
+                          type: integer
+                          description: The ID of the news.
+                        project:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: The ID of the project.
+                            name:
+                              type: string
+                              description: The name of the project.
+                        author:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: The ID of the author.
+                            name:
+                              type: string
+                              description: The name of the author.
+                        title:
+                          type: string
+                          description: The title of the news.
+                        summary:
+                          type: string
+                          description: The summary of the news.
+                        description:
+                          type: string
+                          description: The description of the news.
+                        created_on:
+                          type: string
+                          format: date-time
+                          description: The date and time when the news was created.
+                  total_count:
+                    type: integer
+                    description: The total number of news.
+                  offset:
+                    type: integer
+                    description: The offset of the first news in the list.
+                  limit:
+                    type: integer
+                    description: The maximum number of news returned in the list.
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+    post:
+      tags:
+        - news
+      description: Creates a new news.
+      operationId: news#create
+      requestBody:
+        description: |
+          The news to create or update.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                news:
+                  description: |
+                    A single news.
+                  type: object
+                  properties: &ref_14
+                    title:
+                      type: string
+                      description: The title of the news.
+                    summary:
+                      type: string
+                      description: The summary of the news.
+                    description:
+                      type: string
+                      description: The description of the news.
+                project_id:
+                  type: string
+                  description: The ID or identifier of the project.
+        required: true
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_7
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_3
+  /news/{id}.json:
+    get:
+      tags:
+        - news
+      description: |
+        Returns the news with the specified ID.
+      operationId: news#show
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID of the news.
+          required: true
+          schema: &ref_13
+            type: string
+        - name: include
+          in: query
+          description: |
+            fetch associated data (optional). Values should be separated by a comma ",".
+            Possible values: `attachments`, `comments`.
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - attachments
+                - comments
+          style: form
+          explode: false
+      responses:
+        '200':
+          description: |
+            Returns the news with the specified ID.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  news:
+                    description: |
+                      A single news.
+                    allOf: &ref_45
+                      - description: |
+                          A single news.
+                        type: object
+                        required: *ref_11
+                        properties: *ref_12
+                      - type: object
+                        properties:
+                          attachments:
+                            type: array
+                            items: &ref_29
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                  description: The ID of the attachment.
+                                filename:
+                                  type: string
+                                  description: The filename of the attachment.
+                                filesize:
+                                  type: integer
+                                  description: The filesize of the attachment.
+                                content_type:
+                                  type: string
+                                  description: The content type of the attachment.
+                                description:
+                                  type: string
+                                  description: The description of the attachment.
+                                content_url:
+                                  type: string
+                                  description: The content URL of the attachment.
+                                thumbnail_url:
+                                  type: string
+                                  description: The thumbnail URL of the attachment.
+                                author:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                      description: The ID of the author.
+                                    name:
+                                      type: string
+                                      description: The name of the author.
+                                created_on:
+                                  type: string
+                                  format: date-time
+                                  description: The date and time when the attachment was created.
+                              additionalProperties: true
+                          comments:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                  description: The ID of the comment.
+                                author:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                      description: The ID of the author.
+                                    name:
+                                      type: string
+                                      description: The name of the author.
+                                content:
+                                  type: string
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+    put:
+      tags:
+        - news
+      description: |
+        Updates the news with the specified ID.
+      operationId: news#update
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID of the news.
+          required: true
+          schema: *ref_13
+      requestBody:
+        description: |
+          The news to create.
+        content: &ref_28
+          application/json:
+            schema:
+              type: object
+              properties:
+                news:
+                  description: |
+                    A single news.
+                  type: object
+                  properties: *ref_14
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_7
+    delete:
+      tags:
+        - news
+      description: |
+        Deletes the news with the specified ID.
+      operationId: news#destroy
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID of the news.
+          required: true
+          schema: *ref_13
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
     parameters:
       - name: X-Redmine-Switch-User
         in: header
@@ -861,7 +1180,7 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
-          schema: &ref_13
+          schema: &ref_17
             type: array
             items:
               type: string
@@ -888,11 +1207,11 @@ paths:
                       description: |
                         A single project.
                       type: object
-                      required: &ref_11
+                      required: &ref_15
                         - id
                         - name
                         - identifier
-                      properties: &ref_12
+                      properties: &ref_16
                         id:
                           type: integer
                           description: The ID of the project.
@@ -1024,7 +1343,7 @@ paths:
       requestBody:
         description: |
           The project to create or update.
-        content: &ref_16
+        content: &ref_20
           application/json:
             schema:
               type: object
@@ -1095,7 +1414,7 @@ paths:
         '201':
           description: |
             Returns the project with the specified ID or identifier.
-          content: &ref_14
+          content: &ref_18
             application/json:
               schema:
                 type: object
@@ -1103,12 +1422,12 @@ paths:
                   project:
                     description: |
                       A single project.
-                    allOf: &ref_37
+                    allOf: &ref_46
                       - description: |
                           A single project.
                         type: object
-                        required: *ref_11
-                        properties: *ref_12
+                        required: *ref_15
+                        properties: *ref_16
                       - type: object
                         properties:
                           default_version:
@@ -1161,21 +1480,21 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_15
+          schema: &ref_19
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
-          schema: *ref_13
+          schema: *ref_17
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the project with the specified ID or identifier.
-          content: *ref_14
+          content: *ref_18
         '401':
           description: not provided
         '403':
@@ -1194,11 +1513,11 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_15
+          schema: *ref_19
       requestBody:
         description: |
           The project to create or update.
-        content: *ref_16
+        content: *ref_20
         required: true
       responses:
         '204':
@@ -1225,7 +1544,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_15
+          schema: *ref_19
       responses:
         '204':
           description: not provided
@@ -1255,7 +1574,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_15
+          schema: *ref_19
       responses:
         '204':
           description: not provided
@@ -1289,7 +1608,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_15
+          schema: *ref_19
       responses:
         '204':
           description: not provided
@@ -1329,7 +1648,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_19
+          schema: &ref_23
             type: string
       responses:
         '200':
@@ -1346,8 +1665,8 @@ paths:
                       description: |
                         A single membership.
                       type: object
-                      required: *ref_17
-                      properties: *ref_18
+                      required: *ref_21
+                      properties: *ref_22
                   total_count:
                     type: integer
                     description: The total number of memberships.
@@ -1372,17 +1691,85 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_19
+          schema: *ref_23
       requestBody:
         description: |
           The membership to create or update.
-        content: *ref_20
+        content: *ref_24
         required: true
       responses:
         '201':
           description: |
             Returns the membership with the specified ID.
-          content: *ref_21
+          content: *ref_25
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_7
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_3
+  /projects/{project_id}/news.json:
+    get:
+      tags:
+        - news
+      description: Returns all news across all projects with pagination.
+      operationId: news#index-project
+      parameters:
+        - name: X-Redmine-Nometa
+          in: header
+          description: |
+            If set to 1, the response will not include pagination information.
+          schema: *ref_9
+        - name: pagination
+          in: query
+          description: |
+            Pagination parameters to control the number of items returned in the response.
+            If not specified, it defaults to 25 items per page.
+          schema: *ref_10
+        - name: project_id
+          in: path
+          description: |
+            The ID or identifier of the project.
+          required: true
+          schema: &ref_27
+            type: string
+      responses:
+        '200':
+          description: |
+            Returns all news across all projects with pagination.
+          content: *ref_26
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+    post:
+      tags:
+        - news
+      description: Creates a new news.
+      operationId: news#create-project
+      parameters:
+        - name: project_id
+          in: path
+          description: |
+            The ID or identifier of the project.
+          required: true
+          schema: *ref_27
+      requestBody:
+        description: |
+          The news to create.
+        content: *ref_28
+      responses:
+        '204':
+          description: not provided
         '401':
           description: not provided
         '403':
@@ -1411,14 +1798,14 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_22
+          schema: &ref_30
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: &ref_25
+          schema: &ref_33
             type: array
             items:
               type: string
@@ -1430,7 +1817,7 @@ paths:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: &ref_26
+          content: &ref_34
             application/json:
               schema:
                 type: object
@@ -1438,14 +1825,14 @@ paths:
                   wiki_page:
                     description: |
                       A single wiki.
-                    allOf: &ref_38
+                    allOf: &ref_47
                       - description: |
                           A single wiki.
                         type: object
-                        required: &ref_23
+                        required: &ref_31
                           - title
                           - version
-                        properties: &ref_24
+                        properties: &ref_32
                           title:
                             type: string
                             description: The title of the wiki.
@@ -1485,44 +1872,7 @@ paths:
                             description: The comments of the wiki.
                           attachments:
                             type: array
-                            items:
-                              type: object
-                              properties:
-                                id:
-                                  type: integer
-                                  description: The ID of the attachment.
-                                filename:
-                                  type: string
-                                  description: The filename of the attachment.
-                                filesize:
-                                  type: integer
-                                  description: The filesize of the attachment.
-                                content_type:
-                                  type: string
-                                  description: The content type of the attachment.
-                                description:
-                                  type: string
-                                  description: The description of the attachment.
-                                content_url:
-                                  type: string
-                                  description: The content URL of the attachment.
-                                thumbnail_url:
-                                  type: string
-                                  description: The thumbnail URL of the attachment.
-                                author:
-                                  type: object
-                                  properties:
-                                    id:
-                                      type: integer
-                                      description: The ID of the author.
-                                    name:
-                                      type: string
-                                      description: The name of the author.
-                                created_on:
-                                  type: string
-                                  format: date-time
-                                  description: The date and time when the attachment was created.
-                              additionalProperties: true
+                            items: *ref_29
         '401':
           description: not provided
         '403':
@@ -1548,7 +1898,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_22
+          schema: *ref_30
       responses:
         '200':
           description: |
@@ -1564,8 +1914,8 @@ paths:
                       description: |
                         A single wiki.
                       type: object
-                      required: *ref_23
-                      properties: *ref_24
+                      required: *ref_31
+                      properties: *ref_32
         '401':
           description: not provided
         '403':
@@ -1590,27 +1940,27 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_22
+          schema: *ref_30
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: &ref_27
+          schema: &ref_35
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: *ref_25
+          schema: *ref_33
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: *ref_26
+          content: *ref_34
         '401':
           description: not provided
         '403':
@@ -1629,13 +1979,13 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_22
+          schema: *ref_30
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_27
+          schema: *ref_35
       requestBody:
         description: |
           The wiki to create or update.
@@ -1666,7 +2016,7 @@ paths:
         '201':
           description: |
             Returns the wiki with the specified ID.
-          content: *ref_26
+          content: *ref_34
         '204':
           description: not provided
         '401':
@@ -1694,13 +2044,13 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_22
+          schema: *ref_30
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_27
+          schema: *ref_35
       responses:
         '204':
           description: not provided
@@ -1730,13 +2080,13 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_22
+          schema: *ref_30
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_27
+          schema: *ref_35
         - name: version
           in: path
           description: |
@@ -1749,14 +2099,14 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: *ref_25
+          schema: *ref_33
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: *ref_26
+          content: *ref_34
         '401':
           description: not provided
         '403':
@@ -1791,10 +2141,10 @@ paths:
                       description: |
                         A single role.
                       type: object
-                      required: &ref_28
+                      required: &ref_36
                         - id
                         - name
-                      properties: &ref_29
+                      properties: &ref_37
                         id:
                           type: integer
                           description: The ID of the role.
@@ -1839,12 +2189,12 @@ paths:
                   role:
                     description: |
                       A single role.
-                    allOf: &ref_39
+                    allOf: &ref_48
                       - description: |
                           A single role.
                         type: object
-                        required: *ref_28
-                        properties: *ref_29
+                        required: *ref_36
+                        properties: *ref_37
                       - type: object
                         properties:
                           assignable:
@@ -1991,7 +2341,7 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: &ref_32
+          schema: &ref_40
             type: array
             items:
               type: string
@@ -2016,12 +2366,12 @@ paths:
                       description: |
                         A single user.
                       type: object
-                      required: &ref_30
+                      required: &ref_38
                         - id
                         - login
                         - firstname
                         - lastname
-                      properties: &ref_31
+                      properties: &ref_39
                         id:
                           type: integer
                           description: The ID of the user.
@@ -2105,7 +2455,7 @@ paths:
       requestBody:
         description: |
           The user to create or update.
-        content: &ref_35
+        content: &ref_43
           application/json:
             schema:
               type: object
@@ -2251,7 +2601,7 @@ paths:
         '201':
           description: |
             Returns the user with the specified ID.
-          content: &ref_33
+          content: &ref_41
             application/json:
               schema:
                 type: object
@@ -2259,12 +2609,12 @@ paths:
                   user:
                     description: |
                       A single user.
-                    allOf: &ref_40
+                    allOf: &ref_49
                       - description: |
                           A single user.
                         type: object
-                        required: *ref_30
-                        properties: *ref_31
+                        required: *ref_38
+                        properties: *ref_39
                       - type: object
                         properties:
                           api_key:
@@ -2340,21 +2690,21 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: &ref_34
+          schema: &ref_42
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: *ref_32
+          schema: *ref_40
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the user with the specified ID.
-          content: *ref_33
+          content: *ref_41
         '401':
           description: not provided
         '403':
@@ -2373,11 +2723,11 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: *ref_34
+          schema: *ref_42
       requestBody:
         description: |
           The user to create or update.
-        content: *ref_35
+        content: *ref_43
         required: true
       responses:
         '204':
@@ -2404,7 +2754,7 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: *ref_34
+          schema: *ref_42
       responses:
         '204':
           description: not provided
@@ -2430,23 +2780,27 @@ components:
     group_detail:
       description: |
         A single group.
-      allOf: *ref_36
+      allOf: *ref_44
+    news_detail:
+      description: |
+        A single news.
+      allOf: *ref_45
     project_detail:
       description: |
         A single project.
-      allOf: *ref_37
+      allOf: *ref_46
     wiki_detail:
       description: |
         A single wiki.
-      allOf: *ref_38
+      allOf: *ref_47
     role_detail:
       description: |
         A single role.
-      allOf: *ref_39
+      allOf: *ref_48
     user_detail:
       description: |
         A single user.
-      allOf: *ref_40
+      allOf: *ref_49
   responses:
     unprocessable_entity:
       description: |

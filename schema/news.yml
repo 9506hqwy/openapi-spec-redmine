@@ -1,0 +1,300 @@
+paths:
+  /projects/{project_id}/news.json:
+    get:
+      tags: ["news"]
+      description: Returns all news across all projects with pagination.
+      operationId: news#index-project
+      parameters:
+        - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
+        - $ref: "./openapi.yml#/components/parameters/pagination"
+        - $ref: "#/components/parameters/project_id"
+      responses:
+        "200":
+          $ref: "#/components/responses/news"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    post:
+      tags: ["news"]
+      description: Creates a new news.
+      operationId: news#create-project
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+      requestBody:
+        $ref: "#/components/requestBody/news-project"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /news.json:
+    get:
+      tags: ["news"]
+      description: Returns all news across all projects with pagination.
+      operationId: news#index
+      parameters:
+        - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
+        - $ref: "./openapi.yml#/components/parameters/pagination"
+      responses:
+        "200":
+          $ref: "#/components/responses/news"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    post:
+      tags: ["news"]
+      description: Creates a new news.
+      operationId: news#create
+      requestBody:
+        $ref: "#/components/requestBody/news"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /news/{id}.json:
+    get:
+      tags: ["news"]
+      description: |
+        Returns the news with the specified ID.
+      operationId: news#show
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/include"
+      responses:
+        "200":
+          $ref: "#/components/responses/news_one"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    put:
+      tags: ["news"]
+      description: |
+        Updates the news with the specified ID.
+      operationId: news#update
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBody/news-project"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    delete:
+      tags: ["news"]
+      description: |
+        Deletes the news with the specified ID.
+      operationId: news#destroy
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  schemas:
+    news:
+      description: |
+        A single news.
+      type: object
+      required:
+        - id
+        - login
+        - firstname
+        - lastname
+      properties:
+        id:
+          type: integer
+          description: The ID of the news.
+        project:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the project.
+            name:
+              type: string
+              description: The name of the project.
+        author:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the author.
+            name:
+              type: string
+              description: The name of the author.
+        title:
+          type: string
+          description: The title of the news.
+        summary:
+          type: string
+          description: The summary of the news.
+        description:
+          type: string
+          description: The description of the news.
+        created_on:
+          type: string
+          format: date-time
+          description: The date and time when the news was created.
+    news_detail:
+      description: |
+        A single news.
+      allOf:
+        - $ref: "#/components/schemas/news"
+        - type: object
+          properties:
+            attachments:
+              $ref: "./attachments.yml#/components/schemas/attachments"
+            comments:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: The ID of the comment.
+                  author:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: The ID of the author.
+                      name:
+                        type: string
+                        description: The name of the author.
+                  content:
+                    type: string
+    news_new:
+      description: |
+        A single news.
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of the news.
+        summary:
+          type: string
+          description: The summary of the news.
+        description:
+          type: string
+          description: The description of the news.
+        # TODO: uploads
+  responses:
+    news:
+      description: |
+        Returns all news across all projects with pagination.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              news:
+                type: array
+                items:
+                  $ref: "#/components/schemas/news"
+              total_count:
+                type: integer
+                description: The total number of news.
+              offset:
+                type: integer
+                description: The offset of the first news in the list.
+              limit:
+                type: integer
+                description: The maximum number of news returned in the list.
+    news_one:
+      description: |
+        Returns the news with the specified ID.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              news:
+                $ref: "#/components/schemas/news_detail"
+  parameters:
+    project_id:
+      name: project_id
+      in: path
+      description: |
+        The ID or identifier of the project.
+      required: true
+      schema:
+        type: string
+    id:
+      name: id
+      in: path
+      description: |
+        The ID of the news.
+      required: true
+      schema:
+        type: string
+    include:
+      name: include
+      in: query
+      description: |
+        fetch associated data (optional). Values should be separated by a comma ",".
+        Possible values: `attachments`, `comments`.
+      schema:
+        type: array
+        items:
+          type: string
+          enum: [attachments, comments]
+      style: form
+      explode: false
+  requestBody:
+    news-project:
+      description: |
+        The news to create.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              news:
+                $ref: "#/components/schemas/news_new"
+    news:
+      description: |
+        The news to create or update.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              news:
+                $ref: "#/components/schemas/news_new"
+              project_id:
+                type: string
+                description: The ID or identifier of the project.
+      required: true

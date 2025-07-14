@@ -19,6 +19,10 @@ paths:
     $ref: "./journals.yml#/paths/~1journals~1{id}.json"
   /memberships/{id}.json:
     $ref: "./members.yml#/paths/~1memberships~1{id}.json"
+  /news.json:
+    $ref: "./news.yml#/paths/~1news.json"
+  /news/{id}.json:
+    $ref: "./news.yml#/paths/~1news~1{id}.json"
   /projects.json:
     $ref: "./projects.yml#/paths/~1projects.json"
   /projects/{id}.json:
@@ -29,6 +33,8 @@ paths:
     $ref: "./projects.yml#/paths/~1projects~1{id}~1unarchive.json"
   /projects/{project_id}/memberships.json:
     $ref: "./members.yml#/paths/~1projects~1{project_id}~1memberships.json"
+  /projects/{project_id}/news.json:
+    $ref: "./news.yml#/paths/~1projects~1{project_id}~1news.json"
   /projects/{project_id}/wiki.json:
     $ref: "./wiki.yml#/paths/~1projects~1{project_id}~1wiki.json"
   /projects/{project_id}/wiki/index.json:
@@ -174,6 +180,8 @@ tags:
     description: journals_controller's API
   - name: members
     description: members_controller's API
+  - name: news
+    description: news_controller's API
   - name: projects
     description: projects_controller's API
   - name: roles
