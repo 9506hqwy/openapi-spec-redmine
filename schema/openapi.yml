@@ -15,6 +15,8 @@ paths:
     $ref: "./groups.yml#/paths/~1groups~1{id}~1users.json"
   /groups/{id}/users/{user_id}.json:
     $ref: "./groups.yml#/paths/~1groups~1{id}~1users~1{user_id}.json"
+  /memberships/{id}.json:
+    $ref: "./members.yml#/paths/~1memberships~1{id}.json"
   /projects.json:
     $ref: "./projects.yml#/paths/~1projects.json"
   /projects/{id}.json:
@@ -23,6 +25,8 @@ paths:
     $ref: "./projects.yml#/paths/~1projects~1{id}~1archive.json"
   /projects/{id}/unarchive.json:
     $ref: "./projects.yml#/paths/~1projects~1{id}~1unarchive.json"
+  /projects/{project_id}/memberships.json:
+    $ref: "./members.yml#/paths/~1projects~1{project_id}~1memberships.json"
   /projects/{project_id}/wiki.json:
     $ref: "./wiki.yml#/paths/~1projects~1{project_id}~1wiki.json"
   /projects/{project_id}/wiki/index.json:
@@ -164,6 +168,8 @@ tags:
     description: custom_fields_controller's API
   - name: groups
     description: groups_controller's API
+  - name: members
+    description: members_controller's API
   - name: projects
     description: projects_controller's API
   - name: roles

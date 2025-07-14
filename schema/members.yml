@@ -1,0 +1,227 @@
+paths:
+  /projects/{project_id}/memberships.json:
+    get:
+      tags: ["members"]
+      description: Returns a paginated list of the project memberships.
+      operationId: members#index
+      parameters:
+        - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
+        - $ref: "./openapi.yml#/components/parameters/pagination"
+        - $ref: "#/components/parameters/project_id"
+      responses:
+        "200":
+          $ref: "#/components/responses/members"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    post:
+      tags: ["members"]
+      description: Adds a project member.
+      operationId: members#create
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+      requestBody:
+        $ref: "#/components/requestBody/member"
+      responses:
+        "201":
+          $ref: "#/components/responses/member"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /memberships/{id}.json:
+    get:
+      tags: ["members"]
+      description: |
+        Returns the membership with the specified ID.
+      operationId: members#show
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          $ref: "#/components/responses/member"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    put:
+      tags: ["members"]
+      description: |
+        Updates the membership with the specified ID.
+      operationId: members#update
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBody/member"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    delete:
+      tags: ["members"]
+      description: |
+        Deletes the membership with the specified ID.
+      operationId: members#destroy
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  schemas:
+    member:
+      description: |
+        A single membership.
+      type: object
+      required:
+        - id
+        - project
+        - roles
+      properties:
+        id:
+          type: integer
+          description: The ID of the membership.
+        project:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the project.
+            name:
+              type: string
+              description: The name of the project.
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the user.
+            name:
+              type: string
+              description: The name of the user.
+        group:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the group.
+            name:
+              type: string
+              description: The name of the group.
+        roles:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: The ID of the role.
+              name:
+                type: string
+                description: The name of the role.
+              inherited:
+                type: boolean
+                description: Whether the role is inherited from a parent project.
+    member_new:
+      description: |
+        A single membership.
+      type: object
+      properties:
+        user_id:
+          type: integer
+          description: The ID of the user.
+        user_ids:
+          type: array
+          items:
+            type: integer
+            description: The ID of the user.
+        role_ids:
+          type: array
+          items:
+            type: integer
+            description: The ID of the role.
+  responses:
+    members:
+      description: |
+        Returns a list of memberships.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              memberships:
+                type: array
+                items:
+                  $ref: "#/components/schemas/member"
+              total_count:
+                type: integer
+                description: The total number of memberships.
+              offset:
+                type: integer
+                description: The offset of the first membership in the list.
+              limit:
+                type: integer
+                description: The maximum number of memberships returned in the list.
+    member:
+      description: |
+        Returns the membership with the specified ID.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              membership:
+                $ref: "#/components/schemas/member"
+  parameters:
+    project_id:
+      name: project_id
+      in: path
+      description: |
+        The ID or identifier of the project.
+      required: true
+      schema:
+        type: string
+    id:
+      name: id
+      in: path
+      description: |
+        The ID of the membership.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    member:
+      description: |
+        The membership to create or update.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              membership:
+                $ref: "#/components/schemas/member_new"
+      required: true

@@ -13,6 +13,8 @@ tags:
     description: custom_fields_controller's API
   - name: groups
     description: groups_controller's API
+  - name: members
+    description: members_controller's API
   - name: projects
     description: projects_controller's API
   - name: roles
@@ -149,7 +151,7 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include pagination information.
-          schema: &ref_8
+          schema: &ref_9
             type: integer
             enum:
               - 1
@@ -158,7 +160,7 @@ paths:
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: &ref_9
+          schema: &ref_10
             type: object
             properties:
               offset:
@@ -279,7 +281,7 @@ paths:
                   group:
                     description: |
                       A single group.
-                    allOf: &ref_30
+                    allOf: &ref_36
                       - description: |
                           A single group.
                         type: object
@@ -536,6 +538,175 @@ paths:
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
         schema: *ref_3
+  /memberships/{id}.json:
+    get:
+      tags:
+        - members
+      description: |
+        Returns the membership with the specified ID.
+      operationId: members#show
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID of the membership.
+          required: true
+          schema: &ref_8
+            type: string
+      responses:
+        '200':
+          description: |
+            Returns the membership with the specified ID.
+          content: &ref_21
+            application/json:
+              schema:
+                type: object
+                properties:
+                  membership:
+                    description: |
+                      A single membership.
+                    type: object
+                    required: &ref_17
+                      - id
+                      - project
+                      - roles
+                    properties: &ref_18
+                      id:
+                        type: integer
+                        description: The ID of the membership.
+                      project:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            description: The ID of the project.
+                          name:
+                            type: string
+                            description: The name of the project.
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            description: The ID of the user.
+                          name:
+                            type: string
+                            description: The name of the user.
+                      group:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            description: The ID of the group.
+                          name:
+                            type: string
+                            description: The name of the group.
+                      roles:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: The ID of the role.
+                            name:
+                              type: string
+                              description: The name of the role.
+                            inherited:
+                              type: boolean
+                              description: Whether the role is inherited from a parent project.
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+    put:
+      tags:
+        - members
+      description: |
+        Updates the membership with the specified ID.
+      operationId: members#update
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID of the membership.
+          required: true
+          schema: *ref_8
+      requestBody:
+        description: |
+          The membership to create or update.
+        content: &ref_20
+          application/json:
+            schema:
+              type: object
+              properties:
+                membership:
+                  description: |
+                    A single membership.
+                  type: object
+                  properties:
+                    user_id:
+                      type: integer
+                      description: The ID of the user.
+                    user_ids:
+                      type: array
+                      items:
+                        type: integer
+                        description: The ID of the user.
+                    role_ids:
+                      type: array
+                      items:
+                        type: integer
+                        description: The ID of the role.
+        required: true
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_7
+    delete:
+      tags:
+        - members
+      description: |
+        Deletes the membership with the specified ID.
+      operationId: members#destroy
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID of the membership.
+          required: true
+          schema: *ref_8
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_7
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_3
   /projects.json:
     get:
       tags:
@@ -548,13 +719,13 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include pagination information.
-          schema: *ref_8
+          schema: *ref_9
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_9
+          schema: *ref_10
         - name: query
           in: query
           schema:
@@ -633,7 +804,7 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
-          schema: &ref_12
+          schema: &ref_13
             type: array
             items:
               type: string
@@ -660,11 +831,11 @@ paths:
                       description: |
                         A single project.
                       type: object
-                      required: &ref_10
+                      required: &ref_11
                         - id
                         - name
                         - identifier
-                      properties: &ref_11
+                      properties: &ref_12
                         id:
                           type: integer
                           description: The ID of the project.
@@ -796,7 +967,7 @@ paths:
       requestBody:
         description: |
           The project to create or update.
-        content: &ref_15
+        content: &ref_16
           application/json:
             schema:
               type: object
@@ -867,7 +1038,7 @@ paths:
         '201':
           description: |
             Returns the project with the specified ID or identifier.
-          content: &ref_13
+          content: &ref_14
             application/json:
               schema:
                 type: object
@@ -875,12 +1046,12 @@ paths:
                   project:
                     description: |
                       A single project.
-                    allOf: &ref_31
+                    allOf: &ref_37
                       - description: |
                           A single project.
                         type: object
-                        required: *ref_10
-                        properties: *ref_11
+                        required: *ref_11
+                        properties: *ref_12
                       - type: object
                         properties:
                           default_version:
@@ -933,21 +1104,21 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_14
+          schema: &ref_15
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
-          schema: *ref_12
+          schema: *ref_13
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the project with the specified ID or identifier.
-          content: *ref_13
+          content: *ref_14
         '401':
           description: not provided
         '403':
@@ -966,11 +1137,11 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_14
+          schema: *ref_15
       requestBody:
         description: |
           The project to create or update.
-        content: *ref_15
+        content: *ref_16
         required: true
       responses:
         '204':
@@ -997,7 +1168,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_14
+          schema: *ref_15
       responses:
         '204':
           description: not provided
@@ -1027,7 +1198,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_14
+          schema: *ref_15
       responses:
         '204':
           description: not provided
@@ -1061,7 +1232,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_14
+          schema: *ref_15
       responses:
         '204':
           description: not provided
@@ -1071,6 +1242,98 @@ paths:
           description: not provided
         '404':
           description: not provided
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_3
+  /projects/{project_id}/memberships.json:
+    get:
+      tags:
+        - members
+      description: Returns a paginated list of the project memberships.
+      operationId: members#index
+      parameters:
+        - name: X-Redmine-Nometa
+          in: header
+          description: |
+            If set to 1, the response will not include pagination information.
+          schema: *ref_9
+        - name: pagination
+          in: query
+          description: |
+            Pagination parameters to control the number of items returned in the response.
+            If not specified, it defaults to 25 items per page.
+          schema: *ref_10
+        - name: project_id
+          in: path
+          description: |
+            The ID or identifier of the project.
+          required: true
+          schema: &ref_19
+            type: string
+      responses:
+        '200':
+          description: |
+            Returns a list of memberships.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  memberships:
+                    type: array
+                    items:
+                      description: |
+                        A single membership.
+                      type: object
+                      required: *ref_17
+                      properties: *ref_18
+                  total_count:
+                    type: integer
+                    description: The total number of memberships.
+                  offset:
+                    type: integer
+                    description: The offset of the first membership in the list.
+                  limit:
+                    type: integer
+                    description: The maximum number of memberships returned in the list.
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+    post:
+      tags:
+        - members
+      description: Adds a project member.
+      operationId: members#create
+      parameters:
+        - name: project_id
+          in: path
+          description: |
+            The ID or identifier of the project.
+          required: true
+          schema: *ref_19
+      requestBody:
+        description: |
+          The membership to create or update.
+        content: *ref_20
+        required: true
+      responses:
+        '201':
+          description: |
+            Returns the membership with the specified ID.
+          content: *ref_21
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_7
     parameters:
       - name: X-Redmine-Switch-User
         in: header
@@ -1091,14 +1354,14 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_16
+          schema: &ref_22
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: &ref_19
+          schema: &ref_25
             type: array
             items:
               type: string
@@ -1110,7 +1373,7 @@ paths:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: &ref_20
+          content: &ref_26
             application/json:
               schema:
                 type: object
@@ -1118,14 +1381,14 @@ paths:
                   wiki_page:
                     description: |
                       A single wiki.
-                    allOf: &ref_32
+                    allOf: &ref_38
                       - description: |
                           A single wiki.
                         type: object
-                        required: &ref_17
+                        required: &ref_23
                           - title
                           - version
-                        properties: &ref_18
+                        properties: &ref_24
                           title:
                             type: string
                             description: The title of the wiki.
@@ -1228,7 +1491,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_16
+          schema: *ref_22
       responses:
         '200':
           description: |
@@ -1244,8 +1507,8 @@ paths:
                       description: |
                         A single wiki.
                       type: object
-                      required: *ref_17
-                      properties: *ref_18
+                      required: *ref_23
+                      properties: *ref_24
         '401':
           description: not provided
         '403':
@@ -1270,27 +1533,27 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_16
+          schema: *ref_22
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: &ref_21
+          schema: &ref_27
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: *ref_19
+          schema: *ref_25
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: *ref_20
+          content: *ref_26
         '401':
           description: not provided
         '403':
@@ -1309,13 +1572,13 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_16
+          schema: *ref_22
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_21
+          schema: *ref_27
       requestBody:
         description: |
           The wiki to create or update.
@@ -1346,7 +1609,7 @@ paths:
         '201':
           description: |
             Returns the wiki with the specified ID.
-          content: *ref_20
+          content: *ref_26
         '204':
           description: not provided
         '401':
@@ -1374,13 +1637,13 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_16
+          schema: *ref_22
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_21
+          schema: *ref_27
       responses:
         '204':
           description: not provided
@@ -1410,13 +1673,13 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_16
+          schema: *ref_22
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_21
+          schema: *ref_27
         - name: version
           in: path
           description: |
@@ -1429,14 +1692,14 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: *ref_19
+          schema: *ref_25
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: *ref_20
+          content: *ref_26
         '401':
           description: not provided
         '403':
@@ -1471,10 +1734,10 @@ paths:
                       description: |
                         A single role.
                       type: object
-                      required: &ref_22
+                      required: &ref_28
                         - id
                         - name
-                      properties: &ref_23
+                      properties: &ref_29
                         id:
                           type: integer
                           description: The ID of the role.
@@ -1519,12 +1782,12 @@ paths:
                   role:
                     description: |
                       A single role.
-                    allOf: &ref_33
+                    allOf: &ref_39
                       - description: |
                           A single role.
                         type: object
-                        required: *ref_22
-                        properties: *ref_23
+                        required: *ref_28
+                        properties: *ref_29
                       - type: object
                         properties:
                           assignable:
@@ -1568,13 +1831,13 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include pagination information.
-          schema: *ref_8
+          schema: *ref_9
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_9
+          schema: *ref_10
         - name: query
           in: query
           schema:
@@ -1671,7 +1934,7 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: &ref_26
+          schema: &ref_32
             type: array
             items:
               type: string
@@ -1696,12 +1959,12 @@ paths:
                       description: |
                         A single user.
                       type: object
-                      required: &ref_24
+                      required: &ref_30
                         - id
                         - login
                         - firstname
                         - lastname
-                      properties: &ref_25
+                      properties: &ref_31
                         id:
                           type: integer
                           description: The ID of the user.
@@ -1785,7 +2048,7 @@ paths:
       requestBody:
         description: |
           The user to create or update.
-        content: &ref_29
+        content: &ref_35
           application/json:
             schema:
               type: object
@@ -1931,7 +2194,7 @@ paths:
         '201':
           description: |
             Returns the user with the specified ID.
-          content: &ref_27
+          content: &ref_33
             application/json:
               schema:
                 type: object
@@ -1939,12 +2202,12 @@ paths:
                   user:
                     description: |
                       A single user.
-                    allOf: &ref_34
+                    allOf: &ref_40
                       - description: |
                           A single user.
                         type: object
-                        required: *ref_24
-                        properties: *ref_25
+                        required: *ref_30
+                        properties: *ref_31
                       - type: object
                         properties:
                           api_key:
@@ -2020,21 +2283,21 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: &ref_28
+          schema: &ref_34
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: *ref_26
+          schema: *ref_32
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the user with the specified ID.
-          content: *ref_27
+          content: *ref_33
         '401':
           description: not provided
         '403':
@@ -2053,11 +2316,11 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: *ref_28
+          schema: *ref_34
       requestBody:
         description: |
           The user to create or update.
-        content: *ref_29
+        content: *ref_35
         required: true
       responses:
         '204':
@@ -2084,7 +2347,7 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: *ref_28
+          schema: *ref_34
       responses:
         '204':
           description: not provided
@@ -2110,23 +2373,23 @@ components:
     group_detail:
       description: |
         A single group.
-      allOf: *ref_30
+      allOf: *ref_36
     project_detail:
       description: |
         A single project.
-      allOf: *ref_31
+      allOf: *ref_37
     wiki_detail:
       description: |
         A single wiki.
-      allOf: *ref_32
+      allOf: *ref_38
     role_detail:
       description: |
         A single role.
-      allOf: *ref_33
+      allOf: *ref_39
     user_detail:
       description: |
         A single user.
-      allOf: *ref_34
+      allOf: *ref_40
   responses:
     unprocessable_entity:
       description: |
