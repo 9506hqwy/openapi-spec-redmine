@@ -19,6 +19,8 @@ tags:
     description: roles_controller's API
   - name: users
     description: users_controller's API
+  - name: wiki
+    description: wiki_controller's API
 paths:
   /custom_fields.json:
     get:
@@ -277,7 +279,7 @@ paths:
                   group:
                     description: |
                       A single group.
-                    allOf: &ref_24
+                    allOf: &ref_30
                       - description: |
                           A single group.
                         type: object
@@ -873,7 +875,7 @@ paths:
                   project:
                     description: |
                       A single project.
-                    allOf: &ref_25
+                    allOf: &ref_31
                       - description: |
                           A single project.
                         type: object
@@ -1076,6 +1078,378 @@ paths:
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
         schema: *ref_3
+  /projects/{project_id}/wiki.json:
+    get:
+      tags:
+        - wiki
+      description: |
+        Returns the details of root wiki page.
+      operationId: wiki#show-root
+      parameters:
+        - name: project_id
+          in: path
+          description: |
+            The ID or identifier of the project.
+          required: true
+          schema: &ref_16
+            type: string
+        - name: include
+          in: query
+          description: |
+            fetch associated data (optional). Values should be separated by a comma ",".
+            Possible values: `attachments`.
+          schema: &ref_19
+            type: array
+            items:
+              type: string
+              enum:
+                - attachments
+          style: form
+          explode: false
+      responses:
+        '200':
+          description: |
+            Returns the wiki with the specified ID.
+          content: &ref_20
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wiki_page:
+                    description: |
+                      A single wiki.
+                    allOf: &ref_32
+                      - description: |
+                          A single wiki.
+                        type: object
+                        required: &ref_17
+                          - title
+                          - version
+                        properties: &ref_18
+                          title:
+                            type: string
+                            description: The title of the wiki.
+                          parent:
+                            type: object
+                            properties:
+                              title:
+                                type: string
+                                description: The parent title of the wiki.
+                          version:
+                            type: integer
+                            description: The version of the wiki.
+                          created_on:
+                            type: string
+                            format: date-time
+                            description: The date and time when the wiki was created.
+                          updated_on:
+                            type: string
+                            format: date-time
+                            description: The date and time when the wiki was last updated.
+                      - type: object
+                        properties:
+                          text:
+                            type: string
+                            description: The text of the wiki.
+                          author:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                description: The ID of the author.
+                              name:
+                                type: string
+                                description: The name of the author.
+                          comments:
+                            type: string
+                            description: The comments of the wiki.
+                          attachments:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                  description: The ID of the attachment.
+                                filename:
+                                  type: string
+                                  description: The filename of the attachment.
+                                filesize:
+                                  type: integer
+                                  description: The filesize of the attachment.
+                                content_type:
+                                  type: string
+                                  description: The content type of the attachment.
+                                description:
+                                  type: string
+                                  description: The description of the attachment.
+                                content_url:
+                                  type: string
+                                  description: The content URL of the attachment.
+                                thumbnail_url:
+                                  type: string
+                                  description: The thumbnail URL of the attachment.
+                                author:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                      description: The ID of the author.
+                                    name:
+                                      type: string
+                                      description: The name of the author.
+                                created_on:
+                                  type: string
+                                  format: date-time
+                                  description: The date and time when the attachment was created.
+                              additionalProperties: true
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_3
+  /projects/{project_id}/wiki/index.json:
+    get:
+      tags:
+        - wiki
+      description: Returns the list of all pages in a project wiki.
+      operationId: wiki#index
+      parameters:
+        - name: project_id
+          in: path
+          description: |
+            The ID or identifier of the project.
+          required: true
+          schema: *ref_16
+      responses:
+        '200':
+          description: |
+            Returns a list of wikis.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wiki_pages:
+                    type: array
+                    items:
+                      description: |
+                        A single wiki.
+                      type: object
+                      required: *ref_17
+                      properties: *ref_18
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_3
+  /projects/{project_id}/wiki/{id}.json:
+    get:
+      tags:
+        - wiki
+      description: |
+        Returns the details of a wiki page with the specified ID.
+      operationId: wiki#show
+      parameters:
+        - name: project_id
+          in: path
+          description: |
+            The ID or identifier of the project.
+          required: true
+          schema: *ref_16
+        - name: id
+          in: path
+          description: |
+            The title of the wiki.
+          required: true
+          schema: &ref_21
+            type: string
+        - name: include
+          in: query
+          description: |
+            fetch associated data (optional). Values should be separated by a comma ",".
+            Possible values: `attachments`.
+          schema: *ref_19
+          style: form
+          explode: false
+      responses:
+        '200':
+          description: |
+            Returns the wiki with the specified ID.
+          content: *ref_20
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+    put:
+      tags:
+        - wiki
+      description: |
+        Creates or updates a wiki page with the specified ID.
+      operationId: wiki#update
+      parameters:
+        - name: project_id
+          in: path
+          description: |
+            The ID or identifier of the project.
+          required: true
+          schema: *ref_16
+        - name: id
+          in: path
+          description: |
+            The title of the wiki.
+          required: true
+          schema: *ref_21
+      requestBody:
+        description: |
+          The wiki to create or update.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                wiki_page:
+                  description: |
+                    A single wiki.
+                  type: object
+                  properties:
+                    text:
+                      type: string
+                      description: The text of the wiki.
+                    comments:
+                      type: string
+                      description: The comment of the wiki.
+                    version:
+                      type: integer
+                      description: The version of the wiki.
+                    parent_title:
+                      type: string
+                      description: The parent title of the wiki.
+        required: true
+      responses:
+        '201':
+          description: |
+            Returns the wiki with the specified ID.
+          content: *ref_20
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+        '409':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_7
+    delete:
+      tags:
+        - wiki
+      description: |
+        Deletes a wiki page, its attachments and its history with the specified ID.
+        If the deleted page is a parent page, its child pages are not deleted but changed as root pages.
+      operationId: wiki#destroy
+      parameters:
+        - name: project_id
+          in: path
+          description: |
+            The ID or identifier of the project.
+          required: true
+          schema: *ref_16
+        - name: id
+          in: path
+          description: |
+            The title of the wiki.
+          required: true
+          schema: *ref_21
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_3
+  /projects/{project_id}/wiki/{id}/{version}.json:
+    get:
+      tags:
+        - wiki
+      description: |
+        Returns the details of an old version of a wiki page with the specified ID.
+      operationId: wiki#show-version
+      parameters:
+        - name: project_id
+          in: path
+          description: |
+            The ID or identifier of the project.
+          required: true
+          schema: *ref_16
+        - name: id
+          in: path
+          description: |
+            The title of the wiki.
+          required: true
+          schema: *ref_21
+        - name: version
+          in: path
+          description: |
+            The version of the wiki.
+          required: true
+          schema:
+            type: integer
+        - name: include
+          in: query
+          description: |
+            fetch associated data (optional). Values should be separated by a comma ",".
+            Possible values: `attachments`.
+          schema: *ref_19
+          style: form
+          explode: false
+      responses:
+        '200':
+          description: |
+            Returns the wiki with the specified ID.
+          content: *ref_20
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_3
   /roles.json:
     get:
       tags:
@@ -1097,10 +1471,10 @@ paths:
                       description: |
                         A single role.
                       type: object
-                      required: &ref_16
+                      required: &ref_22
                         - id
                         - name
-                      properties: &ref_17
+                      properties: &ref_23
                         id:
                           type: integer
                           description: The ID of the role.
@@ -1145,12 +1519,12 @@ paths:
                   role:
                     description: |
                       A single role.
-                    allOf: &ref_26
+                    allOf: &ref_33
                       - description: |
                           A single role.
                         type: object
-                        required: *ref_16
-                        properties: *ref_17
+                        required: *ref_22
+                        properties: *ref_23
                       - type: object
                         properties:
                           assignable:
@@ -1297,7 +1671,7 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: &ref_20
+          schema: &ref_26
             type: array
             items:
               type: string
@@ -1322,12 +1696,12 @@ paths:
                       description: |
                         A single user.
                       type: object
-                      required: &ref_18
+                      required: &ref_24
                         - id
                         - login
                         - firstname
                         - lastname
-                      properties: &ref_19
+                      properties: &ref_25
                         id:
                           type: integer
                           description: The ID of the user.
@@ -1411,7 +1785,7 @@ paths:
       requestBody:
         description: |
           The user to create or update.
-        content: &ref_23
+        content: &ref_29
           application/json:
             schema:
               type: object
@@ -1557,7 +1931,7 @@ paths:
         '201':
           description: |
             Returns the user with the specified ID.
-          content: &ref_21
+          content: &ref_27
             application/json:
               schema:
                 type: object
@@ -1565,12 +1939,12 @@ paths:
                   user:
                     description: |
                       A single user.
-                    allOf: &ref_27
+                    allOf: &ref_34
                       - description: |
                           A single user.
                         type: object
-                        required: *ref_18
-                        properties: *ref_19
+                        required: *ref_24
+                        properties: *ref_25
                       - type: object
                         properties:
                           api_key:
@@ -1646,21 +2020,21 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: &ref_22
+          schema: &ref_28
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: *ref_20
+          schema: *ref_26
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the user with the specified ID.
-          content: *ref_21
+          content: *ref_27
         '401':
           description: not provided
         '403':
@@ -1679,11 +2053,11 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: *ref_22
+          schema: *ref_28
       requestBody:
         description: |
           The user to create or update.
-        content: *ref_23
+        content: *ref_29
         required: true
       responses:
         '204':
@@ -1710,7 +2084,7 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: *ref_22
+          schema: *ref_28
       responses:
         '204':
           description: not provided
@@ -1736,19 +2110,23 @@ components:
     group_detail:
       description: |
         A single group.
-      allOf: *ref_24
+      allOf: *ref_30
     project_detail:
       description: |
         A single project.
-      allOf: *ref_25
+      allOf: *ref_31
+    wiki_detail:
+      description: |
+        A single wiki.
+      allOf: *ref_32
     role_detail:
       description: |
         A single role.
-      allOf: *ref_26
+      allOf: *ref_33
     user_detail:
       description: |
         A single user.
-      allOf: *ref_27
+      allOf: *ref_34
   responses:
     unprocessable_entity:
       description: |

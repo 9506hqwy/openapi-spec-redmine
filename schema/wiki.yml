@@ -1,0 +1,307 @@
+paths:
+  /projects/{project_id}/wiki.json:
+    get:
+      tags: ["wiki"]
+      description: |
+        Returns the details of root wiki page.
+      operationId: wiki#show-root
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/include"
+      responses:
+        "200":
+          $ref: "#/components/responses/wiki"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /projects/{project_id}/wiki/index.json:
+    get:
+      tags: ["wiki"]
+      description: Returns the list of all pages in a project wiki.
+      operationId: wiki#index
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+      responses:
+        "200":
+          $ref: "#/components/responses/wikis"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /projects/{project_id}/wiki/{id}.json:
+    get:
+      tags: ["wiki"]
+      description: |
+        Returns the details of a wiki page with the specified ID.
+      operationId: wiki#show
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/include"
+      responses:
+        "200":
+          $ref: "#/components/responses/wiki"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    put:
+      tags: ["wiki"]
+      description: |
+        Creates or updates a wiki page with the specified ID.
+      operationId: wiki#update
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBody/wiki"
+      responses:
+        "201":
+          $ref: "#/components/responses/wiki"
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "409":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    delete:
+      tags: ["wiki"]
+      description: |
+        Deletes a wiki page, its attachments and its history with the specified ID.
+        If the deleted page is a parent page, its child pages are not deleted but changed as root pages.
+      operationId: wiki#destroy
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/id"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /projects/{project_id}/wiki/{id}/{version}.json:
+    get:
+      tags: ["wiki"]
+      description: |
+        Returns the details of an old version of a wiki page with the specified ID.
+      operationId: wiki#show-version
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/version"
+        - $ref: "#/components/parameters/include"
+      responses:
+        "200":
+          $ref: "#/components/responses/wiki"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  schemas:
+    wiki:
+      description: |
+        A single wiki.
+      type: object
+      required:
+        - title
+        - version
+      properties:
+        title:
+          type: string
+          description: The title of the wiki.
+        parent:
+          type: object
+          properties:
+            title:
+              type: string
+              description: The parent title of the wiki.
+        version:
+          type: integer
+          description: The version of the wiki.
+        created_on:
+          type: string
+          format: date-time
+          description: The date and time when the wiki was created.
+        updated_on:
+          type: string
+          format: date-time
+          description: The date and time when the wiki was last updated.
+    wiki_detail:
+      description: |
+        A single wiki.
+      allOf:
+        - $ref: "#/components/schemas/wiki"
+        - type: object
+          properties:
+            text:
+              type: string
+              description: The text of the wiki.
+            author:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: The ID of the author.
+                name:
+                  type: string
+                  description: The name of the author.
+            comments:
+              type: string
+              description: The comments of the wiki.
+            attachments:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: The ID of the attachment.
+                  filename:
+                    type: string
+                    description: The filename of the attachment.
+                  filesize:
+                    type: integer
+                    description: The filesize of the attachment.
+                  content_type:
+                    type: string
+                    description: The content type of the attachment.
+                  description:
+                    type: string
+                    description: The description of the attachment.
+                  content_url:
+                    type: string
+                    description: The content URL of the attachment.
+                  thumbnail_url:
+                    type: string
+                    description: The thumbnail URL of the attachment.
+                  author:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: The ID of the author.
+                      name:
+                        type: string
+                        description: The name of the author.
+                  created_on:
+                    type: string
+                    format: date-time
+                    description: The date and time when the attachment was created.
+                # options
+                additionalProperties: true
+    wiki_new:
+      description: |
+        A single wiki.
+      type: object
+      properties:
+        text:
+          type: string
+          description: The text of the wiki.
+        comments:
+          type: string
+          description: The comment of the wiki.
+        version:
+          type: integer
+          description: The version of the wiki.
+        parent_title:
+          type: string
+          description: The parent title of the wiki.
+        # TODO: uploads
+  responses:
+    wikis:
+      description: |
+        Returns a list of wikis.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              wiki_pages:
+                type: array
+                items:
+                  $ref: "#/components/schemas/wiki"
+    wiki:
+      description: |
+        Returns the wiki with the specified ID.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              wiki_page:
+                $ref: "#/components/schemas/wiki_detail"
+  parameters:
+    project_id:
+      name: project_id
+      in: path
+      description: |
+        The ID or identifier of the project.
+      required: true
+      schema:
+        type: string
+    id:
+      name: id
+      in: path
+      description: |
+        The title of the wiki.
+      required: true
+      schema:
+        type: string
+    version:
+      name: version
+      in: path
+      description: |
+        The version of the wiki.
+      required: true
+      schema:
+        type: integer
+    include:
+      name: include
+      in: query
+      description: |
+        fetch associated data (optional). Values should be separated by a comma ",".
+        Possible values: `attachments`.
+      schema:
+        type: array
+        items:
+          type: string
+          enum: [attachments]
+      style: form
+      explode: false
+  requestBody:
+    wiki:
+      description: |
+        The wiki to create or update.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              wiki_page:
+                $ref: "#/components/schemas/wiki_new"
+      required: true
