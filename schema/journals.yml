@@ -1,0 +1,58 @@
+paths:
+  /journals/{id}.json:
+    put:
+      tags: ["journals"]
+      description: |
+        Updates the journal with the specified ID.
+      operationId: journals#update
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBody/journal"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  schemas:
+    journal_new:
+      description: |
+        A single journal.
+      type: object
+      properties:
+        notes:
+          type: string
+          description: The notes of the journal.
+        private_notes:
+          type: boolean
+          description: The private of the journal.q
+  parameters:
+    id:
+      name: id
+      in: path
+      description: |
+        The ID of the journal.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    journal:
+      description: |
+        The journal to update.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              journal:
+                $ref: "#/components/schemas/journal_new"
+      required: true

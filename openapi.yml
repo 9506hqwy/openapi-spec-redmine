@@ -13,6 +13,8 @@ tags:
     description: custom_fields_controller's API
   - name: groups
     description: groups_controller's API
+  - name: journals
+    description: journals_controller's API
   - name: members
     description: members_controller's API
   - name: projects
@@ -531,6 +533,61 @@ paths:
           description: not provided
         '404':
           description: not provided
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_3
+  /journals/{id}.json:
+    put:
+      tags:
+        - journals
+      description: |
+        Updates the journal with the specified ID.
+      operationId: journals#update
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID of the journal.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: |
+          The journal to update.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                journal:
+                  description: |
+                    A single journal.
+                  type: object
+                  properties:
+                    notes:
+                      type: string
+                      description: The notes of the journal.
+                    private_notes:
+                      type: boolean
+                      description: The private of the journal.q
+        required: true
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_7
     parameters:
       - name: X-Redmine-Switch-User
         in: header
