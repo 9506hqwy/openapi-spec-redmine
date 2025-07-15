@@ -1,0 +1,262 @@
+paths:
+  /projects/{project_id}/versions.json:
+    get:
+      tags: ["versions"]
+      description: |
+        Returns the versions available for the project with the specified id or identifier (:project_id).
+        The response may include shared versions from other projects.
+      operationId: versions#index
+      parameters:
+        - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
+        - $ref: "./openapi.yml#/components/parameters/nometa"
+        - $ref: "#/components/parameters/project_id"
+      responses:
+        "200":
+          $ref: "#/components/responses/versions"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    post:
+      tags: ["versions"]
+      description: Creates a version for the project with the specified id or identifier (:project_id).
+      operationId: versions#create
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+      requestBody:
+        $ref: "#/components/requestBody/version"
+      responses:
+        "201":
+          $ref: "#/components/responses/version"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /versions/{id}.json:
+    get:
+      tags: ["versions"]
+      description: |
+        Returns the version with the specified ID.
+      operationId: versions#show
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          $ref: "#/components/responses/version"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    put:
+      tags: ["versions"]
+      description: |
+        Updates the version with the specified ID.
+      operationId: versions#update
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBody/version"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    delete:
+      tags: ["versions"]
+      description: |
+        Deletes the version with the specified ID.
+      operationId: versions#destroy
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  schemas:
+    version:
+      description: |
+        A single version.
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          description: The ID of the version.
+        project:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the project.
+            name:
+              type: string
+              description: The name of the project.
+        name:
+          type: string
+          description: The name of the version.
+        description:
+          type: string
+          description: The description of the version.
+        status:
+          type: string
+          description: The status of the version.
+        due_date:
+          type: string
+          format: date
+          description: The date when the version was expired.
+        sharing:
+          type: string
+          description: The sharing of the version.
+        wiki_page_title:
+          type: string
+          description: The wiki page title of the version.
+        custom_fields:
+          type: array
+          items:
+            $ref: "./openapi.yml#/components/schemas/custom_field"
+        created_on:
+          type: string
+          format: date-time
+          description: The date and time when the version was created.
+        updated_on:
+          type: string
+          format: date-time
+          description: The date and time when the version was last updated.
+    version_detail:
+      description: |
+        A single version.
+      allOf:
+        - $ref: "#/components/schemas/version"
+        - type: object
+          properties:
+            estimated_hours:
+              type: number
+              description: The estimated hours of the version.
+            spent_hours:
+              type: number
+              description: The spent hours of the version.
+    version_new:
+      description: |
+        A single version.
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the version.
+        description:
+          type: string
+          description: The description of the version.
+        effective_date:
+          type: string
+          description: The effective date of the version.
+        due_date:
+          type: string
+          format: date
+          description: The due date of the version.
+        wiki_page_title:
+          type: string
+          description: The wiki page title of the version.
+        status:
+          type: string
+          description: |
+            The status of the version. Possible values are:
+            - `open`
+            - `locked`
+            - `closed`
+        sharing:
+          type: string
+          description: |
+            The sharing of the version. Possible values are:
+            - `none`
+            - `descendants`
+            - `hierarchy`
+            - `tree`
+            - `system`
+        default_project_version:
+          type: boolean
+          description: The default project version of the version.
+        custom_field_values:
+          $ref: "./openapi.yml#/components/schemas/custom_field_values"
+        custom_fields:
+          type: array
+          items:
+            $ref: "./openapi.yml#/components/schemas/custom_field"
+  responses:
+    versions:
+      description: |
+        Returns a list of versions.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              versions:
+                type: array
+                items:
+                  $ref: "#/components/schemas/version"
+              total_count:
+                type: integer
+                description: The total number of versions.
+    version:
+      description: |
+        Returns the version with the specified ID.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              version:
+                $ref: "#/components/schemas/version_detail"
+  parameters:
+    project_id:
+      name: project_id
+      in: path
+      description: |
+        The ID or identifier of the project.
+      required: true
+      schema:
+        type: string
+    id:
+      name: id
+      in: path
+      description: |
+        The ID of the version.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    version:
+      description: |
+        The version to create or update.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              version:
+                $ref: "#/components/schemas/version_new"
+      required: true

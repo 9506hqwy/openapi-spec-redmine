@@ -35,6 +35,8 @@ paths:
     $ref: "./members.yml#/paths/~1projects~1{project_id}~1memberships.json"
   /projects/{project_id}/news.json:
     $ref: "./news.yml#/paths/~1projects~1{project_id}~1news.json"
+  /projects/{project_id}/versions.json:
+    $ref: "./versions.yml#/paths/~1projects~1{project_id}~1versions.json"
   /projects/{project_id}/wiki.json:
     $ref: "./wiki.yml#/paths/~1projects~1{project_id}~1wiki.json"
   /projects/{project_id}/wiki/index.json:
@@ -51,6 +53,8 @@ paths:
     $ref: "./users.yml#/paths/~1users.json"
   /users/{id}.json:
     $ref: "./users.yml#/paths/~1users~1{id}.json"
+  /versions/{id}.json:
+    $ref: "./versions.yml#/paths/~1versions~1{id}.json"
 components:
   schemas:
     custom_field:
@@ -123,7 +127,15 @@ components:
       name: X-Redmine-Nometa
       in: header
       description: |
-        If set to 1, the response will not include pagination information.
+        If set to 1, the response will not include metadata information.
+      schema:
+        type: integer
+        enum: [1]
+    nometa:
+      name: nometa
+      in: query
+      description: |
+        If set to 1, the response will not include metadata information.
       schema:
         type: integer
         enum: [1]
@@ -188,5 +200,7 @@ tags:
     description: roles_controller's API
   - name: users
     description: users_controller's API
+  - name: versions
+    description: versions_controller's API
   - name: wiki
     description: wiki_controller's API

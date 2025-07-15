@@ -25,6 +25,8 @@ tags:
     description: roles_controller's API
   - name: users
     description: users_controller's API
+  - name: versions
+    description: versions_controller's API
   - name: wiki
     description: wiki_controller's API
 paths:
@@ -154,7 +156,7 @@ paths:
         - name: X-Redmine-Nometa
           in: header
           description: |
-            If set to 1, the response will not include pagination information.
+            If set to 1, the response will not include metadata information.
           schema: &ref_9
             type: integer
             enum:
@@ -285,7 +287,7 @@ paths:
                   group:
                     description: |
                       A single group.
-                    allOf: &ref_44
+                    allOf: &ref_50
                       - description: |
                           A single group.
                         type: object
@@ -776,7 +778,7 @@ paths:
         - name: X-Redmine-Nometa
           in: header
           description: |
-            If set to 1, the response will not include pagination information.
+            If set to 1, the response will not include metadata information.
           schema: *ref_9
         - name: pagination
           in: query
@@ -942,7 +944,7 @@ paths:
                   news:
                     description: |
                       A single news.
-                    allOf: &ref_45
+                    allOf: &ref_51
                       - description: |
                           A single news.
                         type: object
@@ -952,7 +954,7 @@ paths:
                         properties:
                           attachments:
                             type: array
-                            items: &ref_29
+                            items: &ref_32
                               type: object
                               properties:
                                 id:
@@ -1094,7 +1096,7 @@ paths:
         - name: X-Redmine-Nometa
           in: header
           description: |
-            If set to 1, the response will not include pagination information.
+            If set to 1, the response will not include metadata information.
           schema: *ref_9
         - name: pagination
           in: query
@@ -1422,7 +1424,7 @@ paths:
                   project:
                     description: |
                       A single project.
-                    allOf: &ref_46
+                    allOf: &ref_52
                       - description: |
                           A single project.
                         type: object
@@ -1635,7 +1637,7 @@ paths:
         - name: X-Redmine-Nometa
           in: header
           description: |
-            If set to 1, the response will not include pagination information.
+            If set to 1, the response will not include metadata information.
           schema: *ref_9
         - name: pagination
           in: query
@@ -1727,7 +1729,7 @@ paths:
         - name: X-Redmine-Nometa
           in: header
           description: |
-            If set to 1, the response will not include pagination information.
+            If set to 1, the response will not include metadata information.
           schema: *ref_9
         - name: pagination
           in: query
@@ -1785,6 +1787,217 @@ paths:
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
         schema: *ref_3
+  /projects/{project_id}/versions.json:
+    get:
+      tags:
+        - versions
+      description: |
+        Returns the versions available for the project with the specified id or identifier (:project_id).
+        The response may include shared versions from other projects.
+      operationId: versions#index
+      parameters:
+        - name: X-Redmine-Nometa
+          in: header
+          description: |
+            If set to 1, the response will not include metadata information.
+          schema: *ref_9
+        - name: nometa
+          in: query
+          description: |
+            If set to 1, the response will not include metadata information.
+          schema:
+            type: integer
+            enum:
+              - 1
+        - name: project_id
+          in: path
+          description: |
+            The ID or identifier of the project.
+          required: true
+          schema: &ref_29
+            type: string
+      responses:
+        '200':
+          description: |
+            Returns a list of versions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  versions:
+                    type: array
+                    items:
+                      description: |
+                        A single version.
+                      type: object
+                      required: &ref_30
+                        - id
+                        - name
+                      properties: &ref_31
+                        id:
+                          type: integer
+                          description: The ID of the version.
+                        project:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: The ID of the project.
+                            name:
+                              type: string
+                              description: The name of the project.
+                        name:
+                          type: string
+                          description: The name of the version.
+                        description:
+                          type: string
+                          description: The description of the version.
+                        status:
+                          type: string
+                          description: The status of the version.
+                        due_date:
+                          type: string
+                          format: date
+                          description: The date when the version was expired.
+                        sharing:
+                          type: string
+                          description: The sharing of the version.
+                        wiki_page_title:
+                          type: string
+                          description: The wiki page title of the version.
+                        custom_fields:
+                          type: array
+                          items:
+                            type: object
+                            properties: *ref_0
+                        created_on:
+                          type: string
+                          format: date-time
+                          description: The date and time when the version was created.
+                        updated_on:
+                          type: string
+                          format: date-time
+                          description: The date and time when the version was last updated.
+                  total_count:
+                    type: integer
+                    description: The total number of versions.
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+    post:
+      tags:
+        - versions
+      description: Creates a version for the project with the specified id or identifier (:project_id).
+      operationId: versions#create
+      parameters:
+        - name: project_id
+          in: path
+          description: |
+            The ID or identifier of the project.
+          required: true
+          schema: *ref_29
+      requestBody:
+        description: |
+          The version to create or update.
+        content: &ref_49
+          application/json:
+            schema:
+              type: object
+              properties:
+                version:
+                  description: |
+                    A single version.
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: The name of the version.
+                    description:
+                      type: string
+                      description: The description of the version.
+                    effective_date:
+                      type: string
+                      description: The effective date of the version.
+                    due_date:
+                      type: string
+                      format: date
+                      description: The due date of the version.
+                    wiki_page_title:
+                      type: string
+                      description: The wiki page title of the version.
+                    status:
+                      type: string
+                      description: |
+                        The status of the version. Possible values are:
+                        - `open`
+                        - `locked`
+                        - `closed`
+                    sharing:
+                      type: string
+                      description: |
+                        The sharing of the version. Possible values are:
+                        - `none`
+                        - `descendants`
+                        - `hierarchy`
+                        - `tree`
+                        - `system`
+                    default_project_version:
+                      type: boolean
+                      description: The default project version of the version.
+                    custom_field_values:
+                      type: object
+                      description: |
+                        The values of the custom fields.
+                      additionalProperties: true
+                    custom_fields:
+                      type: array
+                      items:
+                        type: object
+                        properties: *ref_0
+        required: true
+      responses:
+        '201':
+          description: |
+            Returns the version with the specified ID.
+          content: &ref_47
+            application/json:
+              schema:
+                type: object
+                properties:
+                  version:
+                    description: |
+                      A single version.
+                    allOf: &ref_53
+                      - description: |
+                          A single version.
+                        type: object
+                        required: *ref_30
+                        properties: *ref_31
+                      - type: object
+                        properties:
+                          estimated_hours:
+                            type: number
+                            description: The estimated hours of the version.
+                          spent_hours:
+                            type: number
+                            description: The spent hours of the version.
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_7
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_3
   /projects/{project_id}/wiki.json:
     get:
       tags:
@@ -1798,14 +2011,14 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_30
+          schema: &ref_33
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: &ref_33
+          schema: &ref_36
             type: array
             items:
               type: string
@@ -1817,7 +2030,7 @@ paths:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: &ref_34
+          content: &ref_37
             application/json:
               schema:
                 type: object
@@ -1825,14 +2038,14 @@ paths:
                   wiki_page:
                     description: |
                       A single wiki.
-                    allOf: &ref_47
+                    allOf: &ref_54
                       - description: |
                           A single wiki.
                         type: object
-                        required: &ref_31
+                        required: &ref_34
                           - title
                           - version
-                        properties: &ref_32
+                        properties: &ref_35
                           title:
                             type: string
                             description: The title of the wiki.
@@ -1872,7 +2085,7 @@ paths:
                             description: The comments of the wiki.
                           attachments:
                             type: array
-                            items: *ref_29
+                            items: *ref_32
         '401':
           description: not provided
         '403':
@@ -1898,7 +2111,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_30
+          schema: *ref_33
       responses:
         '200':
           description: |
@@ -1914,8 +2127,8 @@ paths:
                       description: |
                         A single wiki.
                       type: object
-                      required: *ref_31
-                      properties: *ref_32
+                      required: *ref_34
+                      properties: *ref_35
         '401':
           description: not provided
         '403':
@@ -1940,27 +2153,27 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_30
+          schema: *ref_33
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: &ref_35
+          schema: &ref_38
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: *ref_33
+          schema: *ref_36
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: *ref_34
+          content: *ref_37
         '401':
           description: not provided
         '403':
@@ -1979,13 +2192,13 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_30
+          schema: *ref_33
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_35
+          schema: *ref_38
       requestBody:
         description: |
           The wiki to create or update.
@@ -2016,7 +2229,7 @@ paths:
         '201':
           description: |
             Returns the wiki with the specified ID.
-          content: *ref_34
+          content: *ref_37
         '204':
           description: not provided
         '401':
@@ -2044,13 +2257,13 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_30
+          schema: *ref_33
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_35
+          schema: *ref_38
       responses:
         '204':
           description: not provided
@@ -2080,13 +2293,13 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_30
+          schema: *ref_33
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_35
+          schema: *ref_38
         - name: version
           in: path
           description: |
@@ -2099,14 +2312,14 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: *ref_33
+          schema: *ref_36
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: *ref_34
+          content: *ref_37
         '401':
           description: not provided
         '403':
@@ -2141,10 +2354,10 @@ paths:
                       description: |
                         A single role.
                       type: object
-                      required: &ref_36
+                      required: &ref_39
                         - id
                         - name
-                      properties: &ref_37
+                      properties: &ref_40
                         id:
                           type: integer
                           description: The ID of the role.
@@ -2189,12 +2402,12 @@ paths:
                   role:
                     description: |
                       A single role.
-                    allOf: &ref_48
+                    allOf: &ref_55
                       - description: |
                           A single role.
                         type: object
-                        required: *ref_36
-                        properties: *ref_37
+                        required: *ref_39
+                        properties: *ref_40
                       - type: object
                         properties:
                           assignable:
@@ -2237,7 +2450,7 @@ paths:
         - name: X-Redmine-Nometa
           in: header
           description: |
-            If set to 1, the response will not include pagination information.
+            If set to 1, the response will not include metadata information.
           schema: *ref_9
         - name: pagination
           in: query
@@ -2341,7 +2554,7 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: &ref_40
+          schema: &ref_43
             type: array
             items:
               type: string
@@ -2366,12 +2579,12 @@ paths:
                       description: |
                         A single user.
                       type: object
-                      required: &ref_38
+                      required: &ref_41
                         - id
                         - login
                         - firstname
                         - lastname
-                      properties: &ref_39
+                      properties: &ref_42
                         id:
                           type: integer
                           description: The ID of the user.
@@ -2455,7 +2668,7 @@ paths:
       requestBody:
         description: |
           The user to create or update.
-        content: &ref_43
+        content: &ref_46
           application/json:
             schema:
               type: object
@@ -2601,7 +2814,7 @@ paths:
         '201':
           description: |
             Returns the user with the specified ID.
-          content: &ref_41
+          content: &ref_44
             application/json:
               schema:
                 type: object
@@ -2609,12 +2822,12 @@ paths:
                   user:
                     description: |
                       A single user.
-                    allOf: &ref_49
+                    allOf: &ref_56
                       - description: |
                           A single user.
                         type: object
-                        required: *ref_38
-                        properties: *ref_39
+                        required: *ref_41
+                        properties: *ref_42
                       - type: object
                         properties:
                           api_key:
@@ -2690,21 +2903,21 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: &ref_42
+          schema: &ref_45
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: *ref_40
+          schema: *ref_43
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the user with the specified ID.
-          content: *ref_41
+          content: *ref_44
         '401':
           description: not provided
         '403':
@@ -2723,11 +2936,11 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: *ref_42
+          schema: *ref_45
       requestBody:
         description: |
           The user to create or update.
-        content: *ref_43
+        content: *ref_46
         required: true
       responses:
         '204':
@@ -2754,7 +2967,7 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: *ref_42
+          schema: *ref_45
       responses:
         '204':
           description: not provided
@@ -2775,32 +2988,124 @@ paths:
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
         schema: *ref_3
+  /versions/{id}.json:
+    get:
+      tags:
+        - versions
+      description: |
+        Returns the version with the specified ID.
+      operationId: versions#show
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID of the version.
+          required: true
+          schema: &ref_48
+            type: string
+      responses:
+        '200':
+          description: |
+            Returns the version with the specified ID.
+          content: *ref_47
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+    put:
+      tags:
+        - versions
+      description: |
+        Updates the version with the specified ID.
+      operationId: versions#update
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID of the version.
+          required: true
+          schema: *ref_48
+      requestBody:
+        description: |
+          The version to create or update.
+        content: *ref_49
+        required: true
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_7
+    delete:
+      tags:
+        - versions
+      description: |
+        Deletes the version with the specified ID.
+      operationId: versions#destroy
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID of the version.
+          required: true
+          schema: *ref_48
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+        '422':
+          description: not provided
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_3
 components:
   schemas:
     group_detail:
       description: |
         A single group.
-      allOf: *ref_44
+      allOf: *ref_50
     news_detail:
       description: |
         A single news.
-      allOf: *ref_45
+      allOf: *ref_51
     project_detail:
       description: |
         A single project.
-      allOf: *ref_46
+      allOf: *ref_52
+    version_detail:
+      description: |
+        A single version.
+      allOf: *ref_53
     wiki_detail:
       description: |
         A single wiki.
-      allOf: *ref_47
+      allOf: *ref_54
     role_detail:
       description: |
         A single role.
-      allOf: *ref_48
+      allOf: *ref_55
     user_detail:
       description: |
         A single user.
-      allOf: *ref_49
+      allOf: *ref_56
   responses:
     unprocessable_entity:
       description: |
