@@ -1,0 +1,425 @@
+paths:
+  /issues/{issue_id}/time_entries.json:
+    post:
+      tags: ["timelog"]
+      description: Creates a new time entry.
+      operationId: timelog#create-issue
+      parameters:
+        - $ref: "#/components/parameters/issue_id"
+      requestBody:
+        $ref: "#/components/requestBody/time_entry"
+      responses:
+        "201":
+          $ref: "#/components/responses/time_entry"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /projects/{project_id}/time_entries.json:
+    get:
+      tags: ["timelog"]
+      description: Returns a list of time entries.
+      operationId: timelog#index-project
+      parameters:
+        - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
+        - $ref: "./openapi.yml#/components/parameters/pagination"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/query"
+      responses:
+        "200":
+          $ref: "#/components/responses/time_entries"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    post:
+      tags: ["timelog"]
+      description: Creates a new time entry.
+      operationId: timelog#create-project
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+      requestBody:
+        $ref: "#/components/requestBody/time_entry"
+      responses:
+        "201":
+          $ref: "#/components/responses/time_entry"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /time_entries.json:
+    get:
+      tags: ["timelog"]
+      description: Returns a list of time entries.
+      operationId: timelog#index
+      parameters:
+        - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
+        - $ref: "./openapi.yml#/components/parameters/pagination"
+        - $ref: "#/components/parameters/query"
+      responses:
+        "200":
+          $ref: "#/components/responses/time_entries"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    post:
+      tags: ["timelog"]
+      description: Creates a new time entry.
+      operationId: timelog#create
+      requestBody:
+        $ref: "#/components/requestBody/time_entry"
+      responses:
+        "201":
+          $ref: "#/components/responses/time_entry"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /time_entries/{id}.json:
+    get:
+      tags: ["timelog"]
+      description: |
+        Returns the time entry with the specified ID.
+      operationId: timelog#show
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          $ref: "#/components/responses/time_entry"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    put:
+      tags: ["timelog"]
+      description: |
+        Updates the time entry with the specified ID.
+      operationId: timelog#update
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBody/time_entry"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    delete:
+      tags: ["timelog"]
+      description: |
+        Deletes the time entry with the specified ID.
+      operationId: timelog#destroy
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  schemas:
+    time_entry:
+      description: |
+        A single time entry.
+      type: object
+      required:
+        - id
+        - hours
+      properties:
+        id:
+          type: integer
+          description: The ID of the time entry.
+        project:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the project.
+            name:
+              type: string
+              description: The name of the project.
+        issue:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the issue.
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the user.
+            name:
+              type: string
+              description: The name of the user.
+        activity:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the activity.
+            name:
+              type: string
+              description: The name of the activity.
+        hours:
+          type: number
+          description: The hours of the time entry.
+        comments:
+          type: string
+          description: The comments of the time entry.
+        spent_on:
+          type: string
+          format: date
+          description: The date when the time entry was spent.
+        created_on:
+          type: string
+          format: date-time
+          description: The date and time when the time entry was created.
+        updated_on:
+          type: string
+          format: date-time
+          description: The date and time when the time entry was last updated.
+        custom_fields:
+          type: array
+          items:
+            $ref: "./openapi.yml#/components/schemas/custom_field"
+    time_entry_new:
+      description: |
+        A single time entry.
+      type: object
+      properties:
+        user_id:
+          type: integer
+          description: The user ID of the time entry.
+        hours:
+          type: number
+          description: The hours of the time entry.
+        comments:
+          type: string
+          description: The comments of the time entry.
+        project_id:
+          type: integer
+          description: The project ID of the time entry.
+        issue_id:
+          type: integer
+          description: The issue ID of the time entry.
+        activity_id:
+          type: integer
+          description: The activity ID of the time entry.
+        spent_on:
+          type: string
+          format: date
+          description: The spent on of the time entry.
+        custom_field_values:
+          $ref: "./openapi.yml#/components/schemas/custom_field_values"
+        custom_fields:
+          type: array
+          items:
+            $ref: "./openapi.yml#/components/schemas/custom_field"
+  responses:
+    time_entries:
+      description: |
+        Returns a list of time entries.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              time_entries:
+                type: array
+                items:
+                  $ref: "#/components/schemas/time_entry"
+              total_count:
+                type: integer
+                description: The total number of time entries.
+              offset:
+                type: integer
+                description: The offset of the first time entry in the list.
+              limit:
+                type: integer
+                description: The maximum number of time entries returned in the list.
+    time_entry:
+      description: |
+        Returns the time entry with the specified ID.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              time_entry:
+                $ref: "#/components/schemas/time_entry"
+  parameters:
+    issue_id:
+      name: issue_id
+      in: path
+      description: |
+        The ID of the issue.
+      required: true
+      schema:
+        type: string
+    project_id:
+      name: project_id
+      in: path
+      description: |
+        The ID or identifer of the project.
+      required: true
+      schema:
+        type: string
+    id:
+      name: id
+      in: path
+      description: |
+        The ID of the time entry.
+      required: true
+      schema:
+        type: string
+    query:
+      name: query
+      in: query
+      schema:
+        type: object
+        properties:
+          spent_on:
+            type: string
+            description: |
+              The expression of spent_on of the time entry.
+              The expression format is "[operator]\<value>".
+              examples:
+              - last week : `lw`
+              - before "2025/7/12": `<=2025-07-12`
+          project_id:
+            type: string
+            description: |
+              The expression of project id of the time entry.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          subproject_id:
+            type: string
+            description: |
+              The expression of sub project id of the time entry.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          issue_id:
+            type: string
+            description: |
+              The expression of issue id of the time entry.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          issue.tracker_id:
+            type: string
+            description: |
+              The expression of issue tracker id of the time entry.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          issue.parent_id:
+            type: string
+            description: |
+              The expression of issue parent id of the time entry.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          issue.status_id:
+            type: string
+            description: |
+              The expression of issue status id of the time entry.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          issue.fixed_version_id:
+            type: string
+            description: |
+              The expression of issue fixed version id of the time entry.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          issue.category_id:
+            type: string
+            description: |
+              The expression of issue status id of the time entry.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          issue.subject:
+            type: string
+            description: |
+              The expression of issue subject of the time entry.
+              The expression format is "\<operator>\<value>".
+              examples:
+              - contains "test": `~test`
+              - not contains "test": `!~test`
+          user_id:
+            type: string
+            description: |
+              The expression of user id of the time entry.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          user.group:
+            type: string
+            description: |
+              The expression of user group of the time entry.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          user.role:
+            type: string
+            description: |
+              The expression of user role of the time entry.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          author_id:
+            type: string
+            description: |
+              The expression of author id of the time entry.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          activity_id:
+            type: string
+            description: |
+              The expression of activity id of the time entry.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          project.status:
+            type: string
+            description: |
+              The expression of project status of the time entry.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          issue.comments:
+            type: string
+            description: |
+              The expression of comments of the time entry.
+              The expression format is "\<operator>\<value>".
+              examples:
+              - contains "test": `~test`
+              - not contains "test": `!~test`
+          hours:
+            type: string
+            description: |
+              The expression of hours of the time entry.
+              The expression format is "\<operator>\<value>".
+        # custom_fields
+        additionalProperties:
+          type: string
+  requestBody:
+    time_entry:
+      description: |
+        The time entry to create or update.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              time_entry:
+                $ref: "#/components/schemas/time_entry_new"
+      required: true

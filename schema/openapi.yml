@@ -15,6 +15,8 @@ paths:
     $ref: "./groups.yml#/paths/~1groups~1{id}~1users.json"
   /groups/{id}/users/{user_id}.json:
     $ref: "./groups.yml#/paths/~1groups~1{id}~1users~1{user_id}.json"
+  /issues/{issue_id}/time_entries.json:
+    $ref: "./timelog.yml#/paths/~1issues~1{issue_id}~1time_entries.json"
   /journals/{id}.json:
     $ref: "./journals.yml#/paths/~1journals~1{id}.json"
   /memberships/{id}.json:
@@ -35,6 +37,8 @@ paths:
     $ref: "./members.yml#/paths/~1projects~1{project_id}~1memberships.json"
   /projects/{project_id}/news.json:
     $ref: "./news.yml#/paths/~1projects~1{project_id}~1news.json"
+  /projects/{project_id}/time_entries.json:
+    $ref: "./timelog.yml#/paths/~1projects~1{project_id}~1time_entries.json"
   /projects/{project_id}/versions.json:
     $ref: "./versions.yml#/paths/~1projects~1{project_id}~1versions.json"
   /projects/{project_id}/wiki.json:
@@ -49,6 +53,10 @@ paths:
     $ref: "./roles.yml#/paths/~1roles.json"
   /roles/{id}.json:
     $ref: "./roles.yml#/paths/~1roles~1{id}.json"
+  /time_entries.json:
+    $ref: "./timelog.yml#/paths/~1time_entries.json"
+  /time_entries/{id}.json:
+    $ref: "./timelog.yml#/paths/~1time_entries~1{id}.json"
   /users.json:
     $ref: "./users.yml#/paths/~1users.json"
   /users/{id}.json:
@@ -198,6 +206,8 @@ tags:
     description: projects_controller's API
   - name: roles
     description: roles_controller's API
+  - name: timelog
+    description: timelog_controller's API
   - name: users
     description: users_controller's API
   - name: versions
