@@ -13,6 +13,8 @@ tags:
     description: custom_fields_controller's API
   - name: groups
     description: groups_controller's API
+  - name: issues
+    description: issues_controller's API
   - name: journals
     description: journals_controller's API
   - name: members
@@ -159,7 +161,7 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: &ref_9
+          schema: &ref_8
             type: integer
             enum:
               - 1
@@ -168,7 +170,7 @@ paths:
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: &ref_10
+          schema: &ref_9
             type: object
             properties:
               offset:
@@ -289,7 +291,7 @@ paths:
                   group:
                     description: |
                       A single group.
-                    allOf: &ref_58
+                    allOf: &ref_67
                       - description: |
                           A single group.
                         type: object
@@ -546,6 +548,843 @@ paths:
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
         schema: *ref_3
+  /issues.json:
+    get:
+      tags:
+        - issues
+      description: Returns a paginated list of issues. By default, it returns open issues only.
+      operationId: issues#index
+      parameters:
+        - name: X-Redmine-Nometa
+          in: header
+          description: |
+            If set to 1, the response will not include metadata information.
+          schema: *ref_8
+        - name: pagination
+          in: query
+          description: |
+            Pagination parameters to control the number of items returned in the response.
+            If not specified, it defaults to 25 items per page.
+          schema: *ref_9
+        - name: query
+          in: query
+          schema: &ref_28
+            type: object
+            properties:
+              status_id:
+                type: string
+                description: |
+                  The expression of status id of the issue.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              project_id:
+                type: string
+                description: |
+                  The expression of project id of the issue.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              tracker_id:
+                type: string
+                description: |
+                  The expression of tracker id of the issue.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              priority_id:
+                type: string
+                description: |
+                  The expression of priority id of the issue.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              author_id:
+                type: string
+                description: |
+                  The expression of author id of the issue.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              author.group:
+                type: string
+                description: |
+                  The expression of author group of the issue.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              author.role:
+                type: string
+                description: |
+                  The expression of author role of the issue.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              assigned_to_id:
+                type: string
+                description: |
+                  The expression of assigned to id of the issue.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              member_of_group:
+                type: string
+                description: |
+                  The expression of member of group of the issue.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              assigned_to_role:
+                type: string
+                description: |
+                  The expression of assigned to role of the issue.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              fixed_version_id:
+                type: string
+                description: |
+                  The expression of fixed version id of the issue.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              fixed_version.due_date:
+                type: string
+                description: |
+                  The expression of fixed version due date of the issue.
+                  The expression format is "[operator]\<value>".
+                  examples:
+                  - last week : `lw`
+                  - before "2025/7/12": `<=2025-07-12`
+              fixed_version.status:
+                type: string
+                description: |
+                  The expression of fixed version status of the issue.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              category_id:
+                type: string
+                description: |
+                  The expression of category id of the issue.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              subject:
+                type: string
+                description: |
+                  The expression of subject of the issue.
+                  The expression format is "\<operator>\<value>".
+              description:
+                type: string
+                description: |
+                  The expression of description of the issue.
+                  The expression format is "\<operator>\<value>".
+              notes:
+                type: string
+                description: |
+                  The expression of notes of the issue.
+                  The expression format is "\<operator>\<value>".
+              created_on:
+                type: string
+                description: |
+                  The expression of created_on of the issue.
+                  The expression format is "[operator]\<value>".
+                  examples:
+                  - last week : `lw`
+                  - before "2025/7/12": `<=2025-07-12`
+              updated_on:
+                type: string
+                description: |
+                  The expression of updated_on of the issue.
+                  The expression format is "[operator]\<value>".
+                  examples:
+                  - last week : `lw`
+                  - before "2025/7/12": `<=2025-07-12`
+              closed_on:
+                type: string
+                description: |
+                  The expression of closed_on of the issue.
+                  The expression format is "[operator]\<value>".
+                  examples:
+                  - last week : `lw`
+                  - before "2025/7/12": `<=2025-07-12`
+              start_date:
+                type: string
+                description: |
+                  The expression of start date of the issue.
+                  The expression format is "[operator]\<value>".
+                  examples:
+                  - last week : `lw`
+                  - before "2025/7/12": `<=2025-07-12`
+              due_date:
+                type: string
+                description: |
+                  The expression of due date of the issue.
+                  The expression format is "[operator]\<value>".
+                  examples:
+                  - last week : `lw`
+                  - before "2025/7/12": `<=2025-07-12`
+              estimated_hours:
+                type: string
+                description: |
+                  The expression of estimated hours of the issue.
+                  The expression format is "[operator]\<value>".
+              spent_time:
+                type: string
+                description: |
+                  The expression of spent time of the issue.
+                  The expression format is "[operator]\<value>".
+              done_ratio:
+                type: string
+                description: |
+                  The expression of done ratio of the issue.
+                  The expression format is "[operator]\<value>".
+              is_private:
+                type: string
+                description: |
+                  The expression of private id of the issue.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              attachment:
+                type: string
+                description: |
+                  The expression of attachment of the issue.
+                  The expression format is "[operator]\<value>".
+              attachment_description:
+                type: string
+                description: |
+                  The expression of attachment description of the issue.
+                  The expression format is "[operator]\<value>".
+              watcher_id:
+                type: string
+                description: |
+                  The expression of watcher id of the issue.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              updated_by:
+                type: string
+                description: |
+                  The expression of updated by of the issue.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              last_updated_by:
+                type: string
+                description: |
+                  The expression of last updated by of the issue.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              subproject_id:
+                type: string
+                description: |
+                  The expression of sub project id of the issue.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              project.status:
+                type: string
+                description: |
+                  The expression of project status of the issue.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              relation_type:
+                type: string
+                description: |
+                  The expression of relation type of the issue.
+                  The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+              parent_id:
+                type: string
+                description: |
+                  The expression of parent id of the issue.
+                  The expression format is "[operator]\<value>".
+              child_id:
+                type: string
+                description: |
+                  The expression of child id of the issue.
+                  The expression format is "[operator]\<value>".
+              issue_id:
+                type: string
+                description: |
+                  The expression of issue id of the issue.
+                  The expression format is "[operator]\<value>".
+              any_searchable:
+                type: string
+                description: |
+                  The expression of any searchable of the issue.
+                  The expression format is "[operator]\<value>".
+            additionalProperties:
+              type: string
+        - name: include
+          in: query
+          description: |
+            fetch associated data (optional). Values should be separated by a comma ",".
+            Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
+          schema: &ref_12
+            type: array
+            items:
+              type: string
+              enum:
+                - allowed_statuses
+                - attachments
+                - changesets
+                - children
+                - journals
+                - relations
+                - watchers
+          style: form
+          explode: false
+      responses:
+        '200':
+          description: |
+            Returns a list of issues.
+          content: &ref_29
+            application/json:
+              schema:
+                type: object
+                properties:
+                  issues:
+                    type: array
+                    items:
+                      description: |
+                        A single issue.
+                      type: object
+                      required: &ref_10
+                        - id
+                      properties: &ref_11
+                        id:
+                          type: integer
+                          description: The ID of the issue.
+                        project:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: The ID of the project.
+                            name:
+                              type: string
+                              description: The name of the project.
+                        tracker:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: The ID of the tracker.
+                            name:
+                              type: string
+                              description: The name of the tracker.
+                        status:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: The ID of the status.
+                            name:
+                              type: string
+                              description: The name of the status.
+                            is_closed:
+                              type: boolean
+                              description: The closed of the status.
+                        priority:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: The ID of the priority.
+                            name:
+                              type: string
+                              description: The name of the priority.
+                        author:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: The ID of the author.
+                            name:
+                              type: string
+                              description: The name of the author.
+                        assigned_to:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: The ID of the assigned member.
+                            name:
+                              type: string
+                              description: The name of the assigned member.
+                        category:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: The ID of the category.
+                            name:
+                              type: string
+                              description: The name of the category.
+                        fixed_version:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: The ID of the fixed version.
+                            name:
+                              type: string
+                              description: The name of the fixed version.
+                        parent:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: The ID of the parent issue.
+                        subject:
+                          type: string
+                          description: The subject of the issue.
+                        description:
+                          type: string
+                          description: The description of the issue.
+                        start_date:
+                          type: string
+                          format: date
+                          description: The start date of the issue.
+                        due_date:
+                          type: string
+                          format: date
+                          description: The due date of the issue.
+                        done_ratio:
+                          type: integer
+                          description: The done ratio of the issue.
+                        is_private:
+                          type: boolean
+                          description: The private of the issue.
+                        estimated_hours:
+                          type: integer
+                          description: The estimated hours of the issue.
+                        total_estimated_hours:
+                          type: integer
+                          description: The total estimated hours of the issue.
+                        spent_hours:
+                          type: number
+                          description: The spent hours of the issue.
+                        total_spent_hour:
+                          type: number
+                          description: The total spent hours of the issue.
+                        custom_fields:
+                          type: array
+                          items:
+                            type: object
+                            properties: *ref_0
+                        created_on:
+                          type: string
+                          format: date-time
+                          description: The date and time when the issue was created.
+                        updated_on:
+                          type: string
+                          format: date-time
+                          description: The date and time when the issue was updated.
+                        closed_on:
+                          type: string
+                          format: date-time
+                          description: The date and time when the issue was closed.
+                        attachments:
+                          type: array
+                          items: &ref_19
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                description: The ID of the attachment.
+                              filename:
+                                type: string
+                                description: The filename of the attachment.
+                              filesize:
+                                type: integer
+                                description: The filesize of the attachment.
+                              content_type:
+                                type: string
+                                description: The content type of the attachment.
+                              description:
+                                type: string
+                                description: The description of the attachment.
+                              content_url:
+                                type: string
+                                description: The content URL of the attachment.
+                              thumbnail_url:
+                                type: string
+                                description: The thumbnail URL of the attachment.
+                              author:
+                                type: object
+                                properties:
+                                  id:
+                                    type: integer
+                                    description: The ID of the author.
+                                  name:
+                                    type: string
+                                    description: The name of the author.
+                              created_on:
+                                type: string
+                                format: date-time
+                                description: The date and time when the attachment was created.
+                            additionalProperties: true
+                        relations:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                description: The ID of the relation.
+                              issue_id:
+                                type: integer
+                                description: The ID of the issue.
+                              issue_to_id:
+                                type: integer
+                                description: The ID of the issue.
+                              relation_type:
+                                type: string
+                                description: The type of the relation.
+                              delay:
+                                type: integer
+                                description: The delay of the relation.
+                  total_count:
+                    type: integer
+                    description: The total number of issues.
+                  offset:
+                    type: integer
+                    description: The offset of the first issue in the list.
+                  limit:
+                    type: integer
+                    description: The maximum number of issues returned in the list.
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_7
+    post:
+      tags:
+        - issues
+      description: Creates a new issue.
+      operationId: issues#create
+      requestBody:
+        description: |
+          The issue to create or update.
+        content: &ref_15
+          application/json:
+            schema:
+              type: object
+              properties:
+                issue:
+                  description: |
+                    A single issue.
+                  type: object
+                  properties:
+                    project_id:
+                      type: integer
+                      description: The project id of the issue.
+                    tracker_id:
+                      type: integer
+                      description: The tracker id of the issue.
+                    status_id:
+                      type: integer
+                      description: The status id of the issue.
+                    category_id:
+                      type: integer
+                      description: The category id of the issue.
+                    assigned_to_id:
+                      type: integer
+                      description: The assigned to id id of the issue.
+                    priority_id:
+                      type: integer
+                      description: The priority id of the issue.
+                    fixed_version_id:
+                      type: integer
+                      description: The fixed version id of the issue.
+                    subject:
+                      type: string
+                      description: The subject of the issue.
+                    description:
+                      type: string
+                      description: The description of the issue.
+                    start_date:
+                      type: string
+                      format: date
+                      description: The start date of the issue.
+                    due_date:
+                      type: string
+                      format: date
+                      description: The due date of the issue.
+                    done_ratio:
+                      type: integer
+                      description: The done ratio of the issue.
+                    estimated_hours:
+                      type: integer
+                      description: The estimated hours of the issue.
+                    custom_field_values:
+                      type: object
+                      description: |
+                        The values of the custom fields.
+                      additionalProperties: true
+                    custom_fields:
+                      type: array
+                      items:
+                        type: object
+                        properties: *ref_0
+                    lock_version:
+                      type: string
+                      description: The lock version of the issue.
+                    notes:
+                      type: string
+                      description: The notes of the issue.
+                    private_notes:
+                      type: boolean
+                      description: The private notes of the issue.
+                    watcher_user_ids:
+                      type: array
+                      items:
+                        type: integer
+                        description: The ID of the watcher user.
+                    is_private:
+                      type: boolean
+                      description: The private of the issue.
+                    parent_issue_id:
+                      type: integer
+                      description: The parent ID of the issue.
+                    deleted_attachment_ids:
+                      type: array
+                      items:
+                        type: integer
+                        description: The ID of the deleted attachment.
+        required: true
+      responses:
+        '201':
+          description: |
+            Returns the issue with the specified ID.
+          content: &ref_13
+            application/json:
+              schema:
+                type: object
+                properties:
+                  issue:
+                    description: |
+                      A single issue.
+                    allOf: &ref_68
+                      - description: |
+                          A single issue.
+                        type: object
+                        required: *ref_10
+                        properties: *ref_11
+                      - type: object
+                        properties:
+                          children:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                  description: The ID of the issue.
+                                tracker:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                      description: The ID of the tracker.
+                                    name:
+                                      type: string
+                                      description: The name of the tracker.
+                                subject:
+                                  type: string
+                                  description: The subject of the issue.
+                                children:
+                                  type: array
+                                  items: {}
+                          changesets:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                revision:
+                                  type: string
+                                  description: The revision of the changeset.
+                                user:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                      description: The ID of the user.
+                                    name:
+                                      type: string
+                                      description: The name of the user.
+                                comments:
+                                  type: string
+                                  description: The comments of the changeset.
+                                committed_on:
+                                  type: string
+                                  format: date-time
+                                  description: The date and time when the changeset was committed.
+                          journals:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                  description: The ID of the journal.
+                                user:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                      description: The ID of the user.
+                                    name:
+                                      type: string
+                                      description: The name of the user.
+                                notes:
+                                  type: integer
+                                  description: The notes of the journal.
+                                created_on:
+                                  type: string
+                                  format: date-time
+                                  description: The date and time when the journal was created.
+                                updated_on:
+                                  type: string
+                                  format: date-time
+                                  description: The date and time when the journal was updated.
+                                updated_by:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                      description: The ID of the updated.
+                                    name:
+                                      type: string
+                                      description: The name of the updated.
+                                private_notes:
+                                  type: boolean
+                                  description: The private of the journal.
+                                details:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      property:
+                                        type: string
+                                        description: The property of the detail.
+                                      name:
+                                        type: string
+                                        description: The name of the detail.
+                                      old_value:
+                                        type: string
+                                        description: The old value of the detail.
+                                      new_value:
+                                        type: string
+                                        description: The new value of the detail.
+                          watchers:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                  description: The ID of the watcher.
+                                name:
+                                  type: string
+                                  description: The name of the watcher.
+                          allowed_statuses:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                  description: The ID of the allowed statuse.
+                                name:
+                                  type: string
+                                  description: The name of the allowed statuse.
+                                is_closed:
+                                  type: boolean
+                                  description: The closed of the allowed status.
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_7
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_3
+  /issues/{id}.json:
+    get:
+      tags:
+        - issues
+      description: |
+        Returns the issue with the specified ID.
+      operationId: issues#show
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID of the issue.
+          required: true
+          schema: &ref_14
+            type: string
+        - name: include
+          in: query
+          description: |
+            fetch associated data (optional). Values should be separated by a comma ",".
+            Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
+          schema: *ref_12
+          style: form
+          explode: false
+      responses:
+        '200':
+          description: |
+            Returns the issue with the specified ID.
+          content: *ref_13
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+    put:
+      tags:
+        - issues
+      description: |
+        Updates the issue with the specified ID.
+      operationId: issues#update
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID of the issue.
+          required: true
+          schema: *ref_14
+      requestBody:
+        description: |
+          The issue to create or update.
+        content: *ref_15
+        required: true
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_7
+    delete:
+      tags:
+        - issues
+      description: |
+        Deletes the issue with the specified ID.
+      operationId: issues#destroy
+      parameters:
+        - name: id
+          in: path
+          description: |
+            The ID of the issue.
+          required: true
+          schema: *ref_14
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_7
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_3
   /issues/{issue_id}/time_entries.json:
     post:
       tags:
@@ -563,7 +1402,7 @@ paths:
       requestBody:
         description: |
           The time entry to create or update.
-        content: &ref_32
+        content: &ref_42
           application/json:
             schema:
               type: object
@@ -610,7 +1449,7 @@ paths:
         '201':
           description: |
             Returns the time entry with the specified ID.
-          content: &ref_33
+          content: &ref_43
             application/json:
               schema:
                 type: object
@@ -619,10 +1458,10 @@ paths:
                     description: |
                       A single time entry.
                     type: object
-                    required: &ref_29
+                    required: &ref_39
                       - id
                       - hours
-                    properties: &ref_30
+                    properties: &ref_40
                       id:
                         type: integer
                         description: The ID of the time entry.
@@ -765,13 +1604,13 @@ paths:
           description: |
             The ID of the membership.
           required: true
-          schema: &ref_8
+          schema: &ref_16
             type: string
       responses:
         '200':
           description: |
             Returns the membership with the specified ID.
-          content: &ref_25
+          content: &ref_35
             application/json:
               schema:
                 type: object
@@ -780,11 +1619,11 @@ paths:
                     description: |
                       A single membership.
                     type: object
-                    required: &ref_21
+                    required: &ref_31
                       - id
                       - project
                       - roles
-                    properties: &ref_22
+                    properties: &ref_32
                       id:
                         type: integer
                         description: The ID of the membership.
@@ -847,11 +1686,11 @@ paths:
           description: |
             The ID of the membership.
           required: true
-          schema: *ref_8
+          schema: *ref_16
       requestBody:
         description: |
           The membership to create or update.
-        content: &ref_24
+        content: &ref_34
           application/json:
             schema:
               type: object
@@ -900,7 +1739,7 @@ paths:
           description: |
             The ID of the membership.
           required: true
-          schema: *ref_8
+          schema: *ref_16
       responses:
         '204':
           description: not provided
@@ -932,18 +1771,18 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_9
+          schema: *ref_8
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_10
+          schema: *ref_9
       responses:
         '200':
           description: |
             Returns all news across all projects with pagination.
-          content: &ref_26
+          content: &ref_36
             application/json:
               schema:
                 type: object
@@ -954,12 +1793,12 @@ paths:
                       description: |
                         A single news.
                       type: object
-                      required: &ref_11
+                      required: &ref_17
                         - id
                         - login
                         - firstname
                         - lastname
-                      properties: &ref_12
+                      properties: &ref_18
                         id:
                           type: integer
                           description: The ID of the news.
@@ -1024,7 +1863,7 @@ paths:
                   description: |
                     A single news.
                   type: object
-                  properties: &ref_14
+                  properties: &ref_21
                     title:
                       type: string
                       description: The title of the news.
@@ -1069,7 +1908,7 @@ paths:
           description: |
             The ID of the news.
           required: true
-          schema: &ref_13
+          schema: &ref_20
             type: string
         - name: include
           in: query
@@ -1097,54 +1936,17 @@ paths:
                   news:
                     description: |
                       A single news.
-                    allOf: &ref_59
+                    allOf: &ref_69
                       - description: |
                           A single news.
                         type: object
-                        required: *ref_11
-                        properties: *ref_12
+                        required: *ref_17
+                        properties: *ref_18
                       - type: object
                         properties:
                           attachments:
                             type: array
-                            items: &ref_37
-                              type: object
-                              properties:
-                                id:
-                                  type: integer
-                                  description: The ID of the attachment.
-                                filename:
-                                  type: string
-                                  description: The filename of the attachment.
-                                filesize:
-                                  type: integer
-                                  description: The filesize of the attachment.
-                                content_type:
-                                  type: string
-                                  description: The content type of the attachment.
-                                description:
-                                  type: string
-                                  description: The description of the attachment.
-                                content_url:
-                                  type: string
-                                  description: The content URL of the attachment.
-                                thumbnail_url:
-                                  type: string
-                                  description: The thumbnail URL of the attachment.
-                                author:
-                                  type: object
-                                  properties:
-                                    id:
-                                      type: integer
-                                      description: The ID of the author.
-                                    name:
-                                      type: string
-                                      description: The name of the author.
-                                created_on:
-                                  type: string
-                                  format: date-time
-                                  description: The date and time when the attachment was created.
-                              additionalProperties: true
+                            items: *ref_19
                           comments:
                             type: array
                             items:
@@ -1182,11 +1984,11 @@ paths:
           description: |
             The ID of the news.
           required: true
-          schema: *ref_13
+          schema: *ref_20
       requestBody:
         description: |
           The news to create.
-        content: &ref_28
+        content: &ref_38
           application/json:
             schema:
               type: object
@@ -1195,7 +1997,7 @@ paths:
                   description: |
                     A single news.
                   type: object
-                  properties: *ref_14
+                  properties: *ref_21
       responses:
         '204':
           description: not provided
@@ -1221,7 +2023,7 @@ paths:
           description: |
             The ID of the news.
           required: true
-          schema: *ref_13
+          schema: *ref_20
       responses:
         '204':
           description: not provided
@@ -1250,13 +2052,13 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_9
+          schema: *ref_8
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_10
+          schema: *ref_9
         - name: query
           in: query
           schema:
@@ -1335,7 +2137,7 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
-          schema: &ref_17
+          schema: &ref_24
             type: array
             items:
               type: string
@@ -1362,11 +2164,11 @@ paths:
                       description: |
                         A single project.
                       type: object
-                      required: &ref_15
+                      required: &ref_22
                         - id
                         - name
                         - identifier
-                      properties: &ref_16
+                      properties: &ref_23
                         id:
                           type: integer
                           description: The ID of the project.
@@ -1498,7 +2300,7 @@ paths:
       requestBody:
         description: |
           The project to create or update.
-        content: &ref_20
+        content: &ref_27
           application/json:
             schema:
               type: object
@@ -1569,7 +2371,7 @@ paths:
         '201':
           description: |
             Returns the project with the specified ID or identifier.
-          content: &ref_18
+          content: &ref_25
             application/json:
               schema:
                 type: object
@@ -1577,12 +2379,12 @@ paths:
                   project:
                     description: |
                       A single project.
-                    allOf: &ref_60
+                    allOf: &ref_70
                       - description: |
                           A single project.
                         type: object
-                        required: *ref_15
-                        properties: *ref_16
+                        required: *ref_22
+                        properties: *ref_23
                       - type: object
                         properties:
                           default_version:
@@ -1635,21 +2437,21 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_19
+          schema: &ref_26
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
-          schema: *ref_17
+          schema: *ref_24
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the project with the specified ID or identifier.
-          content: *ref_18
+          content: *ref_25
         '401':
           description: not provided
         '403':
@@ -1668,11 +2470,11 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_19
+          schema: *ref_26
       requestBody:
         description: |
           The project to create or update.
-        content: *ref_20
+        content: *ref_27
         required: true
       responses:
         '204':
@@ -1699,7 +2501,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_19
+          schema: *ref_26
       responses:
         '204':
           description: not provided
@@ -1729,7 +2531,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_19
+          schema: *ref_26
       responses:
         '204':
           description: not provided
@@ -1763,7 +2565,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_19
+          schema: *ref_26
       responses:
         '204':
           description: not provided
@@ -1773,6 +2575,96 @@ paths:
           description: not provided
         '404':
           description: not provided
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_3
+  /projects/{project_id}/issues.json:
+    get:
+      tags:
+        - issues
+      description: Returns a paginated list of issues. By default, it returns open issues only.
+      operationId: issues#index-project
+      parameters:
+        - name: X-Redmine-Nometa
+          in: header
+          description: |
+            If set to 1, the response will not include metadata information.
+          schema: *ref_8
+        - name: pagination
+          in: query
+          description: |
+            Pagination parameters to control the number of items returned in the response.
+            If not specified, it defaults to 25 items per page.
+          schema: *ref_9
+        - name: project_id
+          in: path
+          description: |
+            The ID or identifier of the issue.
+          required: true
+          schema: &ref_30
+            type: string
+        - name: query
+          in: query
+          schema: *ref_28
+        - name: include
+          in: query
+          description: |
+            fetch associated data (optional). Values should be separated by a comma ",".
+            Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
+          schema: *ref_12
+          style: form
+          explode: false
+      responses:
+        '200':
+          description: |
+            Returns a list of issues.
+          content: *ref_29
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_7
+    post:
+      tags:
+        - issues
+      description: Creates a new issue.
+      operationId: issues#create-project
+      parameters:
+        - name: project_id
+          in: path
+          description: |
+            The ID or identifier of the issue.
+          required: true
+          schema: *ref_30
+      requestBody:
+        description: |
+          The issue to create or update.
+        content: *ref_15
+        required: true
+      responses:
+        '201':
+          description: |
+            Returns the issue with the specified ID.
+          content: *ref_13
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '404':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_7
     parameters:
       - name: X-Redmine-Switch-User
         in: header
@@ -1791,19 +2683,19 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_9
+          schema: *ref_8
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_10
+          schema: *ref_9
         - name: project_id
           in: path
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_23
+          schema: &ref_33
             type: string
       responses:
         '200':
@@ -1820,8 +2712,8 @@ paths:
                       description: |
                         A single membership.
                       type: object
-                      required: *ref_21
-                      properties: *ref_22
+                      required: *ref_31
+                      properties: *ref_32
                   total_count:
                     type: integer
                     description: The total number of memberships.
@@ -1846,17 +2738,17 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_23
+          schema: *ref_33
       requestBody:
         description: |
           The membership to create or update.
-        content: *ref_24
+        content: *ref_34
         required: true
       responses:
         '201':
           description: |
             Returns the membership with the specified ID.
-          content: *ref_25
+          content: *ref_35
         '401':
           description: not provided
         '403':
@@ -1883,25 +2775,25 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_9
+          schema: *ref_8
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_10
+          schema: *ref_9
         - name: project_id
           in: path
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_27
+          schema: &ref_37
             type: string
       responses:
         '200':
           description: |
             Returns all news across all projects with pagination.
-          content: *ref_26
+          content: *ref_36
         '401':
           description: not provided
         '403':
@@ -1917,11 +2809,11 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_27
+          schema: *ref_37
       requestBody:
         description: |
           The news to create.
-        content: *ref_28
+        content: *ref_38
       responses:
         '204':
           description: not provided
@@ -1951,23 +2843,23 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_9
+          schema: *ref_8
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_10
+          schema: *ref_9
         - name: project_id
           in: path
           description: |
             The ID or identifer of the project.
           required: true
-          schema: &ref_31
+          schema: &ref_41
             type: string
         - name: query
           in: query
-          schema: &ref_46
+          schema: &ref_55
             type: object
             properties:
               spent_on:
@@ -2075,7 +2967,7 @@ paths:
         '200':
           description: |
             Returns a list of time entries.
-          content: &ref_47
+          content: &ref_56
             application/json:
               schema:
                 type: object
@@ -2086,8 +2978,8 @@ paths:
                       description: |
                         A single time entry.
                       type: object
-                      required: *ref_29
-                      properties: *ref_30
+                      required: *ref_39
+                      properties: *ref_40
                   total_count:
                     type: integer
                     description: The total number of time entries.
@@ -2112,17 +3004,17 @@ paths:
           description: |
             The ID or identifer of the project.
           required: true
-          schema: *ref_31
+          schema: *ref_41
       requestBody:
         description: |
           The time entry to create or update.
-        content: *ref_32
+        content: *ref_42
         required: true
       responses:
         '201':
           description: |
             Returns the time entry with the specified ID.
-          content: *ref_33
+          content: *ref_43
         '401':
           description: not provided
         '403':
@@ -2151,7 +3043,7 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_9
+          schema: *ref_8
         - name: nometa
           in: query
           description: |
@@ -2165,7 +3057,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_34
+          schema: &ref_44
             type: string
       responses:
         '200':
@@ -2182,10 +3074,10 @@ paths:
                       description: |
                         A single version.
                       type: object
-                      required: &ref_35
+                      required: &ref_45
                         - id
                         - name
-                      properties: &ref_36
+                      properties: &ref_46
                         id:
                           type: integer
                           description: The ID of the version.
@@ -2248,11 +3140,11 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_34
+          schema: *ref_44
       requestBody:
         description: |
           The version to create or update.
-        content: &ref_57
+        content: &ref_66
           application/json:
             schema:
               type: object
@@ -2312,7 +3204,7 @@ paths:
         '201':
           description: |
             Returns the version with the specified ID.
-          content: &ref_55
+          content: &ref_64
             application/json:
               schema:
                 type: object
@@ -2320,12 +3212,12 @@ paths:
                   version:
                     description: |
                       A single version.
-                    allOf: &ref_61
+                    allOf: &ref_71
                       - description: |
                           A single version.
                         type: object
-                        required: *ref_35
-                        properties: *ref_36
+                        required: *ref_45
+                        properties: *ref_46
                       - type: object
                         properties:
                           estimated_hours:
@@ -2362,14 +3254,14 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_38
+          schema: &ref_47
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: &ref_41
+          schema: &ref_50
             type: array
             items:
               type: string
@@ -2381,7 +3273,7 @@ paths:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: &ref_42
+          content: &ref_51
             application/json:
               schema:
                 type: object
@@ -2389,14 +3281,14 @@ paths:
                   wiki_page:
                     description: |
                       A single wiki.
-                    allOf: &ref_62
+                    allOf: &ref_72
                       - description: |
                           A single wiki.
                         type: object
-                        required: &ref_39
+                        required: &ref_48
                           - title
                           - version
-                        properties: &ref_40
+                        properties: &ref_49
                           title:
                             type: string
                             description: The title of the wiki.
@@ -2436,7 +3328,7 @@ paths:
                             description: The comments of the wiki.
                           attachments:
                             type: array
-                            items: *ref_37
+                            items: *ref_19
         '401':
           description: not provided
         '403':
@@ -2462,7 +3354,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_38
+          schema: *ref_47
       responses:
         '200':
           description: |
@@ -2478,8 +3370,8 @@ paths:
                       description: |
                         A single wiki.
                       type: object
-                      required: *ref_39
-                      properties: *ref_40
+                      required: *ref_48
+                      properties: *ref_49
         '401':
           description: not provided
         '403':
@@ -2504,27 +3396,27 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_38
+          schema: *ref_47
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: &ref_43
+          schema: &ref_52
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: *ref_41
+          schema: *ref_50
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: *ref_42
+          content: *ref_51
         '401':
           description: not provided
         '403':
@@ -2543,13 +3435,13 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_38
+          schema: *ref_47
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_43
+          schema: *ref_52
       requestBody:
         description: |
           The wiki to create or update.
@@ -2580,7 +3472,7 @@ paths:
         '201':
           description: |
             Returns the wiki with the specified ID.
-          content: *ref_42
+          content: *ref_51
         '204':
           description: not provided
         '401':
@@ -2608,13 +3500,13 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_38
+          schema: *ref_47
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_43
+          schema: *ref_52
       responses:
         '204':
           description: not provided
@@ -2644,13 +3536,13 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_38
+          schema: *ref_47
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_43
+          schema: *ref_52
         - name: version
           in: path
           description: |
@@ -2663,14 +3555,14 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: *ref_41
+          schema: *ref_50
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: *ref_42
+          content: *ref_51
         '401':
           description: not provided
         '403':
@@ -2705,10 +3597,10 @@ paths:
                       description: |
                         A single role.
                       type: object
-                      required: &ref_44
+                      required: &ref_53
                         - id
                         - name
-                      properties: &ref_45
+                      properties: &ref_54
                         id:
                           type: integer
                           description: The ID of the role.
@@ -2753,12 +3645,12 @@ paths:
                   role:
                     description: |
                       A single role.
-                    allOf: &ref_63
+                    allOf: &ref_73
                       - description: |
                           A single role.
                         type: object
-                        required: *ref_44
-                        properties: *ref_45
+                        required: *ref_53
+                        properties: *ref_54
                       - type: object
                         properties:
                           assignable:
@@ -2802,21 +3694,21 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_9
+          schema: *ref_8
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_10
+          schema: *ref_9
         - name: query
           in: query
-          schema: *ref_46
+          schema: *ref_55
       responses:
         '200':
           description: |
             Returns a list of time entries.
-          content: *ref_47
+          content: *ref_56
         '401':
           description: not provided
         '403':
@@ -2829,13 +3721,13 @@ paths:
       requestBody:
         description: |
           The time entry to create or update.
-        content: *ref_32
+        content: *ref_42
         required: true
       responses:
         '201':
           description: |
             Returns the time entry with the specified ID.
-          content: *ref_33
+          content: *ref_43
         '401':
           description: not provided
         '403':
@@ -2864,13 +3756,13 @@ paths:
           description: |
             The ID of the time entry.
           required: true
-          schema: &ref_48
+          schema: &ref_57
             type: string
       responses:
         '200':
           description: |
             Returns the time entry with the specified ID.
-          content: *ref_33
+          content: *ref_43
         '401':
           description: not provided
         '403':
@@ -2889,11 +3781,11 @@ paths:
           description: |
             The ID of the time entry.
           required: true
-          schema: *ref_48
+          schema: *ref_57
       requestBody:
         description: |
           The time entry to create or update.
-        content: *ref_32
+        content: *ref_42
         required: true
       responses:
         '204':
@@ -2920,7 +3812,7 @@ paths:
           description: |
             The ID of the time entry.
           required: true
-          schema: *ref_48
+          schema: *ref_57
       responses:
         '204':
           description: not provided
@@ -2952,13 +3844,13 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_9
+          schema: *ref_8
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_10
+          schema: *ref_9
         - name: query
           in: query
           schema:
@@ -3055,7 +3947,7 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: &ref_51
+          schema: &ref_60
             type: array
             items:
               type: string
@@ -3080,12 +3972,12 @@ paths:
                       description: |
                         A single user.
                       type: object
-                      required: &ref_49
+                      required: &ref_58
                         - id
                         - login
                         - firstname
                         - lastname
-                      properties: &ref_50
+                      properties: &ref_59
                         id:
                           type: integer
                           description: The ID of the user.
@@ -3169,7 +4061,7 @@ paths:
       requestBody:
         description: |
           The user to create or update.
-        content: &ref_54
+        content: &ref_63
           application/json:
             schema:
               type: object
@@ -3315,7 +4207,7 @@ paths:
         '201':
           description: |
             Returns the user with the specified ID.
-          content: &ref_52
+          content: &ref_61
             application/json:
               schema:
                 type: object
@@ -3323,12 +4215,12 @@ paths:
                   user:
                     description: |
                       A single user.
-                    allOf: &ref_64
+                    allOf: &ref_74
                       - description: |
                           A single user.
                         type: object
-                        required: *ref_49
-                        properties: *ref_50
+                        required: *ref_58
+                        properties: *ref_59
                       - type: object
                         properties:
                           api_key:
@@ -3404,21 +4296,21 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: &ref_53
+          schema: &ref_62
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: *ref_51
+          schema: *ref_60
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the user with the specified ID.
-          content: *ref_52
+          content: *ref_61
         '401':
           description: not provided
         '403':
@@ -3437,11 +4329,11 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: *ref_53
+          schema: *ref_62
       requestBody:
         description: |
           The user to create or update.
-        content: *ref_54
+        content: *ref_63
         required: true
       responses:
         '204':
@@ -3468,7 +4360,7 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: *ref_53
+          schema: *ref_62
       responses:
         '204':
           description: not provided
@@ -3502,13 +4394,13 @@ paths:
           description: |
             The ID of the version.
           required: true
-          schema: &ref_56
+          schema: &ref_65
             type: string
       responses:
         '200':
           description: |
             Returns the version with the specified ID.
-          content: *ref_55
+          content: *ref_64
         '401':
           description: not provided
         '403':
@@ -3527,11 +4419,11 @@ paths:
           description: |
             The ID of the version.
           required: true
-          schema: *ref_56
+          schema: *ref_65
       requestBody:
         description: |
           The version to create or update.
-        content: *ref_57
+        content: *ref_66
         required: true
       responses:
         '204':
@@ -3558,7 +4450,7 @@ paths:
           description: |
             The ID of the version.
           required: true
-          schema: *ref_56
+          schema: *ref_65
       responses:
         '204':
           description: not provided
@@ -3582,31 +4474,35 @@ components:
     group_detail:
       description: |
         A single group.
-      allOf: *ref_58
+      allOf: *ref_67
+    issue_detail:
+      description: |
+        A single issue.
+      allOf: *ref_68
     news_detail:
       description: |
         A single news.
-      allOf: *ref_59
+      allOf: *ref_69
     project_detail:
       description: |
         A single project.
-      allOf: *ref_60
+      allOf: *ref_70
     version_detail:
       description: |
         A single version.
-      allOf: *ref_61
+      allOf: *ref_71
     wiki_detail:
       description: |
         A single wiki.
-      allOf: *ref_62
+      allOf: *ref_72
     role_detail:
       description: |
         A single role.
-      allOf: *ref_63
+      allOf: *ref_73
     user_detail:
       description: |
         A single user.
-      allOf: *ref_64
+      allOf: *ref_74
   responses:
     unprocessable_entity:
       description: |

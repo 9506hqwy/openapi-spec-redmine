@@ -1,0 +1,820 @@
+paths:
+  /issues.json:
+    get:
+      tags: ["issues"]
+      description: Returns a paginated list of issues. By default, it returns open issues only.
+      operationId: issues#index
+      parameters:
+        - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
+        - $ref: "./openapi.yml#/components/parameters/pagination"
+        - $ref: "#/components/parameters/query"
+        - $ref: "#/components/parameters/include"
+      responses:
+        "200":
+          $ref: "#/components/responses/issues"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    post:
+      tags: ["issues"]
+      description: Creates a new issue.
+      operationId: issues#create
+      requestBody:
+        $ref: "#/components/requestBody/issue"
+      responses:
+        "201":
+          $ref: "#/components/responses/issue"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /issues/{id}.json:
+    get:
+      tags: ["issues"]
+      description: |
+        Returns the issue with the specified ID.
+      operationId: issues#show
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/include"
+      responses:
+        "200":
+          $ref: "#/components/responses/issue"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    put:
+      tags: ["issues"]
+      description: |
+        Updates the issue with the specified ID.
+      operationId: issues#update
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBody/issue"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    delete:
+      tags: ["issues"]
+      description: |
+        Deletes the issue with the specified ID.
+      operationId: issues#destroy
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /projects/{project_id}/issues.json:
+    get:
+      tags: ["issues"]
+      description: Returns a paginated list of issues. By default, it returns open issues only.
+      operationId: issues#index-project
+      parameters:
+        - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
+        - $ref: "./openapi.yml#/components/parameters/pagination"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/query"
+        - $ref: "#/components/parameters/include"
+      responses:
+        "200":
+          $ref: "#/components/responses/issues"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    post:
+      tags: ["issues"]
+      description: Creates a new issue.
+      operationId: issues#create-project
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+      requestBody:
+        $ref: "#/components/requestBody/issue"
+      responses:
+        "201":
+          $ref: "#/components/responses/issue"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  schemas:
+    issue:
+      description: |
+        A single issue.
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          description: The ID of the issue.
+        project:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the project.
+            name:
+              type: string
+              description: The name of the project.
+        tracker:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the tracker.
+            name:
+              type: string
+              description: The name of the tracker.
+        status:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the status.
+            name:
+              type: string
+              description: The name of the status.
+            is_closed:
+              type: boolean
+              description: The closed of the status.
+        priority:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the priority.
+            name:
+              type: string
+              description: The name of the priority.
+        author:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the author.
+            name:
+              type: string
+              description: The name of the author.
+        assigned_to:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the assigned member.
+            name:
+              type: string
+              description: The name of the assigned member.
+        category:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the category.
+            name:
+              type: string
+              description: The name of the category.
+        fixed_version:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the fixed version.
+            name:
+              type: string
+              description: The name of the fixed version.
+        parent:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the parent issue.
+        subject:
+          type: string
+          description: The subject of the issue.
+        description:
+          type: string
+          description: The description of the issue.
+        start_date:
+          type: string
+          format: date
+          description: The start date of the issue.
+        due_date:
+          type: string
+          format: date
+          description: The due date of the issue.
+        done_ratio:
+          type: integer
+          description: The done ratio of the issue.
+        is_private:
+          type: boolean
+          description: The private of the issue.
+        estimated_hours:
+          type: integer
+          description: The estimated hours of the issue.
+        total_estimated_hours:
+          type: integer
+          description: The total estimated hours of the issue.
+        spent_hours:
+          type: number
+          description: The spent hours of the issue.
+        total_spent_hour:
+          type: number
+          description: The total spent hours of the issue.
+        custom_fields:
+          type: array
+          items:
+            $ref: "./openapi.yml#/components/schemas/custom_field"
+        created_on:
+          type: string
+          format: date-time
+          description: The date and time when the issue was created.
+        updated_on:
+          type: string
+          format: date-time
+          description: The date and time when the issue was updated.
+        closed_on:
+          type: string
+          format: date-time
+          description: The date and time when the issue was closed.
+        attachments:
+          $ref: "./attachments.yml#/components/schemas/attachments"
+        relations:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: The ID of the relation.
+              issue_id:
+                type: integer
+                description: The ID of the issue.
+              issue_to_id:
+                type: integer
+                description: The ID of the issue.
+              relation_type:
+                type: string
+                description: The type of the relation.
+              delay:
+                type: integer
+                description: The delay of the relation.
+    issue_detail:
+      description: |
+        A single issue.
+      allOf:
+        - $ref: "#/components/schemas/issue"
+        - type: object
+          properties:
+            children:
+              type: array
+              items:
+                $ref: "#/components/schemas/child-issue"
+            changesets:
+              type: array
+              items:
+                type: object
+                properties:
+                  revision:
+                    type: string
+                    description: The revision of the changeset.
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: The ID of the user.
+                      name:
+                        type: string
+                        description: The name of the user.
+                  comments:
+                    type: string
+                    description: The comments of the changeset.
+                  committed_on:
+                    type: string
+                    format: date-time
+                    description: The date and time when the changeset was committed.
+            journals:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: The ID of the journal.
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: The ID of the user.
+                      name:
+                        type: string
+                        description: The name of the user.
+                  notes:
+                    type: integer
+                    description: The notes of the journal.
+                  created_on:
+                    type: string
+                    format: date-time
+                    description: The date and time when the journal was created.
+                  updated_on:
+                    type: string
+                    format: date-time
+                    description: The date and time when the journal was updated.
+                  updated_by:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: The ID of the updated.
+                      name:
+                        type: string
+                        description: The name of the updated.
+                  private_notes:
+                    type: boolean
+                    description: The private of the journal.
+                  details:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        property:
+                          type: string
+                          description: The property of the detail.
+                        name:
+                          type: string
+                          description: The name of the detail.
+                        old_value:
+                          type: string
+                          description: The old value of the detail.
+                        new_value:
+                          type: string
+                          description: The new value of the detail.
+            watchers:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: The ID of the watcher.
+                  name:
+                    type: string
+                    description: The name of the watcher.
+            allowed_statuses:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: The ID of the allowed statuse.
+                  name:
+                    type: string
+                    description: The name of the allowed statuse.
+                  is_closed:
+                    type: boolean
+                    description: The closed of the allowed status.
+    child-issue:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the issue.
+        tracker:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the tracker.
+            name:
+              type: string
+              description: The name of the tracker.
+        subject:
+          type: string
+          description: The subject of the issue.
+        children:
+          type: array
+          items:
+            {}
+            # Avoid infinite loop.
+            #$ref: "#/components/schemas/child-issue"
+    issue_new:
+      description: |
+        A single issue.
+      type: object
+      properties:
+        project_id:
+          type: integer
+          description: The project id of the issue.
+        tracker_id:
+          type: integer
+          description: The tracker id of the issue.
+        status_id:
+          type: integer
+          description: The status id of the issue.
+        category_id:
+          type: integer
+          description: The category id of the issue.
+        assigned_to_id:
+          type: integer
+          description: The assigned to id id of the issue.
+        priority_id:
+          type: integer
+          description: The priority id of the issue.
+        fixed_version_id:
+          type: integer
+          description: The fixed version id of the issue.
+        subject:
+          type: string
+          description: The subject of the issue.
+        description:
+          type: string
+          description: The description of the issue.
+        start_date:
+          type: string
+          format: date
+          description: The start date of the issue.
+        due_date:
+          type: string
+          format: date
+          description: The due date of the issue.
+        done_ratio:
+          type: integer
+          description: The done ratio of the issue.
+        estimated_hours:
+          type: integer
+          description: The estimated hours of the issue.
+        custom_field_values:
+          $ref: "./openapi.yml#/components/schemas/custom_field_values"
+        custom_fields:
+          type: array
+          items:
+            $ref: "./openapi.yml#/components/schemas/custom_field"
+        lock_version:
+          type: string
+          description: The lock version of the issue.
+        notes:
+          type: string
+          description: The notes of the issue.
+        private_notes:
+          type: boolean
+          description: The private notes of the issue.
+        watcher_user_ids:
+          type: array
+          items:
+            type: integer
+            description: The ID of the watcher user.
+        is_private:
+          type: boolean
+          description: The private of the issue.
+        parent_issue_id:
+          type: integer
+          description: The parent ID of the issue.
+        deleted_attachment_ids:
+          type: array
+          items:
+            type: integer
+            description: The ID of the deleted attachment.
+        # TODO: uploads
+  responses:
+    issues:
+      description: |
+        Returns a list of issues.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              issues:
+                type: array
+                items:
+                  $ref: "#/components/schemas/issue"
+              total_count:
+                type: integer
+                description: The total number of issues.
+              offset:
+                type: integer
+                description: The offset of the first issue in the list.
+              limit:
+                type: integer
+                description: The maximum number of issues returned in the list.
+    issue:
+      description: |
+        Returns the issue with the specified ID.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              issue:
+                $ref: "#/components/schemas/issue_detail"
+  parameters:
+    project_id:
+      name: project_id
+      in: path
+      description: |
+        The ID or identifier of the issue.
+      required: true
+      schema:
+        type: string
+    id:
+      name: id
+      in: path
+      description: |
+        The ID of the issue.
+      required: true
+      schema:
+        type: string
+    include:
+      name: include
+      in: query
+      description: |
+        fetch associated data (optional). Values should be separated by a comma ",".
+        Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            [
+              allowed_statuses,
+              attachments,
+              changesets,
+              children,
+              journals,
+              relations,
+              watchers,
+            ]
+      style: form
+      explode: false
+    query:
+      name: query
+      in: query
+      schema:
+        type: object
+        properties:
+          status_id:
+            type: string
+            description: |
+              The expression of status id of the issue.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          project_id:
+            type: string
+            description: |
+              The expression of project id of the issue.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          tracker_id:
+            type: string
+            description: |
+              The expression of tracker id of the issue.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          priority_id:
+            type: string
+            description: |
+              The expression of priority id of the issue.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          author_id:
+            type: string
+            description: |
+              The expression of author id of the issue.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          author.group:
+            type: string
+            description: |
+              The expression of author group of the issue.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          author.role:
+            type: string
+            description: |
+              The expression of author role of the issue.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          assigned_to_id:
+            type: string
+            description: |
+              The expression of assigned to id of the issue.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          member_of_group:
+            type: string
+            description: |
+              The expression of member of group of the issue.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          assigned_to_role:
+            type: string
+            description: |
+              The expression of assigned to role of the issue.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          fixed_version_id:
+            type: string
+            description: |
+              The expression of fixed version id of the issue.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          fixed_version.due_date:
+            type: string
+            description: |
+              The expression of fixed version due date of the issue.
+              The expression format is "[operator]\<value>".
+              examples:
+              - last week : `lw`
+              - before "2025/7/12": `<=2025-07-12`
+          fixed_version.status:
+            type: string
+            description: |
+              The expression of fixed version status of the issue.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          category_id:
+            type: string
+            description: |
+              The expression of category id of the issue.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          subject:
+            type: string
+            description: |
+              The expression of subject of the issue.
+              The expression format is "\<operator>\<value>".
+          description:
+            type: string
+            description: |
+              The expression of description of the issue.
+              The expression format is "\<operator>\<value>".
+          notes:
+            type: string
+            description: |
+              The expression of notes of the issue.
+              The expression format is "\<operator>\<value>".
+          created_on:
+            type: string
+            description: |
+              The expression of created_on of the issue.
+              The expression format is "[operator]\<value>".
+              examples:
+              - last week : `lw`
+              - before "2025/7/12": `<=2025-07-12`
+          updated_on:
+            type: string
+            description: |
+              The expression of updated_on of the issue.
+              The expression format is "[operator]\<value>".
+              examples:
+              - last week : `lw`
+              - before "2025/7/12": `<=2025-07-12`
+          closed_on:
+            type: string
+            description: |
+              The expression of closed_on of the issue.
+              The expression format is "[operator]\<value>".
+              examples:
+              - last week : `lw`
+              - before "2025/7/12": `<=2025-07-12`
+          start_date:
+            type: string
+            description: |
+              The expression of start date of the issue.
+              The expression format is "[operator]\<value>".
+              examples:
+              - last week : `lw`
+              - before "2025/7/12": `<=2025-07-12`
+          due_date:
+            type: string
+            description: |
+              The expression of due date of the issue.
+              The expression format is "[operator]\<value>".
+              examples:
+              - last week : `lw`
+              - before "2025/7/12": `<=2025-07-12`
+          estimated_hours:
+            type: string
+            description: |
+              The expression of estimated hours of the issue.
+              The expression format is "[operator]\<value>".
+          spent_time:
+            type: string
+            description: |
+              The expression of spent time of the issue.
+              The expression format is "[operator]\<value>".
+          done_ratio:
+            type: string
+            description: |
+              The expression of done ratio of the issue.
+              The expression format is "[operator]\<value>".
+          is_private:
+            type: string
+            description: |
+              The expression of private id of the issue.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          attachment:
+            type: string
+            description: |
+              The expression of attachment of the issue.
+              The expression format is "[operator]\<value>".
+          attachment_description:
+            type: string
+            description: |
+              The expression of attachment description of the issue.
+              The expression format is "[operator]\<value>".
+          watcher_id:
+            type: string
+            description: |
+              The expression of watcher id of the issue.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          updated_by:
+            type: string
+            description: |
+              The expression of updated by of the issue.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          last_updated_by:
+            type: string
+            description: |
+              The expression of last updated by of the issue.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          subproject_id:
+            type: string
+            description: |
+              The expression of sub project id of the issue.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          project.status:
+            type: string
+            description: |
+              The expression of project status of the issue.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          relation_type:
+            type: string
+            description: |
+              The expression of relation type of the issue.
+              The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
+          parent_id:
+            type: string
+            description: |
+              The expression of parent id of the issue.
+              The expression format is "[operator]\<value>".
+          child_id:
+            type: string
+            description: |
+              The expression of child id of the issue.
+              The expression format is "[operator]\<value>".
+          issue_id:
+            type: string
+            description: |
+              The expression of issue id of the issue.
+              The expression format is "[operator]\<value>".
+          any_searchable:
+            type: string
+            description: |
+              The expression of any searchable of the issue.
+              The expression format is "[operator]\<value>".
+        # custom_fields
+        additionalProperties:
+          type: string
+  requestBody:
+    issue:
+      description: |
+        The issue to create or update.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              issue:
+                $ref: "#/components/schemas/issue_new"
+      required: true

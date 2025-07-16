@@ -15,6 +15,10 @@ paths:
     $ref: "./groups.yml#/paths/~1groups~1{id}~1users.json"
   /groups/{id}/users/{user_id}.json:
     $ref: "./groups.yml#/paths/~1groups~1{id}~1users~1{user_id}.json"
+  /issues.json:
+    $ref: "./issues.yml#/paths/~1issues.json"
+  /issues/{id}.json:
+    $ref: "./issues.yml#/paths/~1issues~1{id}.json"
   /issues/{issue_id}/time_entries.json:
     $ref: "./timelog.yml#/paths/~1issues~1{issue_id}~1time_entries.json"
   /journals/{id}.json:
@@ -33,6 +37,8 @@ paths:
     $ref: "./projects.yml#/paths/~1projects~1{id}~1archive.json"
   /projects/{id}/unarchive.json:
     $ref: "./projects.yml#/paths/~1projects~1{id}~1unarchive.json"
+  /projects/{project_id}/issues.json:
+    $ref: "./issues.yml#/paths/~1projects~1{project_id}~1issues.json"
   /projects/{project_id}/memberships.json:
     $ref: "./members.yml#/paths/~1projects~1{project_id}~1memberships.json"
   /projects/{project_id}/news.json:
@@ -196,6 +202,8 @@ tags:
     description: custom_fields_controller's API
   - name: groups
     description: groups_controller's API
+  - name: issues
+    description: issues_controller's API
   - name: journals
     description: journals_controller's API
   - name: members
