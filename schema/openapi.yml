@@ -19,6 +19,8 @@ paths:
     $ref: "./issues.yml#/paths/~1issues.json"
   /issues/{id}.json:
     $ref: "./issues.yml#/paths/~1issues~1{id}.json"
+  /issues/{issue_id}/relations.json:
+    $ref: "./issue_relations.yml#/paths/~1issues~1{issue_id}~1relations.json"
   /issues/{issue_id}/time_entries.json:
     $ref: "./timelog.yml#/paths/~1issues~1{issue_id}~1time_entries.json"
   /journals/{id}.json:
@@ -55,6 +57,8 @@ paths:
     $ref: "./wiki.yml#/paths/~1projects~1{project_id}~1wiki~1{id}.json"
   /projects/{project_id}/wiki/{id}/{version}.json:
     $ref: "./wiki.yml#/paths/~1projects~1{project_id}~1wiki~1{id}~1{version}.json"
+  /relations/{id}.json:
+    $ref: "./issue_relations.yml#/paths/~1relations~1{id}.json"
   /roles.json:
     $ref: "./roles.yml#/paths/~1roles.json"
   /roles/{id}.json:
@@ -204,6 +208,8 @@ tags:
     description: groups_controller's API
   - name: issues
     description: issues_controller's API
+  - name: issue_relations
+    description: issue_relations_controller's API
   - name: journals
     description: journals_controller's API
   - name: members

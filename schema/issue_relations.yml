@@ -1,0 +1,169 @@
+paths:
+  /issues/{issue_id}/relations.json:
+    get:
+      tags: ["issue_relations"]
+      description: Returns the relations with the specified issue ID.
+      operationId: issue_relations#index
+      parameters:
+        - $ref: "#/components/parameters/issue_id"
+      responses:
+        "200":
+          $ref: "#/components/responses/issue_relations"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    post:
+      tags: ["issue_relations"]
+      description: Creates a relation with the specified issue ID.
+      operationId: issue_relations#create
+      parameters:
+        - $ref: "#/components/parameters/issue_id"
+      requestBody:
+        $ref: "#/components/requestBody/issue_relation"
+      responses:
+        "201":
+          $ref: "#/components/responses/issue_relation"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /relations/{id}.json:
+    get:
+      tags: ["issue_relations"]
+      description: |
+        Returns the relation with the specified ID.
+      operationId: issue_relations#show
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          $ref: "#/components/responses/issue_relation"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    delete:
+      tags: ["issue_relations"]
+      description: |
+        Deletes the relation with the specified ID.
+      operationId: issue_relations#destroy
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  schemas:
+    issue_relation:
+      description: |
+        A single relation.
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          description: The ID of the relation.
+        issue_id:
+          type: integer
+          description: The ID of the issue.
+        issue_to_id:
+          type: integer
+          description: The ID of the issue to.
+        relation_type:
+          type: string
+          description: The relation type of the relation.
+        delay:
+          type: integer
+          description: The delay of the relation.
+    issue_relation_new:
+      description: |
+        A single relation.
+      type: object
+      properties:
+        issue_to_id:
+          type: array
+          items:
+            type: string
+            description: The ID of the issue to. Values should be separated by a comma ",".
+        relation_type:
+          type: string
+          description: |
+            The relation type of the relation.
+             Possible values are:
+             - `relates`
+             - `duplicates`
+             - `duplicated`
+             - `blocks`
+             - `blocked`
+             - `precedes`
+             - `follows`
+             - `copied_to`
+             - `copied_from`
+  responses:
+    issue_relations:
+      description: |
+        Returns a list of relation.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              relations:
+                type: array
+                items:
+                  $ref: "#/components/schemas/issue_relation"
+    issue_relation:
+      description: |
+        Returns the relation with the specified ID.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              relation:
+                $ref: "#/components/schemas/issue_relation"
+  parameters:
+    issue_id:
+      name: issue_id
+      in: path
+      description: |
+        The ID of the issue.
+      required: true
+      schema:
+        type: string
+    id:
+      name: id
+      in: path
+      description: |
+        The ID of the relation.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    issue_relation:
+      description: |
+        The issue relation to create.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              relation:
+                $ref: "#/components/schemas/issue_relation_new"
+      required: true
