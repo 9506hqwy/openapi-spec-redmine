@@ -31,6 +31,8 @@ tags:
     description: roles_controller's API
   - name: timelog
     description: timelog_controller's API
+  - name: trackers
+    description: trackers_controller's API
   - name: users
     description: users_controller's API
   - name: versions
@@ -4238,6 +4240,65 @@ paths:
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
           content: *ref_7
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_3
+  /trackers.json:
+    get:
+      tags:
+        - trackers
+      description: Returns a list of trackers.
+      operationId: trackers#index
+      responses:
+        '200':
+          description: |
+            Returns a list of trackers.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  trackers:
+                    type: array
+                    items:
+                      description: |
+                        A single tracker.
+                      type: object
+                      required:
+                        - id
+                        - name
+                      properties:
+                        id:
+                          type: integer
+                          description: The ID of the tracker.
+                        name:
+                          type: string
+                          description: The name of the tracker.
+                        default_status:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: The ID of the default status.
+                            name:
+                              type: string
+                              description: The name of the default status.
+                        description:
+                          type: string
+                          description: The description of the tracker.
+                        enabled_standard_fields:
+                          type: array
+                          items:
+                            type: string
+                            description: The enabled standard field.
+        '401':
+          description: not provided
+        '403':
+          description: not provided
     parameters:
       - name: X-Redmine-Switch-User
         in: header

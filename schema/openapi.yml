@@ -71,6 +71,8 @@ paths:
     $ref: "./timelog.yml#/paths/~1time_entries.json"
   /time_entries/{id}.json:
     $ref: "./timelog.yml#/paths/~1time_entries~1{id}.json"
+  /trackers.json:
+    $ref: "./trackers.yml#/paths/~1trackers.json"
   /users.json:
     $ref: "./users.yml#/paths/~1users.json"
   /users/{id}.json:
@@ -228,6 +230,8 @@ tags:
     description: roles_controller's API
   - name: timelog
     description: timelog_controller's API
+  - name: trackers
+    description: trackers_controller's API
   - name: users
     description: users_controller's API
   - name: versions

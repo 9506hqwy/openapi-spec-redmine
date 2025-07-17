@@ -1,0 +1,61 @@
+paths:
+  /trackers.json:
+    get:
+      tags: ["trackers"]
+      description: Returns a list of trackers.
+      operationId: trackers#index
+      responses:
+        "200":
+          $ref: "#/components/responses/trackers"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  schemas:
+    tracker:
+      description: |
+        A single tracker.
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          description: The ID of the tracker.
+        name:
+          type: string
+          description: The name of the tracker.
+        default_status:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the default status.
+            name:
+              type: string
+              description: The name of the default status.
+        description:
+          type: string
+          description: The description of the tracker.
+        enabled_standard_fields:
+          type: array
+          items:
+            type: string
+            description: The enabled standard field.
+  responses:
+    trackers:
+      description: |
+        Returns a list of trackers.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              trackers:
+                type: array
+                items:
+                  $ref: "#/components/schemas/tracker"
