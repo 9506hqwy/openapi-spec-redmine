@@ -1,0 +1,198 @@
+paths:
+  /issue_categories/{id}.json:
+    get:
+      tags: ["issue_categories"]
+      description: |
+        Returns the issue category with the specified ID.
+      operationId: issue_categories#show
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          $ref: "#/components/responses/issue_category"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    put:
+      tags: ["issue_categories"]
+      description: |
+        Updates the issue category with the specified ID.
+      operationId: issue_categories#update
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBody/issue_category"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    delete:
+      tags: ["issue_categories"]
+      description: |
+        Deletes the issue category with the specified ID.
+      operationId: issue_categories#destroy
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/reassign_to_id"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /projects/{project_id}/issue_categories.json:
+    get:
+      tags: ["issue_categories"]
+      description: Returns the issue categories available with specified the project of ID or identifier.
+      operationId: issue_categories#index
+      parameters:
+        - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
+        - $ref: "./openapi.yml#/components/parameters/nometa"
+        - $ref: "#/components/parameters/project_id"
+      responses:
+        "200":
+          $ref: "#/components/responses/issue_categories"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    post:
+      tags: ["issue_categories"]
+      description: Creates an issue category with specified the project ID or identifier.
+      operationId: issue_categories#create
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+      requestBody:
+        $ref: "#/components/requestBody/issue_category"
+      responses:
+        "201":
+          $ref: "#/components/responses/issue_category"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  schemas:
+    issue_category:
+      description: |
+        A single issue category.
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          description: The ID of the issue category.
+        project:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the project.
+            name:
+              type: string
+              description: The name of the project.
+        name:
+          type: string
+          description: The name of the issue category.
+        assigned_to:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: The ID of the assigned to.
+            name:
+              type: string
+              description: The name of the assigned to.
+    issue_category_new:
+      description: |
+        A single issue_category.
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the issue category.
+        assigned_to_id:
+          type: integer
+          description: The ID of the assinged to.
+  responses:
+    issue_categories:
+      description: |
+        Returns a list of issue categories.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              issue_categories:
+                type: array
+                items:
+                  $ref: "#/components/schemas/issue_category"
+              total_count:
+                type: integer
+                description: The total number of issue categories.
+    issue_category:
+      description: |
+        Returns the issue category with the specified ID.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              issue_category:
+                $ref: "#/components/schemas/issue_category"
+  parameters:
+    id:
+      name: id
+      in: path
+      description: |
+        The ID of the issue category.
+      required: true
+      schema:
+        type: string
+    project_id:
+      name: project_id
+      in: path
+      description: |
+        The ID or identifier of the project.
+      required: true
+      schema:
+        type: string
+    reassign_to_id:
+      name: reassign_to_id
+      in: query
+      description: |
+        The ID of the issue category.
+      schema:
+        type: string
+  requestBody:
+    issue_category:
+      description: |
+        The issue category to create or update.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              issue_category:
+                $ref: "#/components/schemas/issue_category_new"
+      required: true
