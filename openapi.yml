@@ -19,6 +19,8 @@ tags:
     description: issue_categories_controller's API
   - name: issue_relations
     description: issue_relations_controller's API
+  - name: issue_statuses
+    description: issue_statuses_controller's API
   - name: journals
     description: journals_controller's API
   - name: members
@@ -1802,6 +1804,54 @@ paths:
         '403':
           description: not provided
         '404':
+          description: not provided
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_3
+  /issue_statuses.json:
+    get:
+      tags:
+        - issue_statuses
+      description: Returns a list of issue statuses.
+      operationId: issue_statuses#index
+      responses:
+        '200':
+          description: |
+            Returns a list of issue_statuses.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  issue_statuses:
+                    type: array
+                    items:
+                      description: |
+                        A single issue status.
+                      type: object
+                      required:
+                        - id
+                        - name
+                      properties:
+                        id:
+                          type: integer
+                          description: The ID of the issue status.
+                        name:
+                          type: string
+                          description: The name of the issue status.
+                        is_closed:
+                          type: boolean
+                          description: The closed of the issue status.
+                        description:
+                          type: string
+                          description: The description of the issue status.
+        '401':
+          description: not provided
+        '403':
           description: not provided
     parameters:
       - name: X-Redmine-Switch-User

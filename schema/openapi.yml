@@ -25,6 +25,8 @@ paths:
     $ref: "./timelog.yml#/paths/~1issues~1{issue_id}~1time_entries.json"
   /issue_categories/{id}.json:
     $ref: "./issue_categories.yml#/paths/~1issue_categories~1{id}.json"
+  /issue_statuses.json:
+    $ref: "./issue_statuses.yml#/paths/~1issue_statuses.json"
   /journals/{id}.json:
     $ref: "./journals.yml#/paths/~1journals~1{id}.json"
   /memberships/{id}.json:
@@ -218,6 +220,8 @@ tags:
     description: issue_categories_controller's API
   - name: issue_relations
     description: issue_relations_controller's API
+  - name: issue_statuses
+    description: issue_statuses_controller's API
   - name: journals
     description: journals_controller's API
   - name: members

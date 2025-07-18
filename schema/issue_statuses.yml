@@ -1,0 +1,50 @@
+paths:
+  /issue_statuses.json:
+    get:
+      tags: ["issue_statuses"]
+      description: Returns a list of issue statuses.
+      operationId: issue_statuses#index
+      responses:
+        "200":
+          $ref: "#/components/responses/issue_statuses"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  schemas:
+    issue_status:
+      description: |
+        A single issue status.
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          description: The ID of the issue status.
+        name:
+          type: string
+          description: The name of the issue status.
+        is_closed:
+          type: boolean
+          description: The closed of the issue status.
+        description:
+          type: string
+          description: The description of the issue status.
+  responses:
+    issue_statuses:
+      description: |
+        Returns a list of issue_statuses.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              issue_statuses:
+                type: array
+                items:
+                  $ref: "#/components/schemas/issue_status"
