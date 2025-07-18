@@ -11,6 +11,8 @@ security:
 tags:
   - name: custom_fields
     description: custom_fields_controller's API
+  - name: enumerations
+    description: enumerations_controller's API
   - name: groups
     description: groups_controller's API
   - name: issues
@@ -156,8 +158,139 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: &ref_3
+        schema: &ref_0
           type: string
+  /enumerations/document_categories.json:
+    get:
+      tags:
+        - enumerations
+      description: Returns a list of document categories.
+      operationId: enumerations#index-document-category
+      responses:
+        '200':
+          description: |
+            Returns a list of enumerations.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  document_category:
+                    type: array
+                    items:
+                      description: |
+                        A single enumeration.
+                      type: object
+                      required: &ref_1
+                        - id
+                        - name
+                      properties: &ref_2
+                        id:
+                          type: integer
+                          description: The ID of the enumeration.
+                        name:
+                          type: string
+                          description: The name of the enumeration.
+                        is_default:
+                          type: boolean
+                          description: The default of the enumeration.
+                        active:
+                          type: boolean
+                          description: The active of the enumeration.
+                        custom_fields:
+                          type: array
+                          items:
+                            type: object
+                            properties: &ref_3
+                              id:
+                                type: integer
+                                description: The ID of the custom field.
+                              name:
+                                type: string
+                                description: The name of the custom field.
+                              multiple:
+                                type: boolean
+                                description: Whether the custom field can have multiple values.
+                              value: {}
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_0
+  /enumerations/issue_priorities.json:
+    get:
+      tags:
+        - enumerations
+      description: Returns a list of issue priorities.
+      operationId: enumerations#index-issue-priority
+      responses:
+        '200':
+          description: |
+            Returns a list of enumerations.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  issue_priority:
+                    type: array
+                    items:
+                      description: |
+                        A single enumeration.
+                      type: object
+                      required: *ref_1
+                      properties: *ref_2
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_0
+  /enumerations/time_entry_activities.json:
+    get:
+      tags:
+        - enumerations
+      description: Returns a list of time entry activity.
+      operationId: enumerations#index-time-entry-activity
+      responses:
+        '200':
+          description: |
+            Returns a list of enumerations.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  time_entry_activity:
+                    type: array
+                    items:
+                      description: |
+                        A single enumeration.
+                      type: object
+                      required: *ref_1
+                      properties: *ref_2
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_0
   /groups.json:
     get:
       tags:
@@ -169,7 +302,7 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: &ref_8
+          schema: &ref_10
             type: integer
             enum:
               - 1
@@ -178,7 +311,7 @@ paths:
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: &ref_9
+          schema: &ref_11
             type: object
             properties:
               offset:
@@ -215,10 +348,10 @@ paths:
                       description: |
                         A single group.
                       type: object
-                      required: &ref_1
+                      required: &ref_4
                         - id
                         - name
-                      properties: &ref_2
+                      properties: &ref_5
                         id:
                           type: integer
                           description: The ID of the group.
@@ -232,17 +365,7 @@ paths:
                           type: array
                           items:
                             type: object
-                            properties: &ref_0
-                              id:
-                                type: integer
-                                description: The ID of the custom field.
-                              name:
-                                type: string
-                                description: The name of the custom field.
-                              multiple:
-                                type: boolean
-                                description: Whether the custom field can have multiple values.
-                              value: {}
+                            properties: *ref_3
         '401':
           description: not provided
         '403':
@@ -255,7 +378,7 @@ paths:
       requestBody:
         description: |
           The group to create or update.
-        content: &ref_6
+        content: &ref_8
           application/json:
             schema:
               type: object
@@ -285,13 +408,13 @@ paths:
                       type: array
                       items:
                         type: object
-                        properties: *ref_0
+                        properties: *ref_3
         required: true
       responses:
         '201':
           description: |
             Returns the group with the specified ID.
-          content: &ref_4
+          content: &ref_6
             application/json:
               schema:
                 type: object
@@ -299,12 +422,12 @@ paths:
                   group:
                     description: |
                       A single group.
-                    allOf: &ref_79
+                    allOf: &ref_81
                       - description: |
                           A single group.
                         type: object
-                        required: *ref_1
-                        properties: *ref_2
+                        required: *ref_4
+                        properties: *ref_5
                       - type: object
                         properties:
                           users:
@@ -356,7 +479,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: &ref_7
+          content: &ref_9
             application/json:
               schema:
                 description: |
@@ -373,7 +496,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /groups/{id}.json:
     get:
       tags:
@@ -387,7 +510,7 @@ paths:
           description: |
             The ID of the group.
           required: true
-          schema: &ref_5
+          schema: &ref_7
             type: string
         - name: include
           in: query
@@ -407,7 +530,7 @@ paths:
         '200':
           description: |
             Returns the group with the specified ID.
-          content: *ref_4
+          content: *ref_6
         '401':
           description: not provided
         '403':
@@ -426,11 +549,11 @@ paths:
           description: |
             The ID of the group.
           required: true
-          schema: *ref_5
+          schema: *ref_7
       requestBody:
         description: |
           The group to create or update.
-        content: *ref_6
+        content: *ref_8
         required: true
       responses:
         '204':
@@ -444,7 +567,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     delete:
       tags:
         - groups
@@ -457,7 +580,7 @@ paths:
           description: |
             The ID of the group.
           required: true
-          schema: *ref_5
+          schema: *ref_7
       responses:
         '204':
           description: not provided
@@ -473,7 +596,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /groups/{id}/users.json:
     post:
       tags:
@@ -486,7 +609,7 @@ paths:
           description: |
             The ID of the group.
           required: true
-          schema: *ref_5
+          schema: *ref_7
       requestBody:
         description: |
           The user ID list.
@@ -512,14 +635,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /groups/{id}/users/{user_id}.json:
     delete:
       tags:
@@ -532,7 +655,7 @@ paths:
           description: |
             The ID of the group.
           required: true
-          schema: *ref_5
+          schema: *ref_7
         - name: user_id
           in: path
           description: |
@@ -555,7 +678,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /issues.json:
     get:
       tags:
@@ -567,16 +690,16 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_8
+          schema: *ref_10
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_9
+          schema: *ref_11
         - name: query
           in: query
-          schema: &ref_32
+          schema: &ref_34
             type: object
             properties:
               status_id:
@@ -794,7 +917,7 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
-          schema: &ref_12
+          schema: &ref_14
             type: array
             items:
               type: string
@@ -812,7 +935,7 @@ paths:
         '200':
           description: |
             Returns a list of issues.
-          content: &ref_33
+          content: &ref_35
             application/json:
               schema:
                 type: object
@@ -823,9 +946,9 @@ paths:
                       description: |
                         A single issue.
                       type: object
-                      required: &ref_10
+                      required: &ref_12
                         - id
-                      properties: &ref_11
+                      properties: &ref_13
                         id:
                           type: integer
                           description: The ID of the issue.
@@ -946,7 +1069,7 @@ paths:
                           type: array
                           items:
                             type: object
-                            properties: *ref_0
+                            properties: *ref_3
                         created_on:
                           type: string
                           format: date-time
@@ -961,7 +1084,7 @@ paths:
                           description: The date and time when the issue was closed.
                         attachments:
                           type: array
-                          items: &ref_23
+                          items: &ref_25
                             type: object
                             properties:
                               id:
@@ -1035,7 +1158,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     post:
       tags:
         - issues
@@ -1044,7 +1167,7 @@ paths:
       requestBody:
         description: |
           The issue to create or update.
-        content: &ref_15
+        content: &ref_17
           application/json:
             schema:
               type: object
@@ -1104,7 +1227,7 @@ paths:
                       type: array
                       items:
                         type: object
-                        properties: *ref_0
+                        properties: *ref_3
                     lock_version:
                       type: string
                       description: The lock version of the issue.
@@ -1135,7 +1258,7 @@ paths:
         '201':
           description: |
             Returns the issue with the specified ID.
-          content: &ref_13
+          content: &ref_15
             application/json:
               schema:
                 type: object
@@ -1143,12 +1266,12 @@ paths:
                   issue:
                     description: |
                       A single issue.
-                    allOf: &ref_80
+                    allOf: &ref_82
                       - description: |
                           A single issue.
                         type: object
-                        required: *ref_10
-                        properties: *ref_11
+                        required: *ref_12
+                        properties: *ref_13
                       - type: object
                         properties:
                           children:
@@ -1287,14 +1410,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /issues/{id}.json:
     get:
       tags:
@@ -1308,21 +1431,21 @@ paths:
           description: |
             The ID of the issue.
           required: true
-          schema: &ref_14
+          schema: &ref_16
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
-          schema: *ref_12
+          schema: *ref_14
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the issue with the specified ID.
-          content: *ref_13
+          content: *ref_15
         '401':
           description: not provided
         '403':
@@ -1341,11 +1464,11 @@ paths:
           description: |
             The ID of the issue.
           required: true
-          schema: *ref_14
+          schema: *ref_16
       requestBody:
         description: |
           The issue to create or update.
-        content: *ref_15
+        content: *ref_17
         required: true
       responses:
         '204':
@@ -1359,7 +1482,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     delete:
       tags:
         - issues
@@ -1372,7 +1495,7 @@ paths:
           description: |
             The ID of the issue.
           required: true
-          schema: *ref_14
+          schema: *ref_16
       responses:
         '204':
           description: not provided
@@ -1385,14 +1508,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /issues/{issue_id}/relations.json:
     get:
       tags:
@@ -1405,7 +1528,7 @@ paths:
           description: |
             The ID of the issue.
           required: true
-          schema: &ref_16
+          schema: &ref_18
             type: string
       responses:
         '200':
@@ -1422,9 +1545,9 @@ paths:
                       description: |
                         A single relation.
                       type: object
-                      required: &ref_17
+                      required: &ref_19
                         - id
-                      properties: &ref_18
+                      properties: &ref_20
                         id:
                           type: integer
                           description: The ID of the relation.
@@ -1455,7 +1578,7 @@ paths:
           description: |
             The ID of the issue.
           required: true
-          schema: *ref_16
+          schema: *ref_18
       requestBody:
         description: |
           The issue relation to create.
@@ -1493,7 +1616,7 @@ paths:
         '201':
           description: |
             Returns the relation with the specified ID.
-          content: &ref_63
+          content: &ref_65
             application/json:
               schema:
                 type: object
@@ -1502,8 +1625,8 @@ paths:
                     description: |
                       A single relation.
                     type: object
-                    required: *ref_17
-                    properties: *ref_18
+                    required: *ref_19
+                    properties: *ref_20
         '401':
           description: not provided
         '403':
@@ -1511,14 +1634,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /issues/{issue_id}/time_entries.json:
     post:
       tags:
@@ -1536,7 +1659,7 @@ paths:
       requestBody:
         description: |
           The time entry to create or update.
-        content: &ref_51
+        content: &ref_53
           application/json:
             schema:
               type: object
@@ -1577,13 +1700,13 @@ paths:
                       type: array
                       items:
                         type: object
-                        properties: *ref_0
+                        properties: *ref_3
         required: true
       responses:
         '201':
           description: |
             Returns the time entry with the specified ID.
-          content: &ref_52
+          content: &ref_54
             application/json:
               schema:
                 type: object
@@ -1592,10 +1715,10 @@ paths:
                     description: |
                       A single time entry.
                     type: object
-                    required: &ref_48
+                    required: &ref_50
                       - id
                       - hours
-                    properties: &ref_49
+                    properties: &ref_51
                       id:
                         type: integer
                         description: The ID of the time entry.
@@ -1654,7 +1777,7 @@ paths:
                         type: array
                         items:
                           type: object
-                          properties: *ref_0
+                          properties: *ref_3
         '401':
           description: not provided
         '403':
@@ -1662,14 +1785,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /issue_categories/{id}.json:
     get:
       tags:
@@ -1683,13 +1806,13 @@ paths:
           description: |
             The ID of the issue category.
           required: true
-          schema: &ref_19
+          schema: &ref_21
             type: string
       responses:
         '200':
           description: |
             Returns the issue category with the specified ID.
-          content: &ref_39
+          content: &ref_41
             application/json:
               schema:
                 type: object
@@ -1698,9 +1821,9 @@ paths:
                     description: |
                       A single issue category.
                     type: object
-                    required: &ref_35
+                    required: &ref_37
                       - id
-                    properties: &ref_36
+                    properties: &ref_38
                       id:
                         type: integer
                         description: The ID of the issue category.
@@ -1743,11 +1866,11 @@ paths:
           description: |
             The ID of the issue category.
           required: true
-          schema: *ref_19
+          schema: *ref_21
       requestBody:
         description: |
           The issue category to create or update.
-        content: &ref_38
+        content: &ref_40
           application/json:
             schema:
               type: object
@@ -1776,7 +1899,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     delete:
       tags:
         - issue_categories
@@ -1789,7 +1912,7 @@ paths:
           description: |
             The ID of the issue category.
           required: true
-          schema: *ref_19
+          schema: *ref_21
         - name: reassign_to_id
           in: query
           description: |
@@ -1811,7 +1934,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /issue_statuses.json:
     get:
       tags:
@@ -1859,7 +1982,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /journals/{id}.json:
     put:
       tags:
@@ -1907,14 +2030,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /memberships/{id}.json:
     get:
       tags:
@@ -1928,13 +2051,13 @@ paths:
           description: |
             The ID of the membership.
           required: true
-          schema: &ref_20
+          schema: &ref_22
             type: string
       responses:
         '200':
           description: |
             Returns the membership with the specified ID.
-          content: &ref_44
+          content: &ref_46
             application/json:
               schema:
                 type: object
@@ -1943,11 +2066,11 @@ paths:
                     description: |
                       A single membership.
                     type: object
-                    required: &ref_40
+                    required: &ref_42
                       - id
                       - project
                       - roles
-                    properties: &ref_41
+                    properties: &ref_43
                       id:
                         type: integer
                         description: The ID of the membership.
@@ -2010,11 +2133,11 @@ paths:
           description: |
             The ID of the membership.
           required: true
-          schema: *ref_20
+          schema: *ref_22
       requestBody:
         description: |
           The membership to create or update.
-        content: &ref_43
+        content: &ref_45
           application/json:
             schema:
               type: object
@@ -2050,7 +2173,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     delete:
       tags:
         - members
@@ -2063,7 +2186,7 @@ paths:
           description: |
             The ID of the membership.
           required: true
-          schema: *ref_20
+          schema: *ref_22
       responses:
         '204':
           description: not provided
@@ -2076,14 +2199,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /news.json:
     get:
       tags:
@@ -2095,18 +2218,18 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_8
+          schema: *ref_10
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_9
+          schema: *ref_11
       responses:
         '200':
           description: |
             Returns all news across all projects with pagination.
-          content: &ref_45
+          content: &ref_47
             application/json:
               schema:
                 type: object
@@ -2117,12 +2240,12 @@ paths:
                       description: |
                         A single news.
                       type: object
-                      required: &ref_21
+                      required: &ref_23
                         - id
                         - login
                         - firstname
                         - lastname
-                      properties: &ref_22
+                      properties: &ref_24
                         id:
                           type: integer
                           description: The ID of the news.
@@ -2187,7 +2310,7 @@ paths:
                   description: |
                     A single news.
                   type: object
-                  properties: &ref_25
+                  properties: &ref_27
                     title:
                       type: string
                       description: The title of the news.
@@ -2211,14 +2334,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /news/{id}.json:
     get:
       tags:
@@ -2232,7 +2355,7 @@ paths:
           description: |
             The ID of the news.
           required: true
-          schema: &ref_24
+          schema: &ref_26
             type: string
         - name: include
           in: query
@@ -2260,17 +2383,17 @@ paths:
                   news:
                     description: |
                       A single news.
-                    allOf: &ref_81
+                    allOf: &ref_83
                       - description: |
                           A single news.
                         type: object
-                        required: *ref_21
-                        properties: *ref_22
+                        required: *ref_23
+                        properties: *ref_24
                       - type: object
                         properties:
                           attachments:
                             type: array
-                            items: *ref_23
+                            items: *ref_25
                           comments:
                             type: array
                             items:
@@ -2308,11 +2431,11 @@ paths:
           description: |
             The ID of the news.
           required: true
-          schema: *ref_24
+          schema: *ref_26
       requestBody:
         description: |
           The news to create.
-        content: &ref_47
+        content: &ref_49
           application/json:
             schema:
               type: object
@@ -2321,7 +2444,7 @@ paths:
                   description: |
                     A single news.
                   type: object
-                  properties: *ref_25
+                  properties: *ref_27
       responses:
         '204':
           description: not provided
@@ -2334,7 +2457,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     delete:
       tags:
         - news
@@ -2347,7 +2470,7 @@ paths:
           description: |
             The ID of the news.
           required: true
-          schema: *ref_24
+          schema: *ref_26
       responses:
         '204':
           description: not provided
@@ -2363,7 +2486,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /projects.json:
     get:
       tags:
@@ -2376,13 +2499,13 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_8
+          schema: *ref_10
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_9
+          schema: *ref_11
         - name: query
           in: query
           schema:
@@ -2461,7 +2584,7 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
-          schema: &ref_28
+          schema: &ref_30
             type: array
             items:
               type: string
@@ -2488,11 +2611,11 @@ paths:
                       description: |
                         A single project.
                       type: object
-                      required: &ref_26
+                      required: &ref_28
                         - id
                         - name
                         - identifier
-                      properties: &ref_27
+                      properties: &ref_29
                         id:
                           type: integer
                           description: The ID of the project.
@@ -2538,7 +2661,7 @@ paths:
                           type: array
                           items:
                             type: object
-                            properties: *ref_0
+                            properties: *ref_3
                         trackers:
                           type: array
                           items:
@@ -2624,7 +2747,7 @@ paths:
       requestBody:
         description: |
           The project to create or update.
-        content: &ref_31
+        content: &ref_33
           application/json:
             schema:
               type: object
@@ -2655,7 +2778,7 @@ paths:
                       type: array
                       items:
                         type: object
-                        properties: *ref_0
+                        properties: *ref_3
                     tracker_ids:
                       type: array
                       description: The IDs of the trackers associated with the project.
@@ -2695,7 +2818,7 @@ paths:
         '201':
           description: |
             Returns the project with the specified ID or identifier.
-          content: &ref_29
+          content: &ref_31
             application/json:
               schema:
                 type: object
@@ -2703,12 +2826,12 @@ paths:
                   project:
                     description: |
                       A single project.
-                    allOf: &ref_82
+                    allOf: &ref_84
                       - description: |
                           A single project.
                         type: object
-                        required: *ref_26
-                        properties: *ref_27
+                        required: *ref_28
+                        properties: *ref_29
                       - type: object
                         properties:
                           default_version:
@@ -2740,14 +2863,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /projects/{id}.json:
     get:
       tags:
@@ -2761,21 +2884,21 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_30
+          schema: &ref_32
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
-          schema: *ref_28
+          schema: *ref_30
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the project with the specified ID or identifier.
-          content: *ref_29
+          content: *ref_31
         '401':
           description: not provided
         '403':
@@ -2794,11 +2917,11 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_30
+          schema: *ref_32
       requestBody:
         description: |
           The project to create or update.
-        content: *ref_31
+        content: *ref_33
         required: true
       responses:
         '204':
@@ -2812,7 +2935,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     delete:
       tags:
         - projects
@@ -2825,7 +2948,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_30
+          schema: *ref_32
       responses:
         '204':
           description: not provided
@@ -2841,7 +2964,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /projects/{id}/archive.json:
     put:
       tags:
@@ -2855,7 +2978,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_30
+          schema: *ref_32
       responses:
         '204':
           description: not provided
@@ -2868,14 +2991,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /projects/{id}/unarchive.json:
     put:
       tags:
@@ -2889,7 +3012,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_30
+          schema: *ref_32
       responses:
         '204':
           description: not provided
@@ -2905,7 +3028,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /projects/{project_id}/issues.json:
     get:
       tags:
@@ -2917,36 +3040,36 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_8
+          schema: *ref_10
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_9
+          schema: *ref_11
         - name: project_id
           in: path
           description: |
             The ID or identifier of the issue.
           required: true
-          schema: &ref_34
+          schema: &ref_36
             type: string
         - name: query
           in: query
-          schema: *ref_32
+          schema: *ref_34
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
-          schema: *ref_12
+          schema: *ref_14
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns a list of issues.
-          content: *ref_33
+          content: *ref_35
         '401':
           description: not provided
         '403':
@@ -2956,7 +3079,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     post:
       tags:
         - issues
@@ -2968,17 +3091,17 @@ paths:
           description: |
             The ID or identifier of the issue.
           required: true
-          schema: *ref_34
+          schema: *ref_36
       requestBody:
         description: |
           The issue to create or update.
-        content: *ref_15
+        content: *ref_17
         required: true
       responses:
         '201':
           description: |
             Returns the issue with the specified ID.
-          content: *ref_13
+          content: *ref_15
         '401':
           description: not provided
         '403':
@@ -2988,14 +3111,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /projects/{project_id}/issue_categories.json:
     get:
       tags:
@@ -3007,12 +3130,12 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_8
+          schema: *ref_10
         - name: nometa
           in: query
           description: |
             If set to 1, the response will not include metadata information.
-          schema: &ref_53
+          schema: &ref_55
             type: integer
             enum:
               - 1
@@ -3021,7 +3144,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_37
+          schema: &ref_39
             type: string
       responses:
         '200':
@@ -3038,8 +3161,8 @@ paths:
                       description: |
                         A single issue category.
                       type: object
-                      required: *ref_35
-                      properties: *ref_36
+                      required: *ref_37
+                      properties: *ref_38
                   total_count:
                     type: integer
                     description: The total number of issue categories.
@@ -3058,17 +3181,17 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_37
+          schema: *ref_39
       requestBody:
         description: |
           The issue category to create or update.
-        content: *ref_38
+        content: *ref_40
         required: true
       responses:
         '201':
           description: |
             Returns the issue category with the specified ID.
-          content: *ref_39
+          content: *ref_41
         '401':
           description: not provided
         '403':
@@ -3076,14 +3199,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /projects/{project_id}/memberships.json:
     get:
       tags:
@@ -3095,19 +3218,19 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_8
+          schema: *ref_10
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_9
+          schema: *ref_11
         - name: project_id
           in: path
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_42
+          schema: &ref_44
             type: string
       responses:
         '200':
@@ -3124,8 +3247,8 @@ paths:
                       description: |
                         A single membership.
                       type: object
-                      required: *ref_40
-                      properties: *ref_41
+                      required: *ref_42
+                      properties: *ref_43
                   total_count:
                     type: integer
                     description: The total number of memberships.
@@ -3150,17 +3273,17 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_42
+          schema: *ref_44
       requestBody:
         description: |
           The membership to create or update.
-        content: *ref_43
+        content: *ref_45
         required: true
       responses:
         '201':
           description: |
             Returns the membership with the specified ID.
-          content: *ref_44
+          content: *ref_46
         '401':
           description: not provided
         '403':
@@ -3168,14 +3291,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /projects/{project_id}/news.json:
     get:
       tags:
@@ -3187,25 +3310,25 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_8
+          schema: *ref_10
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_9
+          schema: *ref_11
         - name: project_id
           in: path
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_46
+          schema: &ref_48
             type: string
       responses:
         '200':
           description: |
             Returns all news across all projects with pagination.
-          content: *ref_45
+          content: *ref_47
         '401':
           description: not provided
         '403':
@@ -3221,11 +3344,11 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_46
+          schema: *ref_48
       requestBody:
         description: |
           The news to create.
-        content: *ref_47
+        content: *ref_49
       responses:
         '204':
           description: not provided
@@ -3236,14 +3359,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /projects/{project_id}/time_entries.json:
     get:
       tags:
@@ -3255,23 +3378,23 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_8
+          schema: *ref_10
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_9
+          schema: *ref_11
         - name: project_id
           in: path
           description: |
             The ID or identifer of the project.
           required: true
-          schema: &ref_50
+          schema: &ref_52
             type: string
         - name: query
           in: query
-          schema: &ref_67
+          schema: &ref_69
             type: object
             properties:
               spent_on:
@@ -3379,7 +3502,7 @@ paths:
         '200':
           description: |
             Returns a list of time entries.
-          content: &ref_68
+          content: &ref_70
             application/json:
               schema:
                 type: object
@@ -3390,8 +3513,8 @@ paths:
                       description: |
                         A single time entry.
                       type: object
-                      required: *ref_48
-                      properties: *ref_49
+                      required: *ref_50
+                      properties: *ref_51
                   total_count:
                     type: integer
                     description: The total number of time entries.
@@ -3416,17 +3539,17 @@ paths:
           description: |
             The ID or identifer of the project.
           required: true
-          schema: *ref_50
+          schema: *ref_52
       requestBody:
         description: |
           The time entry to create or update.
-        content: *ref_51
+        content: *ref_53
         required: true
       responses:
         '201':
           description: |
             Returns the time entry with the specified ID.
-          content: *ref_52
+          content: *ref_54
         '401':
           description: not provided
         '403':
@@ -3434,14 +3557,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /projects/{project_id}/versions.json:
     get:
       tags:
@@ -3455,18 +3578,18 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_8
+          schema: *ref_10
         - name: nometa
           in: query
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_53
+          schema: *ref_55
         - name: project_id
           in: path
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_54
+          schema: &ref_56
             type: string
       responses:
         '200':
@@ -3483,10 +3606,10 @@ paths:
                       description: |
                         A single version.
                       type: object
-                      required: &ref_55
+                      required: &ref_57
                         - id
                         - name
-                      properties: &ref_56
+                      properties: &ref_58
                         id:
                           type: integer
                           description: The ID of the version.
@@ -3522,7 +3645,7 @@ paths:
                           type: array
                           items:
                             type: object
-                            properties: *ref_0
+                            properties: *ref_3
                         created_on:
                           type: string
                           format: date-time
@@ -3549,11 +3672,11 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_54
+          schema: *ref_56
       requestBody:
         description: |
           The version to create or update.
-        content: &ref_78
+        content: &ref_80
           application/json:
             schema:
               type: object
@@ -3607,13 +3730,13 @@ paths:
                       type: array
                       items:
                         type: object
-                        properties: *ref_0
+                        properties: *ref_3
         required: true
       responses:
         '201':
           description: |
             Returns the version with the specified ID.
-          content: &ref_76
+          content: &ref_78
             application/json:
               schema:
                 type: object
@@ -3621,12 +3744,12 @@ paths:
                   version:
                     description: |
                       A single version.
-                    allOf: &ref_83
+                    allOf: &ref_85
                       - description: |
                           A single version.
                         type: object
-                        required: *ref_55
-                        properties: *ref_56
+                        required: *ref_57
+                        properties: *ref_58
                       - type: object
                         properties:
                           estimated_hours:
@@ -3642,14 +3765,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /projects/{project_id}/wiki.json:
     get:
       tags:
@@ -3663,14 +3786,14 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_57
+          schema: &ref_59
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: &ref_60
+          schema: &ref_62
             type: array
             items:
               type: string
@@ -3682,7 +3805,7 @@ paths:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: &ref_61
+          content: &ref_63
             application/json:
               schema:
                 type: object
@@ -3690,14 +3813,14 @@ paths:
                   wiki_page:
                     description: |
                       A single wiki.
-                    allOf: &ref_84
+                    allOf: &ref_86
                       - description: |
                           A single wiki.
                         type: object
-                        required: &ref_58
+                        required: &ref_60
                           - title
                           - version
-                        properties: &ref_59
+                        properties: &ref_61
                           title:
                             type: string
                             description: The title of the wiki.
@@ -3737,7 +3860,7 @@ paths:
                             description: The comments of the wiki.
                           attachments:
                             type: array
-                            items: *ref_23
+                            items: *ref_25
         '401':
           description: not provided
         '403':
@@ -3750,7 +3873,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /projects/{project_id}/wiki/index.json:
     get:
       tags:
@@ -3763,7 +3886,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_57
+          schema: *ref_59
       responses:
         '200':
           description: |
@@ -3779,8 +3902,8 @@ paths:
                       description: |
                         A single wiki.
                       type: object
-                      required: *ref_58
-                      properties: *ref_59
+                      required: *ref_60
+                      properties: *ref_61
         '401':
           description: not provided
         '403':
@@ -3791,7 +3914,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /projects/{project_id}/wiki/{id}.json:
     get:
       tags:
@@ -3805,27 +3928,27 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_57
+          schema: *ref_59
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: &ref_62
+          schema: &ref_64
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: *ref_60
+          schema: *ref_62
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: *ref_61
+          content: *ref_63
         '401':
           description: not provided
         '403':
@@ -3844,13 +3967,13 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_57
+          schema: *ref_59
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_62
+          schema: *ref_64
       requestBody:
         description: |
           The wiki to create or update.
@@ -3881,7 +4004,7 @@ paths:
         '201':
           description: |
             Returns the wiki with the specified ID.
-          content: *ref_61
+          content: *ref_63
         '204':
           description: not provided
         '401':
@@ -3895,7 +4018,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     delete:
       tags:
         - wiki
@@ -3909,13 +4032,13 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_57
+          schema: *ref_59
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_62
+          schema: *ref_64
       responses:
         '204':
           description: not provided
@@ -3931,7 +4054,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /projects/{project_id}/wiki/{id}/{version}.json:
     get:
       tags:
@@ -3945,13 +4068,13 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_57
+          schema: *ref_59
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_62
+          schema: *ref_64
         - name: version
           in: path
           description: |
@@ -3964,14 +4087,14 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: *ref_60
+          schema: *ref_62
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: *ref_61
+          content: *ref_63
         '401':
           description: not provided
         '403':
@@ -3984,7 +4107,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /relations/{id}.json:
     get:
       tags:
@@ -3998,13 +4121,13 @@ paths:
           description: |
             The ID of the relation.
           required: true
-          schema: &ref_64
+          schema: &ref_66
             type: string
       responses:
         '200':
           description: |
             Returns the relation with the specified ID.
-          content: *ref_63
+          content: *ref_65
         '401':
           description: not provided
         '403':
@@ -4023,7 +4146,7 @@ paths:
           description: |
             The ID of the relation.
           required: true
-          schema: *ref_64
+          schema: *ref_66
       responses:
         '204':
           description: not provided
@@ -4039,7 +4162,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /roles.json:
     get:
       tags:
@@ -4061,10 +4184,10 @@ paths:
                       description: |
                         A single role.
                       type: object
-                      required: &ref_65
+                      required: &ref_67
                         - id
                         - name
-                      properties: &ref_66
+                      properties: &ref_68
                         id:
                           type: integer
                           description: The ID of the role.
@@ -4081,7 +4204,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /roles/{id}.json:
     get:
       tags:
@@ -4109,12 +4232,12 @@ paths:
                   role:
                     description: |
                       A single role.
-                    allOf: &ref_85
+                    allOf: &ref_87
                       - description: |
                           A single role.
                         type: object
-                        required: *ref_65
-                        properties: *ref_66
+                        required: *ref_67
+                        properties: *ref_68
                       - type: object
                         properties:
                           assignable:
@@ -4146,7 +4269,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /time_entries.json:
     get:
       tags:
@@ -4158,21 +4281,21 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_8
+          schema: *ref_10
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_9
+          schema: *ref_11
         - name: query
           in: query
-          schema: *ref_67
+          schema: *ref_69
       responses:
         '200':
           description: |
             Returns a list of time entries.
-          content: *ref_68
+          content: *ref_70
         '401':
           description: not provided
         '403':
@@ -4185,13 +4308,13 @@ paths:
       requestBody:
         description: |
           The time entry to create or update.
-        content: *ref_51
+        content: *ref_53
         required: true
       responses:
         '201':
           description: |
             Returns the time entry with the specified ID.
-          content: *ref_52
+          content: *ref_54
         '401':
           description: not provided
         '403':
@@ -4199,14 +4322,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /time_entries/{id}.json:
     get:
       tags:
@@ -4220,13 +4343,13 @@ paths:
           description: |
             The ID of the time entry.
           required: true
-          schema: &ref_69
+          schema: &ref_71
             type: string
       responses:
         '200':
           description: |
             Returns the time entry with the specified ID.
-          content: *ref_52
+          content: *ref_54
         '401':
           description: not provided
         '403':
@@ -4245,11 +4368,11 @@ paths:
           description: |
             The ID of the time entry.
           required: true
-          schema: *ref_69
+          schema: *ref_71
       requestBody:
         description: |
           The time entry to create or update.
-        content: *ref_51
+        content: *ref_53
         required: true
       responses:
         '204':
@@ -4263,7 +4386,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     delete:
       tags:
         - timelog
@@ -4276,7 +4399,7 @@ paths:
           description: |
             The ID of the time entry.
           required: true
-          schema: *ref_69
+          schema: *ref_71
       responses:
         '204':
           description: not provided
@@ -4289,14 +4412,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /trackers.json:
     get:
       tags:
@@ -4355,7 +4478,7 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /users.json:
     get:
       tags:
@@ -4367,13 +4490,13 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_8
+          schema: *ref_10
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_9
+          schema: *ref_11
         - name: query
           in: query
           schema:
@@ -4470,7 +4593,7 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: &ref_72
+          schema: &ref_74
             type: array
             items:
               type: string
@@ -4495,12 +4618,12 @@ paths:
                       description: |
                         A single user.
                       type: object
-                      required: &ref_70
+                      required: &ref_72
                         - id
                         - login
                         - firstname
                         - lastname
-                      properties: &ref_71
+                      properties: &ref_73
                         id:
                           type: integer
                           description: The ID of the user.
@@ -4562,7 +4685,7 @@ paths:
                           type: array
                           items:
                             type: object
-                            properties: *ref_0
+                            properties: *ref_3
                   total_count:
                     type: integer
                     description: The total number of users.
@@ -4584,7 +4707,7 @@ paths:
       requestBody:
         description: |
           The user to create or update.
-        content: &ref_75
+        content: &ref_77
           application/json:
             schema:
               type: object
@@ -4630,7 +4753,7 @@ paths:
                       type: array
                       items:
                         type: object
-                        properties: *ref_0
+                        properties: *ref_3
                     login:
                       type: string
                       description: The login of the user.
@@ -4730,7 +4853,7 @@ paths:
         '201':
           description: |
             Returns the user with the specified ID.
-          content: &ref_73
+          content: &ref_75
             application/json:
               schema:
                 type: object
@@ -4738,12 +4861,12 @@ paths:
                   user:
                     description: |
                       A single user.
-                    allOf: &ref_86
+                    allOf: &ref_88
                       - description: |
                           A single user.
                         type: object
-                        required: *ref_70
-                        properties: *ref_71
+                        required: *ref_72
+                        properties: *ref_73
                       - type: object
                         properties:
                           api_key:
@@ -4798,14 +4921,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /users/{id}.json:
     get:
       tags:
@@ -4819,21 +4942,21 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: &ref_74
+          schema: &ref_76
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: *ref_72
+          schema: *ref_74
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the user with the specified ID.
-          content: *ref_73
+          content: *ref_75
         '401':
           description: not provided
         '403':
@@ -4852,11 +4975,11 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: *ref_74
+          schema: *ref_76
       requestBody:
         description: |
           The user to create or update.
-        content: *ref_75
+        content: *ref_77
         required: true
       responses:
         '204':
@@ -4870,7 +4993,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     delete:
       tags:
         - users
@@ -4883,7 +5006,7 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: *ref_74
+          schema: *ref_76
       responses:
         '204':
           description: not provided
@@ -4896,14 +5019,14 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     parameters:
       - name: X-Redmine-Switch-User
         in: header
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
   /versions/{id}.json:
     get:
       tags:
@@ -4917,13 +5040,13 @@ paths:
           description: |
             The ID of the version.
           required: true
-          schema: &ref_77
+          schema: &ref_79
             type: string
       responses:
         '200':
           description: |
             Returns the version with the specified ID.
-          content: *ref_76
+          content: *ref_78
         '401':
           description: not provided
         '403':
@@ -4942,11 +5065,11 @@ paths:
           description: |
             The ID of the version.
           required: true
-          schema: *ref_77
+          schema: *ref_79
       requestBody:
         description: |
           The version to create or update.
-        content: *ref_78
+        content: *ref_80
         required: true
       responses:
         '204':
@@ -4960,7 +5083,7 @@ paths:
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
-          content: *ref_7
+          content: *ref_9
     delete:
       tags:
         - versions
@@ -4973,7 +5096,7 @@ paths:
           description: |
             The ID of the version.
           required: true
-          schema: *ref_77
+          schema: *ref_79
       responses:
         '204':
           description: not provided
@@ -4991,46 +5114,46 @@ paths:
         description: |
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
-        schema: *ref_3
+        schema: *ref_0
 components:
   schemas:
     group_detail:
       description: |
         A single group.
-      allOf: *ref_79
+      allOf: *ref_81
     issue_detail:
       description: |
         A single issue.
-      allOf: *ref_80
+      allOf: *ref_82
     news_detail:
       description: |
         A single news.
-      allOf: *ref_81
+      allOf: *ref_83
     project_detail:
       description: |
         A single project.
-      allOf: *ref_82
+      allOf: *ref_84
     version_detail:
       description: |
         A single version.
-      allOf: *ref_83
+      allOf: *ref_85
     wiki_detail:
       description: |
         A single wiki.
-      allOf: *ref_84
+      allOf: *ref_86
     role_detail:
       description: |
         A single role.
-      allOf: *ref_85
+      allOf: *ref_87
     user_detail:
       description: |
         A single user.
-      allOf: *ref_86
+      allOf: *ref_88
   responses:
     unprocessable_entity:
       description: |
         The request was well-formed but was unable to be followed due to semantic errors.
-      content: *ref_7
+      content: *ref_9
     error:
       description: |
         An error occurred while processing the request.

@@ -1,0 +1,106 @@
+paths:
+  /enumerations/document_categories.json:
+    get:
+      tags: ["enumerations"]
+      description: Returns a list of document categories.
+      operationId: enumerations#index-document-category
+      responses:
+        "200":
+          $ref: "#/components/responses/document_categories"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /enumerations/issue_priorities.json:
+    get:
+      tags: ["enumerations"]
+      description: Returns a list of issue priorities.
+      operationId: enumerations#index-issue-priority
+      responses:
+        "200":
+          $ref: "#/components/responses/issue_priorities"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /enumerations/time_entry_activities.json:
+    get:
+      tags: ["enumerations"]
+      description: Returns a list of time entry activity.
+      operationId: enumerations#index-time-entry-activity
+      responses:
+        "200":
+          $ref: "#/components/responses/time_entry_activities"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  schemas:
+    enumeration:
+      description: |
+        A single enumeration.
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          description: The ID of the enumeration.
+        name:
+          type: string
+          description: The name of the enumeration.
+        is_default:
+          type: boolean
+          description: The default of the enumeration.
+        active:
+          type: boolean
+          description: The active of the enumeration.
+        custom_fields:
+          type: array
+          items:
+            $ref: "./openapi.yml#/components/schemas/custom_field"
+  responses:
+    document_categories:
+      description: |
+        Returns a list of enumerations.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              document_category:
+                type: array
+                items:
+                  $ref: "#/components/schemas/enumeration"
+    issue_priorities:
+      description: |
+        Returns a list of enumerations.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              issue_priority:
+                type: array
+                items:
+                  $ref: "#/components/schemas/enumeration"
+    time_entry_activities:
+      description: |
+        Returns a list of enumerations.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              time_entry_activity:
+                type: array
+                items:
+                  $ref: "#/components/schemas/enumeration"

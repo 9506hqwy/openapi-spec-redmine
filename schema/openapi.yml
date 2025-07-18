@@ -7,6 +7,12 @@ servers:
 paths:
   /custom_fields.json:
     $ref: "./custom_fields.yml#/paths/~1custom_fields.json"
+  /enumerations/document_categories.json:
+    $ref: "./enumerations.yml#/paths/~1enumerations~1document_categories.json"
+  /enumerations/issue_priorities.json:
+    $ref: "./enumerations.yml#/paths/~1enumerations~1issue_priorities.json"
+  /enumerations/time_entry_activities.json:
+    $ref: "./enumerations.yml#/paths/~1enumerations~1time_entry_activities.json"
   /groups.json:
     $ref: "./groups.yml#/paths/~1groups.json"
   /groups/{id}.json:
@@ -212,6 +218,8 @@ security:
 tags:
   - name: custom_fields
     description: custom_fields_controller's API
+  - name: enumerations
+    description: enumerations_controller's API
   - name: groups
     description: groups_controller's API
   - name: issues
