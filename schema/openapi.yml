@@ -57,6 +57,8 @@ paths:
     $ref: "./members.yml#/paths/~1projects~1{project_id}~1memberships.json"
   /projects/{project_id}/news.json:
     $ref: "./news.yml#/paths/~1projects~1{project_id}~1news.json"
+  /projects/{project_id}/search.json:
+    $ref: "./search.yml#/paths/~1projects~1{project_id}~1search.json"
   /projects/{project_id}/time_entries.json:
     $ref: "./timelog.yml#/paths/~1projects~1{project_id}~1time_entries.json"
   /projects/{project_id}/versions.json:
@@ -75,6 +77,8 @@ paths:
     $ref: "./roles.yml#/paths/~1roles.json"
   /roles/{id}.json:
     $ref: "./roles.yml#/paths/~1roles~1{id}.json"
+  /search.json:
+    $ref: "./search.yml#/paths/~1search.json"
   /time_entries.json:
     $ref: "./timelog.yml#/paths/~1time_entries.json"
   /time_entries/{id}.json:
@@ -240,6 +244,8 @@ tags:
     description: projects_controller's API
   - name: roles
     description: roles_controller's API
+  - name: search
+    description: search_controller's API
   - name: timelog
     description: timelog_controller's API
   - name: trackers

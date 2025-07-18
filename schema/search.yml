@@ -1,0 +1,159 @@
+paths:
+  /projects/{project_id}/search.json:
+    get:
+      tags: ["search"]
+      description: Returns the search results by the specified condition parameters.
+      operationId: search#index-project
+      parameters:
+        - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
+        - $ref: "./openapi.yml#/components/parameters/pagination"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/q"
+        - $ref: "#/components/parameters/query"
+      responses:
+        "200":
+          $ref: "#/components/responses/results"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /search.json:
+    get:
+      tags: ["search"]
+      description: Returns the search results by the specified condition parameters.
+      operationId: search#index
+      parameters:
+        - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
+        - $ref: "./openapi.yml#/components/parameters/pagination"
+        - $ref: "#/components/parameters/q"
+        - $ref: "#/components/parameters/query"
+      responses:
+        "200":
+          $ref: "#/components/responses/results"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  schemas:
+    result:
+      description: |
+        A single search result.
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          description: The ID of the search result.
+        title:
+          type: string
+          description: The title of the search result.
+        type:
+          type: string
+          description: The type of the search result.
+        url:
+          type: string
+          description: The url of the search result.
+        description:
+          type: string
+          description: The description of the search result.
+        datetime:
+          type: string
+          format: date-time
+          description: The date and time when the search result was created.
+  responses:
+    results:
+      description: |
+        Returns a list of search results.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              results:
+                type: array
+                items:
+                  $ref: "#/components/schemas/result"
+              total_count:
+                type: integer
+                description: The total number of search results.
+              offset:
+                type: integer
+                description: The offset of the first search result in the list.
+              limit:
+                type: integer
+                description: The maximum number of search results returned in the list.
+  parameters:
+    project_id:
+      name: project_id
+      in: path
+      description: |
+        The ID or identifier of the issue.
+      required: true
+      schema:
+        type: string
+    q:
+      name: q
+      in: query
+      description: |
+        Query strings. Enable to specify multiple values separated by a space " ".
+      required: true
+      schema:
+        type: string
+    query:
+      name: query
+      in: query
+      schema:
+        type: object
+        properties:
+          scope:
+            type: string
+            description: |
+              Search scope condition.
+              Possible values are:
+              - `all`: Search all projects
+              - `my_project`: Search assigned projects
+              - `bookmarks`: Search bookmarked projects
+              - `subprojects`: Include subproject when project specified
+          all_words:
+            type: boolean
+            description: matched all query strings or not.
+          titles_only:
+            type: boolean
+            description: matched only title or not.
+          issues:
+            type: boolean
+            description: Include issues or not.
+          news:
+            type: boolean
+            description: Include news or not.
+          documents:
+            type: boolean
+            description: Include documents or not.
+          changesets:
+            type: boolean
+            description: Include changesets or not.
+          wiki_pages:
+            type: boolean
+            description: Include documents or not.
+          messages:
+            type: boolean
+            description: Include messages or not.
+          projects:
+            type: boolean
+            description: Include projects or not.
+          open_issues:
+            type: boolean
+            description: Filterd by open issues.
+          attachments:
+            type: string
+            description: |
+              Filterd by description and attachment.
+              - `0`: Seach only in description
+              - `1`: Search by description and attachment
+              - `only`: Search only in attachment

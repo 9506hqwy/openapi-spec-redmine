@@ -33,6 +33,8 @@ tags:
     description: projects_controller's API
   - name: roles
     description: roles_controller's API
+  - name: search
+    description: search_controller's API
   - name: timelog
     description: timelog_controller's API
   - name: trackers
@@ -422,7 +424,7 @@ paths:
                   group:
                     description: |
                       A single group.
-                    allOf: &ref_81
+                    allOf: &ref_84
                       - description: |
                           A single group.
                         type: object
@@ -1266,7 +1268,7 @@ paths:
                   issue:
                     description: |
                       A single issue.
-                    allOf: &ref_82
+                    allOf: &ref_85
                       - description: |
                           A single issue.
                         type: object
@@ -2383,7 +2385,7 @@ paths:
                   news:
                     description: |
                       A single news.
-                    allOf: &ref_83
+                    allOf: &ref_86
                       - description: |
                           A single news.
                         type: object
@@ -2826,7 +2828,7 @@ paths:
                   project:
                     description: |
                       A single project.
-                    allOf: &ref_84
+                    allOf: &ref_87
                       - description: |
                           A single project.
                         type: object
@@ -3367,6 +3369,146 @@ paths:
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
         schema: *ref_0
+  /projects/{project_id}/search.json:
+    get:
+      tags:
+        - search
+      description: Returns the search results by the specified condition parameters.
+      operationId: search#index-project
+      parameters:
+        - name: X-Redmine-Nometa
+          in: header
+          description: |
+            If set to 1, the response will not include metadata information.
+          schema: *ref_10
+        - name: pagination
+          in: query
+          description: |
+            Pagination parameters to control the number of items returned in the response.
+            If not specified, it defaults to 25 items per page.
+          schema: *ref_11
+        - name: project_id
+          in: path
+          description: |
+            The ID or identifier of the issue.
+          required: true
+          schema:
+            type: string
+        - name: q
+          in: query
+          description: |
+            Query strings. Enable to specify multiple values separated by a space " ".
+          required: true
+          schema: &ref_69
+            type: string
+        - name: query
+          in: query
+          schema: &ref_70
+            type: object
+            properties:
+              scope:
+                type: string
+                description: |
+                  Search scope condition.
+                  Possible values are:
+                  - `all`: Search all projects
+                  - `my_project`: Search assigned projects
+                  - `bookmarks`: Search bookmarked projects
+                  - `subprojects`: Include subproject when project specified
+              all_words:
+                type: boolean
+                description: matched all query strings or not.
+              titles_only:
+                type: boolean
+                description: matched only title or not.
+              issues:
+                type: boolean
+                description: Include issues or not.
+              news:
+                type: boolean
+                description: Include news or not.
+              documents:
+                type: boolean
+                description: Include documents or not.
+              changesets:
+                type: boolean
+                description: Include changesets or not.
+              wiki_pages:
+                type: boolean
+                description: Include documents or not.
+              messages:
+                type: boolean
+                description: Include messages or not.
+              projects:
+                type: boolean
+                description: Include projects or not.
+              open_issues:
+                type: boolean
+                description: Filterd by open issues.
+              attachments:
+                type: string
+                description: |
+                  Filterd by description and attachment.
+                  - `0`: Seach only in description
+                  - `1`: Search by description and attachment
+                  - `only`: Search only in attachment
+      responses:
+        '200':
+          description: |
+            Returns a list of search results.
+          content: &ref_71
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      description: |
+                        A single search result.
+                      type: object
+                      required:
+                        - id
+                      properties:
+                        id:
+                          type: integer
+                          description: The ID of the search result.
+                        title:
+                          type: string
+                          description: The title of the search result.
+                        type:
+                          type: string
+                          description: The type of the search result.
+                        url:
+                          type: string
+                          description: The url of the search result.
+                        description:
+                          type: string
+                          description: The description of the search result.
+                        datetime:
+                          type: string
+                          format: date-time
+                          description: The date and time when the search result was created.
+                  total_count:
+                    type: integer
+                    description: The total number of search results.
+                  offset:
+                    type: integer
+                    description: The offset of the first search result in the list.
+                  limit:
+                    type: integer
+                    description: The maximum number of search results returned in the list.
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_0
   /projects/{project_id}/time_entries.json:
     get:
       tags:
@@ -3394,7 +3536,7 @@ paths:
             type: string
         - name: query
           in: query
-          schema: &ref_69
+          schema: &ref_72
             type: object
             properties:
               spent_on:
@@ -3502,7 +3644,7 @@ paths:
         '200':
           description: |
             Returns a list of time entries.
-          content: &ref_70
+          content: &ref_73
             application/json:
               schema:
                 type: object
@@ -3676,7 +3818,7 @@ paths:
       requestBody:
         description: |
           The version to create or update.
-        content: &ref_80
+        content: &ref_83
           application/json:
             schema:
               type: object
@@ -3736,7 +3878,7 @@ paths:
         '201':
           description: |
             Returns the version with the specified ID.
-          content: &ref_78
+          content: &ref_81
             application/json:
               schema:
                 type: object
@@ -3744,7 +3886,7 @@ paths:
                   version:
                     description: |
                       A single version.
-                    allOf: &ref_85
+                    allOf: &ref_88
                       - description: |
                           A single version.
                         type: object
@@ -3813,7 +3955,7 @@ paths:
                   wiki_page:
                     description: |
                       A single wiki.
-                    allOf: &ref_86
+                    allOf: &ref_89
                       - description: |
                           A single wiki.
                         type: object
@@ -4232,7 +4374,7 @@ paths:
                   role:
                     description: |
                       A single role.
-                    allOf: &ref_87
+                    allOf: &ref_90
                       - description: |
                           A single role.
                         type: object
@@ -4270,6 +4412,49 @@ paths:
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
         schema: *ref_0
+  /search.json:
+    get:
+      tags:
+        - search
+      description: Returns the search results by the specified condition parameters.
+      operationId: search#index
+      parameters:
+        - name: X-Redmine-Nometa
+          in: header
+          description: |
+            If set to 1, the response will not include metadata information.
+          schema: *ref_10
+        - name: pagination
+          in: query
+          description: |
+            Pagination parameters to control the number of items returned in the response.
+            If not specified, it defaults to 25 items per page.
+          schema: *ref_11
+        - name: q
+          in: query
+          description: |
+            Query strings. Enable to specify multiple values separated by a space " ".
+          required: true
+          schema: *ref_69
+        - name: query
+          in: query
+          schema: *ref_70
+      responses:
+        '200':
+          description: |
+            Returns a list of search results.
+          content: *ref_71
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_0
   /time_entries.json:
     get:
       tags:
@@ -4290,12 +4475,12 @@ paths:
           schema: *ref_11
         - name: query
           in: query
-          schema: *ref_69
+          schema: *ref_72
       responses:
         '200':
           description: |
             Returns a list of time entries.
-          content: *ref_70
+          content: *ref_73
         '401':
           description: not provided
         '403':
@@ -4343,7 +4528,7 @@ paths:
           description: |
             The ID of the time entry.
           required: true
-          schema: &ref_71
+          schema: &ref_74
             type: string
       responses:
         '200':
@@ -4368,7 +4553,7 @@ paths:
           description: |
             The ID of the time entry.
           required: true
-          schema: *ref_71
+          schema: *ref_74
       requestBody:
         description: |
           The time entry to create or update.
@@ -4399,7 +4584,7 @@ paths:
           description: |
             The ID of the time entry.
           required: true
-          schema: *ref_71
+          schema: *ref_74
       responses:
         '204':
           description: not provided
@@ -4593,7 +4778,7 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: &ref_74
+          schema: &ref_77
             type: array
             items:
               type: string
@@ -4618,12 +4803,12 @@ paths:
                       description: |
                         A single user.
                       type: object
-                      required: &ref_72
+                      required: &ref_75
                         - id
                         - login
                         - firstname
                         - lastname
-                      properties: &ref_73
+                      properties: &ref_76
                         id:
                           type: integer
                           description: The ID of the user.
@@ -4707,7 +4892,7 @@ paths:
       requestBody:
         description: |
           The user to create or update.
-        content: &ref_77
+        content: &ref_80
           application/json:
             schema:
               type: object
@@ -4853,7 +5038,7 @@ paths:
         '201':
           description: |
             Returns the user with the specified ID.
-          content: &ref_75
+          content: &ref_78
             application/json:
               schema:
                 type: object
@@ -4861,12 +5046,12 @@ paths:
                   user:
                     description: |
                       A single user.
-                    allOf: &ref_88
+                    allOf: &ref_91
                       - description: |
                           A single user.
                         type: object
-                        required: *ref_72
-                        properties: *ref_73
+                        required: *ref_75
+                        properties: *ref_76
                       - type: object
                         properties:
                           api_key:
@@ -4942,21 +5127,21 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: &ref_76
+          schema: &ref_79
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: *ref_74
+          schema: *ref_77
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the user with the specified ID.
-          content: *ref_75
+          content: *ref_78
         '401':
           description: not provided
         '403':
@@ -4975,11 +5160,11 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: *ref_76
+          schema: *ref_79
       requestBody:
         description: |
           The user to create or update.
-        content: *ref_77
+        content: *ref_80
         required: true
       responses:
         '204':
@@ -5006,7 +5191,7 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: *ref_76
+          schema: *ref_79
       responses:
         '204':
           description: not provided
@@ -5040,13 +5225,13 @@ paths:
           description: |
             The ID of the version.
           required: true
-          schema: &ref_79
+          schema: &ref_82
             type: string
       responses:
         '200':
           description: |
             Returns the version with the specified ID.
-          content: *ref_78
+          content: *ref_81
         '401':
           description: not provided
         '403':
@@ -5065,11 +5250,11 @@ paths:
           description: |
             The ID of the version.
           required: true
-          schema: *ref_79
+          schema: *ref_82
       requestBody:
         description: |
           The version to create or update.
-        content: *ref_80
+        content: *ref_83
         required: true
       responses:
         '204':
@@ -5096,7 +5281,7 @@ paths:
           description: |
             The ID of the version.
           required: true
-          schema: *ref_79
+          schema: *ref_82
       responses:
         '204':
           description: not provided
@@ -5120,35 +5305,35 @@ components:
     group_detail:
       description: |
         A single group.
-      allOf: *ref_81
+      allOf: *ref_84
     issue_detail:
       description: |
         A single issue.
-      allOf: *ref_82
+      allOf: *ref_85
     news_detail:
       description: |
         A single news.
-      allOf: *ref_83
+      allOf: *ref_86
     project_detail:
       description: |
         A single project.
-      allOf: *ref_84
+      allOf: *ref_87
     version_detail:
       description: |
         A single version.
-      allOf: *ref_85
+      allOf: *ref_88
     wiki_detail:
       description: |
         A single wiki.
-      allOf: *ref_86
+      allOf: *ref_89
     role_detail:
       description: |
         A single role.
-      allOf: *ref_87
+      allOf: *ref_90
     user_detail:
       description: |
         A single user.
-      allOf: *ref_88
+      allOf: *ref_91
   responses:
     unprocessable_entity:
       description: |
