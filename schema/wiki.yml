@@ -54,11 +54,36 @@ paths:
           $ref: "./openapi.yml#/components/responses/no_content"
         "404":
           $ref: "./openapi.yml#/components/responses/no_content"
+    patch:
+      tags: ["wiki"]
+      description: |
+        Creates or updates a wiki page with the specified ID.
+      operationId: wiki#update-patch
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBody/wiki"
+      responses:
+        "201":
+          $ref: "#/components/responses/wiki"
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "409":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
     put:
       tags: ["wiki"]
       description: |
         Creates or updates a wiki page with the specified ID.
-      operationId: wiki#update
+      operationId: wiki#update-put
       parameters:
         - $ref: "#/components/parameters/project_id"
         - $ref: "#/components/parameters/id"

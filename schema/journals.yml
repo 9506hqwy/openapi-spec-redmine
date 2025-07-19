@@ -1,10 +1,30 @@
 paths:
   /journals/{id}.json:
+    patch:
+      tags: ["journals"]
+      description: |
+        Updates the journal with the specified ID.
+      operationId: journals#update-patch
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBody/journal"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
     put:
       tags: ["journals"]
       description: |
         Updates the journal with the specified ID.
-      operationId: journals#update
+      operationId: journals#update-put
       parameters:
         - $ref: "#/components/parameters/id"
       requestBody:

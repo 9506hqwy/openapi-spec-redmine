@@ -84,11 +84,31 @@ paths:
           $ref: "./openapi.yml#/components/responses/no_content"
         "404":
           $ref: "./openapi.yml#/components/responses/no_content"
+    patch:
+      tags: ["news"]
+      description: |
+        Updates the news with the specified ID.
+      operationId: news#update-patch
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBody/news-project"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
     put:
       tags: ["news"]
       description: |
         Updates the news with the specified ID.
-      operationId: news#update
+      operationId: news#update-put
       parameters:
         - $ref: "#/components/parameters/id"
       requestBody:

@@ -16,11 +16,31 @@ paths:
           $ref: "./openapi.yml#/components/responses/no_content"
         "404":
           $ref: "./openapi.yml#/components/responses/no_content"
+    patch:
+      tags: ["issue_categories"]
+      description: |
+        Updates the issue category with the specified ID.
+      operationId: issue_categories#update-patch
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBody/issue_category"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
     put:
       tags: ["issue_categories"]
       description: |
         Updates the issue category with the specified ID.
-      operationId: issue_categories#update
+      operationId: issue_categories#update-put
       parameters:
         - $ref: "#/components/parameters/id"
       requestBody:

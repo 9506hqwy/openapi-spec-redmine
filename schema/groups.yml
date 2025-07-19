@@ -49,11 +49,31 @@ paths:
           $ref: "./openapi.yml#/components/responses/no_content"
         "404":
           $ref: "./openapi.yml#/components/responses/no_content"
+    patch:
+      tags: ["groups"]
+      description: |
+        Updates the group with the specified ID.
+      operationId: groups#update-patch
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBody/group"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
     put:
       tags: ["groups"]
       description: |
         Updates the group with the specified ID.
-      operationId: groups#update
+      operationId: groups#update-put
       parameters:
         - $ref: "#/components/parameters/id"
       requestBody:

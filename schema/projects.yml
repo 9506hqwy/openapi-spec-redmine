@@ -53,11 +53,31 @@ paths:
           $ref: "./openapi.yml#/components/responses/no_content"
         "404":
           $ref: "./openapi.yml#/components/responses/no_content"
+    patch:
+      tags: ["projects"]
+      description: |
+        Updates the project with the specified ID or identifier.
+      operationId: projects#update-patch
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBody/project"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
     put:
       tags: ["projects"]
       description: |
         Updates the project with the specified ID or identifier.
-      operationId: projects#update
+      operationId: projects#update-put
       parameters:
         - $ref: "#/components/parameters/id"
       requestBody:
@@ -92,11 +112,29 @@ paths:
     parameters:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /projects/{id}/archive.json:
+    post:
+      tags: ["projects"]
+      description: |
+        Archives the project with the specified ID or identifier.
+      operationId: projects#archive-post
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
     put:
       tags: ["projects"]
       description: |
         Archives the project with the specified ID or identifier.
-      operationId: projects#archive
+      operationId: projects#archive-put
       parameters:
         - $ref: "#/components/parameters/id"
       responses:
@@ -113,11 +151,27 @@ paths:
     parameters:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /projects/{id}/close.json:
+    post:
+      tags: ["projects"]
+      description: |
+        Closes the project with the specified ID or identifier.
+      operationId: projects#close-post
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
     put:
       tags: ["projects"]
       description: |
         Closes the project with the specified ID or identifier.
-      operationId: projects#close
+      operationId: projects#close-put
       parameters:
         - $ref: "#/components/parameters/id"
       responses:
@@ -132,11 +186,27 @@ paths:
     parameters:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /projects/{id}/reopen.json:
+    post:
+      tags: ["projects"]
+      description: |
+        Reopens the project with the specified ID or identifier.
+      operationId: projects#reopen-post
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
     put:
       tags: ["projects"]
       description: |
         Reopens the project with the specified ID or identifier.
-      operationId: projects#reopen
+      operationId: projects#reopen-put
       parameters:
         - $ref: "#/components/parameters/id"
       responses:
@@ -151,11 +221,27 @@ paths:
     parameters:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /projects/{id}/unarchive.json:
+    post:
+      tags: ["projects"]
+      description: |
+        Unarchives the project with the specified ID or identifier.
+      operationId: projects#unarchive-post
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
     put:
       tags: ["projects"]
       description: |
         Unarchives the project with the specified ID or identifier.
-      operationId: projects#unarchive
+      operationId: projects#unarchive-put
       parameters:
         - $ref: "#/components/parameters/id"
       responses:

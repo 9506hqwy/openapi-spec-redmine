@@ -105,11 +105,31 @@ paths:
           $ref: "./openapi.yml#/components/responses/no_content"
         "404":
           $ref: "./openapi.yml#/components/responses/no_content"
+    patch:
+      tags: ["timelog"]
+      description: |
+        Updates the time entry with the specified ID.
+      operationId: timelog#update-patch
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBody/time_entry"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
     put:
       tags: ["timelog"]
       description: |
         Updates the time entry with the specified ID.
-      operationId: timelog#update
+      operationId: timelog#update-put
       parameters:
         - $ref: "#/components/parameters/id"
       requestBody:
