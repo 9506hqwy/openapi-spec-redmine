@@ -1,0 +1,93 @@
+paths:
+  /projects/{id}/repository/{repository_id}/revisions/{rev}/issues.json:
+    post:
+      tags: ["repositories"]
+      description: Add relation issue to revision.
+      operationId: repositories#add_related_issue
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/repository_id"
+        - $ref: "#/components/parameters/rev"
+      requestBody:
+        $ref: "#/components/requestBody/repository"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /projects/{id}/repository/{repository_id}/revisions/{rev}/issues/{issue_id}.json:
+    delete:
+      tags: ["repositories"]
+      description: Delete relation issue from revision.
+      operationId: repositories#remove_related_issue
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/repository_id"
+        - $ref: "#/components/parameters/rev"
+        - $ref: "#/components/parameters/issue_id"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  parameters:
+    id:
+      name: id
+      in: path
+      description: |
+        The ID or identifier of the project.
+      required: true
+      schema:
+        type: string
+    repository_id:
+      name: repository_id
+      in: path
+      description: |
+        The identifier of the repository.
+      required: true
+      schema:
+        type: string
+    rev:
+      name: rev
+      in: path
+      description: |
+        The revision of the changeset.
+      required: true
+      schema:
+        type: string
+    issue_id:
+      name: issue_id
+      in: path
+      description: |
+        The ID of the issue.
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    repository:
+      description: |
+        The repository to create or update.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              issue_id:
+                type: integer
+                description: The ID of the issue.
+      required: true
