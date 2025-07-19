@@ -79,6 +79,8 @@ paths:
     $ref: "./wiki.yml#/paths/~1projects~1{project_id}~1wiki~1{id}.json"
   /projects/{project_id}/wiki/{id}/{version}.json:
     $ref: "./wiki.yml#/paths/~1projects~1{project_id}~1wiki~1{id}~1{version}.json"
+  /queries.json:
+    $ref: "./queries.yml#/paths/~1queries.json"
   /relations/{id}.json:
     $ref: "./issue_relations.yml#/paths/~1relations~1{id}.json"
   /roles.json:
@@ -252,6 +254,8 @@ tags:
     description: news_controller's API
   - name: projects
     description: projects_controller's API
+  - name: queries
+    description: queries_controller's API
   - name: repositories
     description: repositories_controller's API
   - name: roles

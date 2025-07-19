@@ -31,6 +31,8 @@ tags:
     description: news_controller's API
   - name: projects
     description: projects_controller's API
+  - name: queries
+    description: queries_controller's API
   - name: repositories
     description: repositories_controller's API
   - name: roles
@@ -4449,6 +4451,75 @@ paths:
         '403':
           description: not provided
         '404':
+          description: not provided
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_0
+  /queries.json:
+    get:
+      tags:
+        - queries
+      description: Returns a list of queries.
+      operationId: queries#index
+      parameters:
+        - name: X-Redmine-Nometa
+          in: header
+          description: |
+            If set to 1, the response will not include metadata information.
+          schema: *ref_10
+        - name: pagination
+          in: query
+          description: |
+            Pagination parameters to control the number of items returned in the response.
+            If not specified, it defaults to 25 items per page.
+          schema: *ref_11
+      responses:
+        '200':
+          description: |
+            Returns a list of queries.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  queries:
+                    type: array
+                    items:
+                      description: |
+                        A single queries.
+                      type: object
+                      required:
+                        - id
+                        - name
+                      properties:
+                        id:
+                          type: integer
+                          description: The ID of the queries.
+                        name:
+                          type: string
+                          description: The name of the queries.
+                        is_public:
+                          type: boolean
+                          description: The public of the queries.
+                        project_id:
+                          type: integer
+                          description: The ID of the project.
+                  total_count:
+                    type: integer
+                    description: The total number of queries.
+                  offset:
+                    type: integer
+                    description: The offset of the first query in the list.
+                  limit:
+                    type: integer
+                    description: The maximum number of queries returned in the list.
+        '401':
+          description: not provided
+        '403':
           description: not provided
     parameters:
       - name: X-Redmine-Switch-User

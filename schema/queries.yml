@@ -1,0 +1,62 @@
+paths:
+  /queries.json:
+    get:
+      tags: ["queries"]
+      description: Returns a list of queries.
+      operationId: queries#index
+      parameters:
+        - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
+        - $ref: "./openapi.yml#/components/parameters/pagination"
+      responses:
+        "200":
+          $ref: "#/components/responses/queries"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  schemas:
+    query:
+      description: |
+        A single queries.
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          description: The ID of the queries.
+        name:
+          type: string
+          description: The name of the queries.
+        is_public:
+          type: boolean
+          description: The public of the queries.
+        project_id:
+          type: integer
+          description: The ID of the project.
+  responses:
+    queries:
+      description: |
+        Returns a list of queries.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              queries:
+                type: array
+                items:
+                  $ref: "#/components/schemas/query"
+              total_count:
+                type: integer
+                description: The total number of queries.
+              offset:
+                type: integer
+                description: The offset of the first query in the list.
+              limit:
+                type: integer
+                description: The maximum number of queries returned in the list.
