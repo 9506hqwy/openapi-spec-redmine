@@ -38,6 +38,7 @@ paths:
       tags: ["users"]
       description: |
         Returns the user with the specified ID.
+        Use /users/current.json for retrieving the user whose credentials are used to access the API.
       operationId: users#show
       parameters:
         - $ref: "#/components/parameters/id"
@@ -55,6 +56,7 @@ paths:
       tags: ["users"]
       description: |
         Updates the user with the specified ID.
+        Use /users/current.json for retrieving the user whose credentials are used to access the API.
       operationId: users#update-patch
       parameters:
         - $ref: "#/components/parameters/id"
@@ -75,6 +77,7 @@ paths:
       tags: ["users"]
       description: |
         Updates the user with the specified ID.
+        Use /users/current.json for retrieving the user whose credentials are used to access the API.
       operationId: users#update-put
       parameters:
         - $ref: "#/components/parameters/id"
@@ -401,10 +404,10 @@ components:
       name: id
       in: path
       description: |
-        The ID of the user.
+        The ID or `current` of the user.
       required: true
       schema:
-        type: integer
+        type: string
     include:
       name: include
       in: query

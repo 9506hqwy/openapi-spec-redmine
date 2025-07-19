@@ -6144,15 +6144,16 @@ paths:
         - users
       description: |
         Returns the user with the specified ID.
+        Use /users/current.json for retrieving the user whose credentials are used to access the API.
       operationId: users#show
       parameters:
         - name: id
           in: path
           description: |
-            The ID of the user.
+            The ID or `current` of the user.
           required: true
           schema: &ref_92
-            type: integer
+            type: string
         - name: include
           in: query
           description: |
@@ -6177,12 +6178,13 @@ paths:
         - users
       description: |
         Updates the user with the specified ID.
+        Use /users/current.json for retrieving the user whose credentials are used to access the API.
       operationId: users#update-patch
       parameters:
         - name: id
           in: path
           description: |
-            The ID of the user.
+            The ID or `current` of the user.
           required: true
           schema: *ref_92
       requestBody:
@@ -6208,12 +6210,13 @@ paths:
         - users
       description: |
         Updates the user with the specified ID.
+        Use /users/current.json for retrieving the user whose credentials are used to access the API.
       operationId: users#update-put
       parameters:
         - name: id
           in: path
           description: |
-            The ID of the user.
+            The ID or `current` of the user.
           required: true
           schema: *ref_92
       requestBody:
@@ -6244,7 +6247,7 @@ paths:
         - name: id
           in: path
           description: |
-            The ID of the user.
+            The ID or `current` of the user.
           required: true
           schema: *ref_92
       responses:
