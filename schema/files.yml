@@ -1,0 +1,108 @@
+paths:
+  /projects/{project_id}/files.json:
+    get:
+      tags: ["files"]
+      description: Returns all files.
+      operationId: files#index
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+      responses:
+        "200":
+          $ref: "#/components/responses/files"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    post:
+      tags: ["files"]
+      description: Creates a new file.
+      operationId: files#create
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+      requestBody:
+        $ref: "#/components/requestBody/file"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "400":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  schemas:
+    file:
+      description: A single file.
+      allOf:
+        - $ref: "./attachments.yml#/components/schemas/attachment"
+        - type: object
+          properties:
+            version:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: The ID of the version.
+                name:
+                  type: string
+                  description: The name of the version.
+            digest:
+              type: string
+              description: The digest of the file.
+            downloads:
+              type: integer
+              description: The downloads of the file.
+    file_new:
+      description: |
+        A single file.
+      type: object
+      properties:
+        token:
+          type: string
+          description: The token of the file.
+        version_id:
+          type: integer
+          description: The ID of the version.
+        filename:
+          type: string
+          description: The filename of the file.
+        description:
+          type: string
+          description: The description of the file.
+  responses:
+    files:
+      description: |
+        Returns all files.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              files:
+                type: array
+                items:
+                  $ref: "#/components/schemas/file"
+  parameters:
+    project_id:
+      name: project_id
+      in: path
+      description: |
+        The ID or identifier of the project.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    file:
+      description: |
+        The file to create.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              file:
+                $ref: "#/components/schemas/file_new"
+      required: true

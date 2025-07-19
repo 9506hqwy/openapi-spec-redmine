@@ -53,6 +53,8 @@ paths:
     $ref: "./projects.yml#/paths/~1projects~1{id}.json"
   /projects/{id}/archive.json:
     $ref: "./projects.yml#/paths/~1projects~1{id}~1archive.json"
+  /projects/{project_id}/files.json:
+    $ref: "./files.yml#/paths/~1projects~1{project_id}~1files.json"
   /projects/{id}/unarchive.json:
     $ref: "./projects.yml#/paths/~1projects~1{id}~1unarchive.json"
   /projects/{project_id}/issues.json:
@@ -238,6 +240,8 @@ tags:
     description: custom_fields_controller's API
   - name: enumerations
     description: enumerations_controller's API
+  - name: files
+    description: files_controller's API
   - name: groups
     description: groups_controller's API
   - name: issues
