@@ -1,0 +1,151 @@
+paths:
+  /issues/{issue_id}/watchers.json:
+    post:
+      tags: ["watchers"]
+      description: Creates a new watcher.
+      operationId: watchers#create-issue
+      parameters:
+        - $ref: "#/components/parameters/issue_id"
+      requestBody:
+        $ref: "#/components/requestBody/watcher"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /issues/{issue_id}/watchers/{user_id}.json:
+    delete:
+      tags: ["watchers"]
+      description: |
+        Deletes the watcher with the specified ID.
+      operationId: watchers#destroy-issue
+      parameters:
+        - $ref: "#/components/parameters/issue_id"
+        - $ref: "#/components/parameters/user_id"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /watchers.json:
+    post:
+      tags: ["watchers"]
+      description: Creates a new watcher.
+      operationId: watchers#create
+      requestBody:
+        $ref: "#/components/requestBody/watcher"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    delete:
+      tags: ["watchers"]
+      description: |
+        Deletes the watcher with the specified ID.
+      operationId: watchers#destroy
+      parameters:
+        - $ref: "#/components/parameters/query_object_type"
+        - $ref: "#/components/parameters/query_object_id"
+        - $ref: "#/components/parameters/query_user_id"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  schemas:
+    watcher_new:
+      description: |
+        A single watcher.
+      type: object
+      properties:
+        user_id:
+          type: integer
+          description: The ID of the user.
+        user_ids:
+          type: array
+          items:
+            type: integer
+            description: The ID of the user.
+  parameters:
+    issue_id:
+      name: issue_id
+      in: path
+      description: |
+        The ID of the issue.
+      required: true
+      schema:
+        type: integer
+    user_id:
+      name: user_id
+      in: path
+      description: |
+        The ID of the user.
+      required: true
+      schema:
+        type: integer
+    query_object_type:
+      name: object_type
+      in: query
+      description: |
+        The type of the object.
+      required: true
+      schema:
+        type: string
+    query_object_id:
+      name: object_id
+      in: query
+      description: |
+        The ID of the object.
+      required: true
+      schema:
+        type: integer
+    query_user_id:
+      name: user_id
+      in: query
+      description: |
+        The ID of the user.
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    watcher:
+      description: |
+        The watcher to create.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              object_type:
+                type: string
+                description: The type of the object.
+              object_id:
+                type: integer
+                description: The ID of the object.
+              watcher:
+                $ref: "#/components/schemas/watcher_new"
+      required: true

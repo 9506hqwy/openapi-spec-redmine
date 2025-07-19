@@ -29,6 +29,10 @@ paths:
     $ref: "./issue_relations.yml#/paths/~1issues~1{issue_id}~1relations.json"
   /issues/{issue_id}/time_entries.json:
     $ref: "./timelog.yml#/paths/~1issues~1{issue_id}~1time_entries.json"
+  /issues/{issue_id}/watchers.json:
+    $ref: "./watchers.yml#/paths/~1issues~1{issue_id}~1watchers.json"
+  /issues/{issue_id}/watchers/{user_id}.json:
+    $ref: "./watchers.yml#/paths/~1issues~1{issue_id}~1watchers~1{user_id}.json"
   /issue_categories/{id}.json:
     $ref: "./issue_categories.yml#/paths/~1issue_categories~1{id}.json"
   /issue_statuses.json:
@@ -89,6 +93,8 @@ paths:
     $ref: "./users.yml#/paths/~1users.json"
   /users/{id}.json:
     $ref: "./users.yml#/paths/~1users~1{id}.json"
+  /watchers.json:
+    $ref: "./watchers.yml#/paths/~1watchers.json"
   /versions/{id}.json:
     $ref: "./versions.yml#/paths/~1versions~1{id}.json"
 components:
@@ -254,5 +260,7 @@ tags:
     description: users_controller's API
   - name: versions
     description: versions_controller's API
+  - name: watchers
+    description: watchers_controller's API
   - name: wiki
     description: wiki_controller's API
