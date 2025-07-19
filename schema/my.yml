@@ -1,0 +1,98 @@
+paths:
+  /my/account.json:
+    get:
+      tags: ["my"]
+      description: Returns my account.
+      operationId: my#account
+      responses:
+        "200":
+          $ref: "#/components/responses/my"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    put:
+      tags: ["my"]
+      description: Update my account.
+      operationId: my#account-put
+      requestBody:
+        $ref: "#/components/requestBody/my"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  schemas:
+    user:
+      description: |
+        A single user.
+      type: object
+      required:
+        - id
+        - login
+        - firstname
+        - lastname
+      properties:
+        id:
+          type: integer
+          description: The ID of the user.
+        login:
+          type: string
+          description: The login of the user.
+        admin:
+          type: boolean
+          description: The administrative of the user.
+        firstname:
+          type: string
+          description: The firstname of the user.
+        lastname:
+          type: string
+          description: The lastname of the user.
+        mail:
+          type: string
+          description: The mail of the user.
+        created_on:
+          type: string
+          format: date-time
+          description: The date and time when the user was created.
+        last_login_on:
+          type: string
+          format: date-time
+          description: The date and time when the user was last logon.
+        api_key:
+          type: string
+          description: The API key of the user.
+        custom_fields:
+          type: array
+          items:
+            $ref: "./openapi.yml#/components/schemas/custom_field"
+  responses:
+    my:
+      description: Returns my account.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              user:
+                $ref: "#/components/schemas/user"
+  requestBody:
+    my:
+      description: The my account to update.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              user:
+                $ref: "./users.yml#/components/schemas/user_new"
+              pref:
+                $ref: "./users.yml#/components/schemas/user_pref"
+      required: true

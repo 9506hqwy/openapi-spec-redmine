@@ -27,6 +27,8 @@ tags:
     description: journals_controller's API
   - name: members
     description: members_controller's API
+  - name: my
+    description: my_controller's API
   - name: news
     description: news_controller's API
   - name: projects
@@ -430,7 +432,7 @@ paths:
                   group:
                     description: |
                       A single group.
-                    allOf: &ref_89
+                    allOf: &ref_91
                       - description: |
                           A single group.
                         type: object
@@ -1274,7 +1276,7 @@ paths:
                   issue:
                     description: |
                       A single issue.
-                    allOf: &ref_90
+                    allOf: &ref_92
                       - description: |
                           A single issue.
                         type: object
@@ -1818,7 +1820,7 @@ paths:
       requestBody:
         description: |
           The watcher to create.
-        content: &ref_85
+        content: &ref_87
           application/json:
             schema:
               type: object
@@ -2310,6 +2312,231 @@ paths:
           This only works when using the API with an administrator account,
           this header will be ignored when using the API with a regular user account.
         schema: *ref_0
+  /my/account.json:
+    get:
+      tags:
+        - my
+      description: Returns my account.
+      operationId: my#account
+      responses:
+        '200':
+          description: Returns my account.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    description: |
+                      A single user.
+                    type: object
+                    required:
+                      - id
+                      - login
+                      - firstname
+                      - lastname
+                    properties:
+                      id:
+                        type: integer
+                        description: The ID of the user.
+                      login:
+                        type: string
+                        description: The login of the user.
+                      admin:
+                        type: boolean
+                        description: The administrative of the user.
+                      firstname:
+                        type: string
+                        description: The firstname of the user.
+                      lastname:
+                        type: string
+                        description: The lastname of the user.
+                      mail:
+                        type: string
+                        description: The mail of the user.
+                      created_on:
+                        type: string
+                        format: date-time
+                        description: The date and time when the user was created.
+                      last_login_on:
+                        type: string
+                        format: date-time
+                        description: The date and time when the user was last logon.
+                      api_key:
+                        type: string
+                        description: The API key of the user.
+                      custom_fields:
+                        type: array
+                        items:
+                          type: object
+                          properties: *ref_3
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+    put:
+      tags:
+        - my
+      description: Update my account.
+      operationId: my#account-put
+      requestBody:
+        description: The my account to update.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  description: |
+                    A single user.
+                  type: object
+                  properties: &ref_79
+                    firstname:
+                      type: string
+                      description: The firstname of the user.
+                    lastname:
+                      type: string
+                      description: The lastname of the user.
+                    mail:
+                      type: string
+                      description: The mail address of the user.
+                    mail_notification:
+                      type: string
+                      description: |
+                        The mail notification of the user. Possible values are:
+                        - `all`: all events
+                        - `selected`: only selected events
+                        - `only_my_events`: only events related to the user
+                        - `only_assigned`: only events assigned to the user
+                        - `only_owner`: only events owned by the user
+                        - `none`: no events
+                    notified_project_ids:
+                      type: array
+                      description: The notified project id of the user.
+                      items:
+                        type: integer
+                    language:
+                      type: string
+                      description: The language of the user.
+                    custom_field_values:
+                      type: object
+                      description: |
+                        The values of the custom fields.
+                      additionalProperties: true
+                    custom_fields:
+                      type: array
+                      items:
+                        type: object
+                        properties: *ref_3
+                    login:
+                      type: string
+                      description: The login of the user.
+                    status:
+                      type: integer
+                      description: |
+                        The status of the user. Possible values are:
+                        - `0`: anonymous
+                        - `1`: active
+                        - `2`: registered
+                        - `3`: locked
+                    auth_source_id:
+                      type: integer
+                      description: The auth source id of the user.
+                    generate_password:
+                      type: boolean
+                      description: The generate password of the user.
+                    must_change_passwd:
+                      type: boolean
+                      description: The must change passwd of the user.
+                    admin:
+                      type: boolean
+                      description: The administrative of the user.
+                    group_ids:
+                      type: array
+                      description: The group id of the user.
+                      items:
+                        type: integer
+                    password:
+                      type: string
+                      description: The password of the user.
+                pref:
+                  description: |
+                    The preferences of the user.
+                  type: object
+                  properties: &ref_80
+                    hide_mail:
+                      type: boolean
+                      description: Whether the user's email should be hidden.
+                    time_zone:
+                      type: string
+                      description: The time zone of the user.
+                    comments_sorting:
+                      type: string
+                      description: The sorting order of comments. Possible values are `asc` and `desc`.
+                    warn_on_leaving_unsaved:
+                      type: boolean
+                      description: Whether to warn the user when leaving a page with unsaved changes.
+                    no_self_notified:
+                      type: boolean
+                      description: Whether the user should not be notified of their own actions.
+                    notify_about_high_priority_issues:
+                      type: boolean
+                      description: Whether the user should be notified about high priority issues.
+                    textarea_font:
+                      type: string
+                      description: |
+                        The font used in text areas. Possible values are:
+                        - `monospace`
+                        - `proportional`
+                    recently_used_projects:
+                      type: integer
+                      description: The number of recently used projects to display.
+                    history_default_tab:
+                      type: string
+                      description: |
+                        The default tab for the user's history. Possible values are:
+                        - `notes`
+                        - `history`
+                        - `properties`
+                        - `time_entries`
+                        - `changesets`
+                        - `last_tab_visited`
+                    default_issue_query:
+                      type: integer
+                      description: The ID of the default issue query for the user.
+                    default_project_query:
+                      type: integer
+                      description: The ID of the default project query for the user.
+                    toolbar_language_options:
+                      type: string
+                      description: The language options for the toolbar.
+                    auto_watch_on:
+                      type: array
+                      description: |
+                        The auto watch setting for the user. Possible values are:
+                        - `issue_created`
+                        - `issue_contributed_to`
+                      items:
+                        type: string
+        required: true
+      responses:
+        '204':
+          description: not provided
+        '401':
+          description: not provided
+        '403':
+          description: not provided
+        '422':
+          description: |
+            The request was well-formed but was unable to be followed due to semantic errors.
+          content: *ref_9
+    parameters:
+      - name: X-Redmine-Switch-User
+        in: header
+        description: |
+          This only works when using the API with an administrator account,
+          this header will be ignored when using the API with a regular user account.
+        schema: *ref_0
   /news.json:
     get:
       tags:
@@ -2486,7 +2713,7 @@ paths:
                   news:
                     description: |
                       A single news.
-                    allOf: &ref_91
+                    allOf: &ref_93
                       - description: |
                           A single news.
                         type: object
@@ -2929,7 +3156,7 @@ paths:
                   project:
                     description: |
                       A single project.
-                    allOf: &ref_92
+                    allOf: &ref_94
                       - description: |
                           A single project.
                         type: object
@@ -4027,7 +4254,7 @@ paths:
       requestBody:
         description: |
           The version to create or update.
-        content: &ref_88
+        content: &ref_90
           application/json:
             schema:
               type: object
@@ -4087,7 +4314,7 @@ paths:
         '201':
           description: |
             Returns the version with the specified ID.
-          content: &ref_86
+          content: &ref_88
             application/json:
               schema:
                 type: object
@@ -4095,7 +4322,7 @@ paths:
                   version:
                     description: |
                       A single version.
-                    allOf: &ref_93
+                    allOf: &ref_95
                       - description: |
                           A single version.
                         type: object
@@ -4164,7 +4391,7 @@ paths:
                   wiki_page:
                     description: |
                       A single wiki.
-                    allOf: &ref_94
+                    allOf: &ref_96
                       - description: |
                           A single wiki.
                         type: object
@@ -4652,7 +4879,7 @@ paths:
                   role:
                     description: |
                       A single role.
-                    allOf: &ref_95
+                    allOf: &ref_97
                       - description: |
                           A single role.
                         type: object
@@ -5056,7 +5283,7 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: &ref_81
+          schema: &ref_83
             type: array
             items:
               type: string
@@ -5081,12 +5308,12 @@ paths:
                       description: |
                         A single user.
                       type: object
-                      required: &ref_79
+                      required: &ref_81
                         - id
                         - login
                         - firstname
                         - lastname
-                      properties: &ref_80
+                      properties: &ref_82
                         id:
                           type: integer
                           description: The ID of the user.
@@ -5170,7 +5397,7 @@ paths:
       requestBody:
         description: |
           The user to create or update.
-        content: &ref_84
+        content: &ref_86
           application/json:
             schema:
               type: object
@@ -5179,75 +5406,7 @@ paths:
                   description: |
                     A single user.
                   type: object
-                  properties:
-                    firstname:
-                      type: string
-                      description: The firstname of the user.
-                    lastname:
-                      type: string
-                      description: The lastname of the user.
-                    mail:
-                      type: string
-                      description: The mail address of the user.
-                    mail_notification:
-                      type: string
-                      description: |
-                        The mail notification of the user. Possible values are:
-                        - `all`: all events
-                        - `selected`: only selected events
-                        - `only_my_events`: only events related to the user
-                        - `only_assigned`: only events assigned to the user
-                        - `only_owner`: only events owned by the user
-                        - `none`: no events
-                    notified_project_ids:
-                      type: array
-                      description: The notified project id of the user.
-                      items:
-                        type: integer
-                    language:
-                      type: string
-                      description: The language of the user.
-                    custom_field_values:
-                      type: object
-                      description: |
-                        The values of the custom fields.
-                      additionalProperties: true
-                    custom_fields:
-                      type: array
-                      items:
-                        type: object
-                        properties: *ref_3
-                    login:
-                      type: string
-                      description: The login of the user.
-                    status:
-                      type: integer
-                      description: |
-                        The status of the user. Possible values are:
-                        - `0`: anonymous
-                        - `1`: active
-                        - `2`: registered
-                        - `3`: locked
-                    auth_source_id:
-                      type: integer
-                      description: The auth source id of the user.
-                    generate_password:
-                      type: boolean
-                      description: The generate password of the user.
-                    must_change_passwd:
-                      type: boolean
-                      description: The must change passwd of the user.
-                    admin:
-                      type: boolean
-                      description: The administrative of the user.
-                    group_ids:
-                      type: array
-                      description: The group id of the user.
-                      items:
-                        type: integer
-                    password:
-                      type: string
-                      description: The password of the user.
+                  properties: *ref_79
                 send_information:
                   type: boolean
                   description: |
@@ -5256,67 +5415,13 @@ paths:
                   description: |
                     The preferences of the user.
                   type: object
-                  properties:
-                    hide_mail:
-                      type: boolean
-                      description: Whether the user's email should be hidden.
-                    time_zone:
-                      type: string
-                      description: The time zone of the user.
-                    comments_sorting:
-                      type: string
-                      description: The sorting order of comments. Possible values are `asc` and `desc`.
-                    warn_on_leaving_unsaved:
-                      type: boolean
-                      description: Whether to warn the user when leaving a page with unsaved changes.
-                    no_self_notified:
-                      type: boolean
-                      description: Whether the user should not be notified of their own actions.
-                    notify_about_high_priority_issues:
-                      type: boolean
-                      description: Whether the user should be notified about high priority issues.
-                    textarea_font:
-                      type: string
-                      description: |
-                        The font used in text areas. Possible values are:
-                        - `monospace`
-                        - `proportional`
-                    recently_used_projects:
-                      type: integer
-                      description: The number of recently used projects to display.
-                    history_default_tab:
-                      type: string
-                      description: |
-                        The default tab for the user's history. Possible values are:
-                        - `notes`
-                        - `history`
-                        - `properties`
-                        - `time_entries`
-                        - `changesets`
-                        - `last_tab_visited`
-                    default_issue_query:
-                      type: integer
-                      description: The ID of the default issue query for the user.
-                    default_project_query:
-                      type: integer
-                      description: The ID of the default project query for the user.
-                    toolbar_language_options:
-                      type: string
-                      description: The language options for the toolbar.
-                    auto_watch_on:
-                      type: array
-                      description: |
-                        The auto watch setting for the user. Possible values are:
-                        - `issue_created`
-                        - `issue_contributed_to`
-                      items:
-                        type: string
+                  properties: *ref_80
         required: true
       responses:
         '201':
           description: |
             Returns the user with the specified ID.
-          content: &ref_82
+          content: &ref_84
             application/json:
               schema:
                 type: object
@@ -5324,12 +5429,12 @@ paths:
                   user:
                     description: |
                       A single user.
-                    allOf: &ref_96
+                    allOf: &ref_98
                       - description: |
                           A single user.
                         type: object
-                        required: *ref_79
-                        properties: *ref_80
+                        required: *ref_81
+                        properties: *ref_82
                       - type: object
                         properties:
                           api_key:
@@ -5405,21 +5510,21 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: &ref_83
+          schema: &ref_85
             type: integer
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: *ref_81
+          schema: *ref_83
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the user with the specified ID.
-          content: *ref_82
+          content: *ref_84
         '401':
           description: not provided
         '403':
@@ -5438,11 +5543,11 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: *ref_83
+          schema: *ref_85
       requestBody:
         description: |
           The user to create or update.
-        content: *ref_84
+        content: *ref_86
         required: true
       responses:
         '204':
@@ -5469,7 +5574,7 @@ paths:
           description: |
             The ID of the user.
           required: true
-          schema: *ref_83
+          schema: *ref_85
       responses:
         '204':
           description: not provided
@@ -5499,7 +5604,7 @@ paths:
       requestBody:
         description: |
           The watcher to create.
-        content: *ref_85
+        content: *ref_87
         required: true
       responses:
         '204':
@@ -5567,13 +5672,13 @@ paths:
           description: |
             The ID of the version.
           required: true
-          schema: &ref_87
+          schema: &ref_89
             type: integer
       responses:
         '200':
           description: |
             Returns the version with the specified ID.
-          content: *ref_86
+          content: *ref_88
         '401':
           description: not provided
         '403':
@@ -5592,11 +5697,11 @@ paths:
           description: |
             The ID of the version.
           required: true
-          schema: *ref_87
+          schema: *ref_89
       requestBody:
         description: |
           The version to create or update.
-        content: *ref_88
+        content: *ref_90
         required: true
       responses:
         '204':
@@ -5623,7 +5728,7 @@ paths:
           description: |
             The ID of the version.
           required: true
-          schema: *ref_87
+          schema: *ref_89
       responses:
         '204':
           description: not provided
@@ -5647,35 +5752,35 @@ components:
     group_detail:
       description: |
         A single group.
-      allOf: *ref_89
+      allOf: *ref_91
     issue_detail:
       description: |
         A single issue.
-      allOf: *ref_90
+      allOf: *ref_92
     news_detail:
       description: |
         A single news.
-      allOf: *ref_91
+      allOf: *ref_93
     project_detail:
       description: |
         A single project.
-      allOf: *ref_92
+      allOf: *ref_94
     version_detail:
       description: |
         A single version.
-      allOf: *ref_93
+      allOf: *ref_95
     wiki_detail:
       description: |
         A single wiki.
-      allOf: *ref_94
+      allOf: *ref_96
     role_detail:
       description: |
         A single role.
-      allOf: *ref_95
+      allOf: *ref_97
     user_detail:
       description: |
         A single user.
-      allOf: *ref_96
+      allOf: *ref_98
   responses:
     unprocessable_entity:
       description: |

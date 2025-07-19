@@ -41,6 +41,8 @@ paths:
     $ref: "./journals.yml#/paths/~1journals~1{id}.json"
   /memberships/{id}.json:
     $ref: "./members.yml#/paths/~1memberships~1{id}.json"
+  /my/account.json:
+    $ref: "./my.yml#/paths/~1my~1account.json"
   /news.json:
     $ref: "./news.yml#/paths/~1news.json"
   /news/{id}.json:
@@ -250,6 +252,8 @@ tags:
     description: journals_controller's API
   - name: members
     description: members_controller's API
+  - name: my
+    description: my_controller's API
   - name: news
     description: news_controller's API
   - name: projects
