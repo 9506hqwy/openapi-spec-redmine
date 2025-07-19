@@ -1,3 +1,82 @@
+paths:
+  /attachments/{id}.json:
+    get:
+      tags: ["attachments"]
+      description: |
+        Returns the attachment with the specified ID.
+      operationId: attachments#show
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          $ref: "#/components/responses/attachment"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    put:
+      tags: ["attachments"]
+      description: |
+        Updates the attachment with the specified ID.
+      operationId: attachments#update
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBody/attachment"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    delete:
+      tags: ["attachments"]
+      description: |
+        Deletes the attachment with the specified ID.
+      operationId: attachments#destroy
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "204":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /uploads.json:
+    post:
+      tags: ["attachments"]
+      description: Creates a new attachment.
+      operationId: attachments#upload
+      parameters:
+        - $ref: "#/components/parameters/filename"
+        - $ref: "#/components/parameters/content_type"
+      requestBody:
+        $ref: "#/components/requestBody/upload"
+      responses:
+        "201":
+          $ref: "#/components/responses/upload"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "406":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
 components:
   schemas:
     attachments:
@@ -43,3 +122,82 @@ components:
           description: The date and time when the attachment was created.
       # options
       additionalProperties: true
+    attachment_new:
+      type: object
+      properties:
+        filename:
+          type: string
+          description: The filename of the attachment.
+        content_type:
+          type: string
+          description: The content type of the attachment.
+        description:
+          type: string
+          description: The description of the attachment.
+    upload:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the attachment.
+        token:
+          type: string
+          description: The token of the attachment.
+  responses:
+    attachment:
+      description: Returns a single attachment.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              attachment:
+                $ref: "#/components/schemas/attachment"
+    upload:
+      description: Returns a single attachment.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              upload:
+                $ref: "#/components/schemas/upload"
+  parameters:
+    id:
+      name: id
+      in: path
+      description: The ID of the attachment.
+      required: true
+      schema:
+        type: integer
+    filename:
+      name: filename
+      in: query
+      description: The filename of the attachment.
+      schema:
+        type: string
+    content_type:
+      name: content_type
+      in: query
+      description: The content type of the attachment.
+      schema:
+        type: string
+  requestBody:
+    attachment:
+      description: The attachment to update.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              attachment:
+                $ref: "#/components/schemas/attachment_new"
+      required: true
+    upload:
+      description: The attachment to upload.
+      content:
+        application/octet-stream:
+          schema:
+            type: string
+            format: binary
+      required: true

@@ -5,6 +5,8 @@ info:
 servers:
   - url: http://127.0.0.1:3000
 paths:
+  /attachments/{id}.json:
+    $ref: "./attachments.yml#/paths/~1attachments~1{id}.json"
   /custom_fields.json:
     $ref: "./custom_fields.yml#/paths/~1custom_fields.json"
   /enumerations/document_categories.json:
@@ -99,6 +101,8 @@ paths:
     $ref: "./timelog.yml#/paths/~1time_entries~1{id}.json"
   /trackers.json:
     $ref: "./trackers.yml#/paths/~1trackers.json"
+  /uploads.json:
+    $ref: "./attachments.yml#/paths/~1uploads.json"
   /users.json:
     $ref: "./users.yml#/paths/~1users.json"
   /users/{id}.json:
@@ -236,6 +240,8 @@ security:
   - ApiKeyQueryAuth: []
   - BasicAuth: []
 tags:
+  - name: attachments
+    description: attachments_controller's API
   - name: custom_fields
     description: custom_fields_controller's API
   - name: enumerations
