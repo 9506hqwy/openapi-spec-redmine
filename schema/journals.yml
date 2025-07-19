@@ -43,7 +43,7 @@ components:
         The ID of the journal.
       required: true
       schema:
-        type: string
+        type: integer
   requestBody:
     journal:
       description: |

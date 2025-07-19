@@ -259,7 +259,7 @@ components:
         The ID of the news.
       required: true
       schema:
-        type: string
+        type: integer
     include:
       name: include
       in: query

@@ -253,7 +253,7 @@ components:
         The ID of the group.
       required: true
       schema:
-        type: string
+        type: integer
     user_id:
       name: user_id
       in: path
@@ -261,7 +261,7 @@ components:
         The ID of the user.
       required: true
       schema:
-        type: string
+        type: integer
     include:
       name: include
       in: query

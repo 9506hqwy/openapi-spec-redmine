@@ -168,7 +168,7 @@ components:
         The ID of the issue category.
       required: true
       schema:
-        type: string
+        type: integer
     project_id:
       name: project_id
       in: path
@@ -183,7 +183,7 @@ components:
       description: |
         The ID of the issue category.
       schema:
-        type: string
+        type: integer
   requestBody:
     issue_category:
       description: |

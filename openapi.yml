@@ -515,7 +515,7 @@ paths:
             The ID of the group.
           required: true
           schema: &ref_7
-            type: string
+            type: integer
         - name: include
           in: query
           description: |
@@ -666,7 +666,7 @@ paths:
             The ID of the user.
           required: true
           schema:
-            type: string
+            type: integer
       responses:
         '204':
           description: not provided
@@ -1436,7 +1436,7 @@ paths:
             The ID of the issue.
           required: true
           schema: &ref_16
-            type: string
+            type: integer
         - name: include
           in: query
           description: |
@@ -1533,7 +1533,7 @@ paths:
             The ID of the issue.
           required: true
           schema: &ref_18
-            type: string
+            type: integer
       responses:
         '200':
           description: |
@@ -1659,7 +1659,7 @@ paths:
             The ID of the issue.
           required: true
           schema:
-            type: string
+            type: integer
       requestBody:
         description: |
           The time entry to create or update.
@@ -1906,7 +1906,7 @@ paths:
             The ID of the issue category.
           required: true
           schema: &ref_22
-            type: string
+            type: integer
       responses:
         '200':
           description: |
@@ -2017,7 +2017,7 @@ paths:
           description: |
             The ID of the issue category.
           schema:
-            type: string
+            type: integer
       responses:
         '204':
           description: not provided
@@ -2096,7 +2096,7 @@ paths:
             The ID of the journal.
           required: true
           schema:
-            type: string
+            type: integer
       requestBody:
         description: |
           The journal to update.
@@ -2151,7 +2151,7 @@ paths:
             The ID of the membership.
           required: true
           schema: &ref_23
-            type: string
+            type: integer
       responses:
         '200':
           description: |
@@ -2455,7 +2455,7 @@ paths:
             The ID of the news.
           required: true
           schema: &ref_27
-            type: string
+            type: integer
         - name: include
           in: query
           description: |
@@ -4361,7 +4361,7 @@ paths:
             The ID of the relation.
           required: true
           schema: &ref_67
-            type: string
+            type: integer
       responses:
         '200':
           description: |
@@ -4458,7 +4458,7 @@ paths:
             The ID of the role.
           required: true
           schema:
-            type: string
+            type: integer
       responses:
         '200':
           description: |
@@ -4626,7 +4626,7 @@ paths:
             The ID of the time entry.
           required: true
           schema: &ref_75
-            type: string
+            type: integer
       responses:
         '200':
           description: |
@@ -5225,7 +5225,7 @@ paths:
             The ID of the user.
           required: true
           schema: &ref_80
-            type: string
+            type: integer
         - name: include
           in: query
           description: |
@@ -5387,7 +5387,7 @@ paths:
             The ID of the version.
           required: true
           schema: &ref_84
-            type: string
+            type: integer
       responses:
         '200':
           description: |

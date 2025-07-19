@@ -286,7 +286,7 @@ components:
         The ID of the issue.
       required: true
       schema:
-        type: string
+        type: integer
     project_id:
       name: project_id
       in: path
@@ -302,7 +302,7 @@ components:
         The ID of the time entry.
       required: true
       schema:
-        type: string
+        type: integer
     query:
       name: query
       in: query

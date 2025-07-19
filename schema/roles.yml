@@ -103,4 +103,4 @@ components:
         The ID of the role.
       required: true
       schema:
-        type: string
+        type: integer

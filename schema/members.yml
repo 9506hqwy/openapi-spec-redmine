@@ -212,7 +212,7 @@ components:
         The ID of the membership.
       required: true
       schema:
-        type: string
+        type: integer
   requestBody:
     member:
       description: |
