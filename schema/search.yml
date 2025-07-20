@@ -113,6 +113,11 @@ components:
         properties:
           scope:
             type: string
+            enum:
+              - all
+              - my_project
+              - bookmarks
+              - subprojects
             description: |
               Search scope condition.
               Possible values are:

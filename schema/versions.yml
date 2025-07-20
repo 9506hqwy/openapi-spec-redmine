@@ -219,6 +219,10 @@ components:
           description: The wiki page title of the version.
         status:
           type: string
+          enum:
+            - open
+            - locked
+            - closed
           description: |
             The status of the version. Possible values are:
             - `open`
@@ -226,6 +230,12 @@ components:
             - `closed`
         sharing:
           type: string
+          enum:
+            - none
+            - descendants
+            - hierarchy
+            - tree
+            - system
           description: |
             The sharing of the version. Possible values are:
             - `none`

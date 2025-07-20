@@ -2137,6 +2137,16 @@ paths:
                         description: The ID of the issue to. Values should be separated by a comma ",".
                     relation_type:
                       type: string
+                      enum:
+                        - relates
+                        - duplicates
+                        - duplicated
+                        - blocks
+                        - blocked
+                        - precedes
+                        - follows
+                        - copied_to
+                        - copied_from
                       description: |
                         The relation type of the relation.
                          Possible values are:
@@ -3007,6 +3017,13 @@ paths:
                       description: The mail address of the user.
                     mail_notification:
                       type: string
+                      enum:
+                        - all
+                        - selected
+                        - only_my_events
+                        - only_assigned
+                        - only_owner
+                        - none
                       description: |
                         The mail notification of the user. Possible values are:
                         - `all`: all events
@@ -3038,6 +3055,11 @@ paths:
                       description: The login of the user.
                     status:
                       type: integer
+                      enum:
+                        - 0
+                        - 1
+                        - 2
+                        - 3
                       description: |
                         The status of the user. Possible values are:
                         - `0`: anonymous
@@ -3077,6 +3099,9 @@ paths:
                       description: The time zone of the user.
                     comments_sorting:
                       type: string
+                      enum:
+                        - asc
+                        - desc
                       description: The sorting order of comments. Possible values are `asc` and `desc`.
                     warn_on_leaving_unsaved:
                       type: boolean
@@ -3089,6 +3114,9 @@ paths:
                       description: Whether the user should be notified about high priority issues.
                     textarea_font:
                       type: string
+                      enum:
+                        - monospace
+                        - proportional
                       description: |
                         The font used in text areas. Possible values are:
                         - `monospace`
@@ -3098,6 +3126,13 @@ paths:
                       description: The number of recently used projects to display.
                     history_default_tab:
                       type: string
+                      enum:
+                        - notes
+                        - history
+                        - properties
+                        - time_entries
+                        - changesets
+                        - last_tab_visited
                       description: |
                         The default tab for the user's history. Possible values are:
                         - `notes`
@@ -3123,6 +3158,9 @@ paths:
                         - `issue_contributed_to`
                       items:
                         type: string
+                        enum:
+                          - issue_created
+                          - issue_contributed_to
         required: true
       responses:
         '204':
@@ -4887,6 +4925,11 @@ paths:
             properties:
               scope:
                 type: string
+                enum:
+                  - all
+                  - my_project
+                  - bookmarks
+                  - subprojects
                 description: |
                   Search scope condition.
                   Possible values are:
@@ -5362,6 +5405,10 @@ paths:
                       description: The wiki page title of the version.
                     status:
                       type: string
+                      enum:
+                        - open
+                        - locked
+                        - closed
                       description: |
                         The status of the version. Possible values are:
                         - `open`
@@ -5369,6 +5416,12 @@ paths:
                         - `closed`
                     sharing:
                       type: string
+                      enum:
+                        - none
+                        - descendants
+                        - hierarchy
+                        - tree
+                        - system
                       description: |
                         The sharing of the version. Possible values are:
                         - `none`

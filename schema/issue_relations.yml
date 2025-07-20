@@ -101,6 +101,16 @@ components:
             description: The ID of the issue to. Values should be separated by a comma ",".
         relation_type:
           type: string
+          enum:
+            - relates
+            - duplicates
+            - duplicated
+            - blocks
+            - blocked
+            - precedes
+            - follows
+            - copied_to
+            - copied_from
           description: |
             The relation type of the relation.
              Possible values are:

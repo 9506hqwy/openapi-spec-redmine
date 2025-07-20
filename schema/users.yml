@@ -269,6 +269,13 @@ components:
           description: The mail address of the user.
         mail_notification:
           type: string
+          enum:
+            - all
+            - selected
+            - only_my_events
+            - only_assigned
+            - only_owner
+            - none
           description: |
             The mail notification of the user. Possible values are:
             - `all`: all events
@@ -296,6 +303,11 @@ components:
           description: The login of the user.
         status:
           type: integer
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
           description: |
             The status of the user. Possible values are:
             - `0`: anonymous
@@ -335,6 +347,7 @@ components:
           description: The time zone of the user.
         comments_sorting:
           type: string
+          enum: [asc, desc]
           description: The sorting order of comments. Possible values are `asc` and `desc`.
         warn_on_leaving_unsaved:
           type: boolean
@@ -347,6 +360,7 @@ components:
           description: Whether the user should be notified about high priority issues.
         textarea_font:
           type: string
+          enum: [monospace, proportional]
           description: |
             The font used in text areas. Possible values are:
             - `monospace`
@@ -356,6 +370,13 @@ components:
           description: The number of recently used projects to display.
         history_default_tab:
           type: string
+          enum:
+            - notes
+            - history
+            - properties
+            - time_entries
+            - changesets
+            - last_tab_visited
           description: |
             The default tab for the user's history. Possible values are:
             - `notes`
@@ -381,6 +402,9 @@ components:
             - `issue_contributed_to`
           items:
             type: string
+            enum:
+              - issue_created
+              - issue_contributed_to
   responses:
     users:
       description: |

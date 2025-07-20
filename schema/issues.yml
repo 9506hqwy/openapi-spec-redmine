@@ -730,15 +730,13 @@ components:
         items:
           type: string
           enum:
-            [
-              allowed_statuses,
-              attachments,
-              changesets,
-              children,
-              journals,
-              relations,
-              watchers,
-            ]
+            - allowed_statuses
+            - attachments
+            - changesets
+            - children
+            - journals
+            - relations
+            - watchers
       style: form
       explode: false
     query:

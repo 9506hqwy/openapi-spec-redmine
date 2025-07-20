@@ -536,13 +536,11 @@ components:
         items:
           type: string
           enum:
-            [
-              trackers,
-              issue_categories,
-              enabled_modules,
-              time_entry_activities,
-              issue_custom_fields,
-            ]
+            - trackers
+            - issue_categories
+            - enabled_modules
+            - time_entry_activities
+            - issue_custom_fields
       style: form
       explode: false
     query:
