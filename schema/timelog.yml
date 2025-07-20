@@ -210,9 +210,6 @@ components:
       description: |
         A single time entry.
       type: object
-      required:
-        - id
-        - hours
       properties:
         id:
           type: integer

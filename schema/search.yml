@@ -46,8 +46,6 @@ components:
       description: |
         A single search result.
       type: object
-      required:
-        - id
       properties:
         id:
           type: integer

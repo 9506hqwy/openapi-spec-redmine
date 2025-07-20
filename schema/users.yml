@@ -139,11 +139,6 @@ components:
       description: |
         A single user.
       type: object
-      required:
-        - id
-        - login
-        - firstname
-        - lastname
       properties:
         id:
           type: integer

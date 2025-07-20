@@ -117,10 +117,6 @@ components:
       description: |
         A single membership.
       type: object
-      required:
-        - id
-        - project
-        - roles
       properties:
         id:
           type: integer

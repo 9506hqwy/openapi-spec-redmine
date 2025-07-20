@@ -185,7 +185,7 @@ paths:
                 properties:
                   attachment:
                     type: object
-                    properties: &ref_17
+                    properties: &ref_15
                       id:
                         type: integer
                         description: The ID of the attachment.
@@ -401,9 +401,6 @@ paths:
                       description: |
                         A single custom field.
                       type: object
-                      required:
-                        - id
-                        - name
                       properties:
                         id:
                           type: integer
@@ -516,10 +513,7 @@ paths:
                       description: |
                         A single enumeration.
                       type: object
-                      required: &ref_5
-                        - id
-                        - name
-                      properties: &ref_6
+                      properties: &ref_5
                         id:
                           type: integer
                           description: The ID of the enumeration.
@@ -536,7 +530,7 @@ paths:
                           type: array
                           items:
                             type: object
-                            properties: &ref_7
+                            properties: &ref_6
                               id:
                                 type: integer
                                 description: The ID of the custom field.
@@ -579,8 +573,7 @@ paths:
                       description: |
                         A single enumeration.
                       type: object
-                      required: *ref_5
-                      properties: *ref_6
+                      properties: *ref_5
         '401':
           description: not provided
         '403':
@@ -613,8 +606,7 @@ paths:
                       description: |
                         A single enumeration.
                       type: object
-                      required: *ref_5
-                      properties: *ref_6
+                      properties: *ref_5
         '401':
           description: not provided
         '403':
@@ -637,7 +629,7 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: &ref_13
+          schema: &ref_11
             type: integer
             enum:
               - 1
@@ -646,7 +638,7 @@ paths:
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: &ref_14
+          schema: &ref_12
             type: object
             properties:
               offset:
@@ -683,10 +675,7 @@ paths:
                       description: |
                         A single group.
                       type: object
-                      required: &ref_8
-                        - id
-                        - name
-                      properties: &ref_9
+                      properties: &ref_7
                         id:
                           type: integer
                           description: The ID of the group.
@@ -700,7 +689,7 @@ paths:
                           type: array
                           items:
                             type: object
-                            properties: *ref_7
+                            properties: *ref_6
         '401':
           description: not provided
         '403':
@@ -713,7 +702,7 @@ paths:
       requestBody:
         description: |
           The group to create or update.
-        content: &ref_12
+        content: &ref_10
           application/json:
             schema:
               type: object
@@ -743,13 +732,13 @@ paths:
                       type: array
                       items:
                         type: object
-                        properties: *ref_7
+                        properties: *ref_6
         required: true
       responses:
         '201':
           description: |
             Returns the group with the specified ID.
-          content: &ref_10
+          content: &ref_8
             application/json:
               schema:
                 type: object
@@ -757,12 +746,11 @@ paths:
                   group:
                     description: |
                       A single group.
-                    allOf: &ref_110
+                    allOf: &ref_97
                       - description: |
                           A single group.
                         type: object
-                        required: *ref_8
-                        properties: *ref_9
+                        properties: *ref_7
                       - type: object
                         properties:
                           users:
@@ -835,7 +823,7 @@ paths:
           description: |
             The ID of the group.
           required: true
-          schema: &ref_11
+          schema: &ref_9
             type: integer
         - name: include
           in: query
@@ -855,7 +843,7 @@ paths:
         '200':
           description: |
             Returns the group with the specified ID.
-          content: *ref_10
+          content: *ref_8
         '401':
           description: not provided
         '403':
@@ -874,11 +862,11 @@ paths:
           description: |
             The ID of the group.
           required: true
-          schema: *ref_11
+          schema: *ref_9
       requestBody:
         description: |
           The group to create or update.
-        content: *ref_12
+        content: *ref_10
         required: true
       responses:
         '204':
@@ -905,11 +893,11 @@ paths:
           description: |
             The ID of the group.
           required: true
-          schema: *ref_11
+          schema: *ref_9
       requestBody:
         description: |
           The group to create or update.
-        content: *ref_12
+        content: *ref_10
         required: true
       responses:
         '204':
@@ -936,7 +924,7 @@ paths:
           description: |
             The ID of the group.
           required: true
-          schema: *ref_11
+          schema: *ref_9
       responses:
         '204':
           description: not provided
@@ -965,7 +953,7 @@ paths:
           description: |
             The ID of the group.
           required: true
-          schema: *ref_11
+          schema: *ref_9
       requestBody:
         description: |
           The user ID list.
@@ -1011,7 +999,7 @@ paths:
           description: |
             The ID of the group.
           required: true
-          schema: *ref_11
+          schema: *ref_9
         - name: user_id
           in: path
           description: |
@@ -1046,16 +1034,16 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_13
+          schema: *ref_11
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_14
+          schema: *ref_12
         - name: query
           in: query
-          schema: &ref_15
+          schema: &ref_13
             type: object
             properties:
               status_id:
@@ -1273,7 +1261,7 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
-          schema: &ref_16
+          schema: &ref_14
             type: array
             items:
               type: string
@@ -1291,7 +1279,7 @@ paths:
         '200':
           description: |
             Returns a list of issues.
-          content: &ref_47
+          content: &ref_41
             text/csv:
               schema:
                 type: string
@@ -1322,29 +1310,29 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_13
+          schema: *ref_11
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_14
+          schema: *ref_12
         - name: query
           in: query
-          schema: *ref_15
+          schema: *ref_13
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
-          schema: *ref_16
+          schema: *ref_14
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns a list of issues.
-          content: &ref_49
+          content: &ref_43
             application/json:
               schema:
                 type: object
@@ -1355,9 +1343,7 @@ paths:
                       description: |
                         A single issue.
                       type: object
-                      required: &ref_18
-                        - id
-                      properties: &ref_19
+                      properties: &ref_16
                         id:
                           type: integer
                           description: The ID of the issue.
@@ -1478,7 +1464,7 @@ paths:
                           type: array
                           items:
                             type: object
-                            properties: *ref_7
+                            properties: *ref_6
                         created_on:
                           type: string
                           format: date-time
@@ -1493,9 +1479,9 @@ paths:
                           description: The date and time when the issue was closed.
                         attachments:
                           type: array
-                          items: &ref_35
+                          items: &ref_30
                             type: object
-                            properties: *ref_17
+                            properties: *ref_15
                             additionalProperties: true
                         relations:
                           type: array
@@ -1542,7 +1528,7 @@ paths:
       requestBody:
         description: |
           The issue to create or update.
-        content: &ref_22
+        content: &ref_19
           application/json:
             schema:
               type: object
@@ -1602,7 +1588,7 @@ paths:
                       type: array
                       items:
                         type: object
-                        properties: *ref_7
+                        properties: *ref_6
                     lock_version:
                       type: string
                       description: The lock version of the issue.
@@ -1633,7 +1619,7 @@ paths:
         '201':
           description: |
             Returns the issue with the specified ID.
-          content: &ref_20
+          content: &ref_17
             application/json:
               schema:
                 type: object
@@ -1641,12 +1627,11 @@ paths:
                   issue:
                     description: |
                       A single issue.
-                    allOf: &ref_111
+                    allOf: &ref_98
                       - description: |
                           A single issue.
                         type: object
-                        required: *ref_18
-                        properties: *ref_19
+                        properties: *ref_16
                       - type: object
                         properties:
                           children:
@@ -1804,29 +1789,29 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_13
+          schema: *ref_11
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_14
+          schema: *ref_12
         - name: query
           in: query
-          schema: *ref_15
+          schema: *ref_13
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
-          schema: *ref_16
+          schema: *ref_14
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns a list of issues.
-          content: &ref_50
+          content: &ref_44
             application/pdf:
               schema:
                 type: string
@@ -1856,7 +1841,7 @@ paths:
         '200':
           description: |
             Download gantt chart.
-          content: &ref_55
+          content: &ref_48
             application/pdf:
               schema:
                 type: string
@@ -1882,7 +1867,7 @@ paths:
         '200':
           description: |
             Download gantt chart.
-          content: &ref_57
+          content: &ref_50
             image/png:
               schema:
                 type: string
@@ -1911,21 +1896,21 @@ paths:
           description: |
             The ID of the issue.
           required: true
-          schema: &ref_21
+          schema: &ref_18
             type: integer
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
-          schema: *ref_16
+          schema: *ref_14
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the issue with the specified ID.
-          content: *ref_20
+          content: *ref_17
         '401':
           description: not provided
         '403':
@@ -1944,11 +1929,11 @@ paths:
           description: |
             The ID of the issue.
           required: true
-          schema: *ref_21
+          schema: *ref_18
       requestBody:
         description: |
           The issue to create or update.
-        content: *ref_22
+        content: *ref_19
         required: true
       responses:
         '204':
@@ -1975,11 +1960,11 @@ paths:
           description: |
             The ID of the issue.
           required: true
-          schema: *ref_21
+          schema: *ref_18
       requestBody:
         description: |
           The issue to create or update.
-        content: *ref_22
+        content: *ref_19
         required: true
       responses:
         '204':
@@ -2006,7 +1991,7 @@ paths:
           description: |
             The ID of the issue.
           required: true
-          schema: *ref_21
+          schema: *ref_18
       responses:
         '204':
           description: not provided
@@ -2040,13 +2025,13 @@ paths:
           description: |
             The ID of the issue.
           required: true
-          schema: *ref_21
+          schema: *ref_18
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
-          schema: *ref_16
+          schema: *ref_14
           style: form
           explode: false
       responses:
@@ -2083,7 +2068,7 @@ paths:
           description: |
             The ID of the issue.
           required: true
-          schema: &ref_23
+          schema: &ref_20
             type: integer
       responses:
         '200':
@@ -2100,9 +2085,7 @@ paths:
                       description: |
                         A single relation.
                       type: object
-                      required: &ref_24
-                        - id
-                      properties: &ref_25
+                      properties: &ref_21
                         id:
                           type: integer
                           description: The ID of the relation.
@@ -2133,7 +2116,7 @@ paths:
           description: |
             The ID of the issue.
           required: true
-          schema: *ref_23
+          schema: *ref_20
       requestBody:
         description: |
           The issue relation to create.
@@ -2171,7 +2154,7 @@ paths:
         '201':
           description: |
             Returns the relation with the specified ID.
-          content: &ref_87
+          content: &ref_76
             application/json:
               schema:
                 type: object
@@ -2180,8 +2163,7 @@ paths:
                     description: |
                       A single relation.
                     type: object
-                    required: *ref_24
-                    properties: *ref_25
+                    properties: *ref_21
         '401':
           description: not provided
         '403':
@@ -2214,7 +2196,7 @@ paths:
       requestBody:
         description: |
           The time entry to create or update.
-        content: &ref_71
+        content: &ref_62
           application/json:
             schema:
               type: object
@@ -2255,13 +2237,13 @@ paths:
                       type: array
                       items:
                         type: object
-                        properties: *ref_7
+                        properties: *ref_6
         required: true
       responses:
         '201':
           description: |
             Returns the time entry with the specified ID.
-          content: &ref_72
+          content: &ref_63
             application/json:
               schema:
                 type: object
@@ -2270,10 +2252,7 @@ paths:
                     description: |
                       A single time entry.
                     type: object
-                    required: &ref_69
-                      - id
-                      - hours
-                    properties: &ref_70
+                    properties: &ref_61
                       id:
                         type: integer
                         description: The ID of the time entry.
@@ -2332,7 +2311,7 @@ paths:
                         type: array
                         items:
                           type: object
-                          properties: *ref_7
+                          properties: *ref_6
         '401':
           description: not provided
         '403':
@@ -2362,12 +2341,12 @@ paths:
           description: |
             The ID of the issue.
           required: true
-          schema: &ref_26
+          schema: &ref_22
             type: integer
       requestBody:
         description: |
           The watcher to create.
-        content: &ref_106
+        content: &ref_93
           application/json:
             schema:
               type: object
@@ -2421,7 +2400,7 @@ paths:
           description: |
             The ID of the issue.
           required: true
-          schema: *ref_26
+          schema: *ref_22
         - name: user_id
           in: path
           description: |
@@ -2458,13 +2437,13 @@ paths:
           description: |
             The ID of the issue category.
           required: true
-          schema: &ref_27
+          schema: &ref_23
             type: integer
       responses:
         '200':
           description: |
             Returns the issue category with the specified ID.
-          content: &ref_54
+          content: &ref_47
             application/json:
               schema:
                 type: object
@@ -2473,9 +2452,7 @@ paths:
                     description: |
                       A single issue category.
                     type: object
-                    required: &ref_51
-                      - id
-                    properties: &ref_52
+                    properties: &ref_45
                       id:
                         type: integer
                         description: The ID of the issue category.
@@ -2518,11 +2495,11 @@ paths:
           description: |
             The ID of the issue category.
           required: true
-          schema: *ref_27
+          schema: *ref_23
       requestBody:
         description: |
           The issue category to create or update.
-        content: &ref_28
+        content: &ref_24
           application/json:
             schema:
               type: object
@@ -2564,11 +2541,11 @@ paths:
           description: |
             The ID of the issue category.
           required: true
-          schema: *ref_27
+          schema: *ref_23
       requestBody:
         description: |
           The issue category to create or update.
-        content: *ref_28
+        content: *ref_24
         required: true
       responses:
         '204':
@@ -2595,7 +2572,7 @@ paths:
           description: |
             The ID of the issue category.
           required: true
-          schema: *ref_27
+          schema: *ref_23
         - name: reassign_to_id
           in: query
           description: |
@@ -2639,9 +2616,6 @@ paths:
                       description: |
                         A single issue status.
                       type: object
-                      required:
-                        - id
-                        - name
                       properties:
                         id:
                           type: integer
@@ -2679,12 +2653,12 @@ paths:
           description: |
             The ID of the journal.
           required: true
-          schema: &ref_29
+          schema: &ref_25
             type: integer
       requestBody:
         description: |
           The journal to update.
-        content: &ref_30
+        content: &ref_26
           application/json:
             schema:
               type: object
@@ -2726,11 +2700,11 @@ paths:
           description: |
             The ID of the journal.
           required: true
-          schema: *ref_29
+          schema: *ref_25
       requestBody:
         description: |
           The journal to update.
-        content: *ref_30
+        content: *ref_26
         required: true
       responses:
         '204':
@@ -2765,13 +2739,13 @@ paths:
           description: |
             The ID of the membership.
           required: true
-          schema: &ref_31
+          schema: &ref_27
             type: integer
       responses:
         '200':
           description: |
             Returns the membership with the specified ID.
-          content: &ref_61
+          content: &ref_53
             application/json:
               schema:
                 type: object
@@ -2780,11 +2754,7 @@ paths:
                     description: |
                       A single membership.
                     type: object
-                    required: &ref_58
-                      - id
-                      - project
-                      - roles
-                    properties: &ref_59
+                    properties: &ref_51
                       id:
                         type: integer
                         description: The ID of the membership.
@@ -2847,11 +2817,11 @@ paths:
           description: |
             The ID of the membership.
           required: true
-          schema: *ref_31
+          schema: *ref_27
       requestBody:
         description: |
           The membership to create or update.
-        content: &ref_32
+        content: &ref_28
           application/json:
             schema:
               type: object
@@ -2900,11 +2870,11 @@ paths:
           description: |
             The ID of the membership.
           required: true
-          schema: *ref_31
+          schema: *ref_27
       requestBody:
         description: |
           The membership to create or update.
-        content: *ref_32
+        content: *ref_28
         required: true
       responses:
         '204':
@@ -2931,7 +2901,7 @@ paths:
           description: |
             The ID of the membership.
           required: true
-          schema: *ref_31
+          schema: *ref_27
       responses:
         '204':
           description: not provided
@@ -2970,11 +2940,6 @@ paths:
                     description: |
                       A single user.
                     type: object
-                    required:
-                      - id
-                      - login
-                      - firstname
-                      - lastname
                     properties:
                       id:
                         type: integer
@@ -3009,7 +2974,7 @@ paths:
                         type: array
                         items:
                           type: object
-                          properties: *ref_7
+                          properties: *ref_6
         '401':
           description: not provided
         '403':
@@ -3030,7 +2995,7 @@ paths:
                   description: |
                     A single user.
                   type: object
-                  properties: &ref_99
+                  properties: &ref_87
                     firstname:
                       type: string
                       description: The firstname of the user.
@@ -3067,7 +3032,7 @@ paths:
                       type: array
                       items:
                         type: object
-                        properties: *ref_7
+                        properties: *ref_6
                     login:
                       type: string
                       description: The login of the user.
@@ -3103,7 +3068,7 @@ paths:
                   description: |
                     The preferences of the user.
                   type: object
-                  properties: &ref_100
+                  properties: &ref_88
                     hide_mail:
                       type: boolean
                       description: Whether the user's email should be hidden.
@@ -3188,18 +3153,18 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_13
+          schema: *ref_11
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_14
+          schema: *ref_12
       responses:
         '200':
           description: |
             Returns all news across all projects with pagination.
-          content: &ref_62
+          content: &ref_54
             application/json:
               schema:
                 type: object
@@ -3210,12 +3175,7 @@ paths:
                       description: |
                         A single news.
                       type: object
-                      required: &ref_33
-                        - id
-                        - login
-                        - firstname
-                        - lastname
-                      properties: &ref_34
+                      properties: &ref_29
                         id:
                           type: integer
                           description: The ID of the news.
@@ -3280,7 +3240,7 @@ paths:
                   description: |
                     A single news.
                   type: object
-                  properties: &ref_37
+                  properties: &ref_32
                     title:
                       type: string
                       description: The title of the news.
@@ -3325,7 +3285,7 @@ paths:
           description: |
             The ID of the news.
           required: true
-          schema: &ref_36
+          schema: &ref_31
             type: integer
         - name: include
           in: query
@@ -3353,17 +3313,16 @@ paths:
                   news:
                     description: |
                       A single news.
-                    allOf: &ref_112
+                    allOf: &ref_99
                       - description: |
                           A single news.
                         type: object
-                        required: *ref_33
-                        properties: *ref_34
+                        properties: *ref_29
                       - type: object
                         properties:
                           attachments:
                             type: array
-                            items: *ref_35
+                            items: *ref_30
                           comments:
                             type: array
                             items:
@@ -3401,11 +3360,11 @@ paths:
           description: |
             The ID of the news.
           required: true
-          schema: *ref_36
+          schema: *ref_31
       requestBody:
         description: |
           The news to create.
-        content: &ref_38
+        content: &ref_33
           application/json:
             schema:
               type: object
@@ -3414,7 +3373,8 @@ paths:
                   description: |
                     A single news.
                   type: object
-                  properties: *ref_37
+                  properties: *ref_32
+        required: true
       responses:
         '204':
           description: not provided
@@ -3440,11 +3400,12 @@ paths:
           description: |
             The ID of the news.
           required: true
-          schema: *ref_36
+          schema: *ref_31
       requestBody:
         description: |
           The news to create.
-        content: *ref_38
+        content: *ref_33
+        required: true
       responses:
         '204':
           description: not provided
@@ -3470,7 +3431,7 @@ paths:
           description: |
             The ID of the news.
           required: true
-          schema: *ref_36
+          schema: *ref_31
       responses:
         '204':
           description: not provided
@@ -3499,16 +3460,16 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_13
+          schema: *ref_11
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_14
+          schema: *ref_12
         - name: query
           in: query
-          schema: &ref_39
+          schema: &ref_34
             type: object
             properties:
               status:
@@ -3584,7 +3545,7 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
-          schema: &ref_40
+          schema: &ref_35
             type: array
             items:
               type: string
@@ -3628,22 +3589,22 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_13
+          schema: *ref_11
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_14
+          schema: *ref_12
         - name: query
           in: query
-          schema: *ref_39
+          schema: *ref_34
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
-          schema: *ref_40
+          schema: *ref_35
           style: form
           explode: false
       responses:
@@ -3661,11 +3622,7 @@ paths:
                       description: |
                         A single project.
                       type: object
-                      required: &ref_41
-                        - id
-                        - name
-                        - identifier
-                      properties: &ref_42
+                      properties: &ref_36
                         id:
                           type: integer
                           description: The ID of the project.
@@ -3711,7 +3668,7 @@ paths:
                           type: array
                           items:
                             type: object
-                            properties: *ref_7
+                            properties: *ref_6
                         trackers:
                           type: array
                           items:
@@ -3797,7 +3754,7 @@ paths:
       requestBody:
         description: |
           The project to create or update.
-        content: &ref_45
+        content: &ref_39
           application/json:
             schema:
               type: object
@@ -3828,7 +3785,7 @@ paths:
                       type: array
                       items:
                         type: object
-                        properties: *ref_7
+                        properties: *ref_6
                     tracker_ids:
                       type: array
                       description: The IDs of the trackers associated with the project.
@@ -3868,7 +3825,7 @@ paths:
         '201':
           description: |
             Returns the project with the specified ID or identifier.
-          content: &ref_43
+          content: &ref_37
             application/json:
               schema:
                 type: object
@@ -3876,12 +3833,11 @@ paths:
                   project:
                     description: |
                       A single project.
-                    allOf: &ref_113
+                    allOf: &ref_100
                       - description: |
                           A single project.
                         type: object
-                        required: *ref_41
-                        properties: *ref_42
+                        properties: *ref_36
                       - type: object
                         properties:
                           default_version:
@@ -3934,21 +3890,21 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_44
+          schema: &ref_38
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
-          schema: *ref_40
+          schema: *ref_35
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the project with the specified ID or identifier.
-          content: *ref_43
+          content: *ref_37
         '401':
           description: not provided
         '403':
@@ -3967,11 +3923,11 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_44
+          schema: *ref_38
       requestBody:
         description: |
           The project to create or update.
-        content: *ref_45
+        content: *ref_39
         required: true
       responses:
         '204':
@@ -3998,11 +3954,11 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_44
+          schema: *ref_38
       requestBody:
         description: |
           The project to create or update.
-        content: *ref_45
+        content: *ref_39
         required: true
       responses:
         '204':
@@ -4029,7 +3985,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_44
+          schema: *ref_38
       responses:
         '204':
           description: not provided
@@ -4059,7 +4015,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_44
+          schema: *ref_38
       responses:
         '204':
           description: not provided
@@ -4085,7 +4041,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_44
+          schema: *ref_38
       responses:
         '204':
           description: not provided
@@ -4118,7 +4074,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_46
+          schema: &ref_40
             type: string
       responses:
         '200':
@@ -4133,9 +4089,9 @@ paths:
                     type: array
                     items:
                       description: A single file.
-                      allOf: &ref_114
+                      allOf: &ref_101
                         - type: object
-                          properties: *ref_17
+                          properties: *ref_15
                           additionalProperties: true
                         - type: object
                           properties:
@@ -4171,7 +4127,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_46
+          schema: *ref_40
       requestBody:
         description: |
           The file to create.
@@ -4227,7 +4183,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_44
+          schema: *ref_38
       responses:
         '204':
           description: not provided
@@ -4249,7 +4205,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_44
+          schema: *ref_38
       responses:
         '204':
           description: not provided
@@ -4277,36 +4233,36 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_13
+          schema: *ref_11
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_14
+          schema: *ref_12
         - name: project_id
           in: path
           description: |
             The ID or identifier of the issue.
           required: true
-          schema: &ref_48
+          schema: &ref_42
             type: string
         - name: query
           in: query
-          schema: *ref_15
+          schema: *ref_13
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
-          schema: *ref_16
+          schema: *ref_14
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns a list of issues.
-          content: *ref_47
+          content: *ref_41
         '401':
           description: not provided
         '403':
@@ -4335,35 +4291,35 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_13
+          schema: *ref_11
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_14
+          schema: *ref_12
         - name: project_id
           in: path
           description: |
             The ID or identifier of the issue.
           required: true
-          schema: *ref_48
+          schema: *ref_42
         - name: query
           in: query
-          schema: *ref_15
+          schema: *ref_13
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
-          schema: *ref_16
+          schema: *ref_14
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns a list of issues.
-          content: *ref_49
+          content: *ref_43
         '401':
           description: not provided
         '403':
@@ -4385,17 +4341,17 @@ paths:
           description: |
             The ID or identifier of the issue.
           required: true
-          schema: *ref_48
+          schema: *ref_42
       requestBody:
         description: |
           The issue to create or update.
-        content: *ref_22
+        content: *ref_19
         required: true
       responses:
         '201':
           description: |
             Returns the issue with the specified ID.
-          content: *ref_20
+          content: *ref_17
         '401':
           description: not provided
         '403':
@@ -4424,35 +4380,35 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_13
+          schema: *ref_11
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_14
+          schema: *ref_12
         - name: project_id
           in: path
           description: |
             The ID or identifier of the issue.
           required: true
-          schema: *ref_48
+          schema: *ref_42
         - name: query
           in: query
-          schema: *ref_15
+          schema: *ref_13
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
-          schema: *ref_16
+          schema: *ref_14
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns a list of issues.
-          content: *ref_50
+          content: *ref_44
         '401':
           description: not provided
         '403':
@@ -4481,12 +4437,12 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_13
+          schema: *ref_11
         - name: nometa
           in: query
           description: |
             If set to 1, the response will not include metadata information.
-          schema: &ref_73
+          schema: &ref_64
             type: integer
             enum:
               - 1
@@ -4495,7 +4451,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_53
+          schema: &ref_46
             type: string
       responses:
         '200':
@@ -4512,8 +4468,7 @@ paths:
                       description: |
                         A single issue category.
                       type: object
-                      required: *ref_51
-                      properties: *ref_52
+                      properties: *ref_45
                   total_count:
                     type: integer
                     description: The total number of issue categories.
@@ -4534,17 +4489,17 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_53
+          schema: *ref_46
       requestBody:
         description: |
           The issue category to create or update.
-        content: *ref_28
+        content: *ref_24
         required: true
       responses:
         '201':
           description: |
             Returns the issue category with the specified ID.
-          content: *ref_54
+          content: *ref_47
         '401':
           description: not provided
         '403':
@@ -4572,13 +4527,13 @@ paths:
           description: |
             The ID or identifer of the project.
           required: true
-          schema: &ref_56
+          schema: &ref_49
             type: string
       responses:
         '200':
           description: |
             Download gantt chart.
-          content: *ref_55
+          content: *ref_48
         '401':
           description: not provided
         '403':
@@ -4604,12 +4559,12 @@ paths:
           description: |
             The ID or identifer of the project.
           required: true
-          schema: *ref_56
+          schema: *ref_49
       responses:
         '200':
           description: |
             Download gantt chart.
-          content: *ref_57
+          content: *ref_50
         '401':
           description: not provided
         '403':
@@ -4634,19 +4589,19 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_13
+          schema: *ref_11
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_14
+          schema: *ref_12
         - name: project_id
           in: path
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_60
+          schema: &ref_52
             type: string
       responses:
         '200':
@@ -4663,8 +4618,7 @@ paths:
                       description: |
                         A single membership.
                       type: object
-                      required: *ref_58
-                      properties: *ref_59
+                      properties: *ref_51
                   total_count:
                     type: integer
                     description: The total number of memberships.
@@ -4689,17 +4643,17 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_60
+          schema: *ref_52
       requestBody:
         description: |
           The membership to create or update.
-        content: *ref_32
+        content: *ref_28
         required: true
       responses:
         '201':
           description: |
             Returns the membership with the specified ID.
-          content: *ref_61
+          content: *ref_53
         '401':
           description: not provided
         '403':
@@ -4726,25 +4680,25 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_13
+          schema: *ref_11
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_14
+          schema: *ref_12
         - name: project_id
           in: path
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_63
+          schema: &ref_55
             type: string
       responses:
         '200':
           description: |
             Returns all news across all projects with pagination.
-          content: *ref_62
+          content: *ref_54
         '401':
           description: not provided
         '403':
@@ -4762,11 +4716,12 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_63
+          schema: *ref_55
       requestBody:
         description: |
           The news to create.
-        content: *ref_38
+        content: *ref_33
+        required: true
       responses:
         '204':
           description: not provided
@@ -4797,21 +4752,21 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_64
+          schema: &ref_56
             type: string
         - name: repository_id
           in: path
           description: |
             The identifier of the repository.
           required: true
-          schema: &ref_65
+          schema: &ref_57
             type: string
         - name: rev
           in: path
           description: |
             The revision of the changeset.
           required: true
-          schema: &ref_66
+          schema: &ref_58
             type: string
       requestBody:
         description: |
@@ -4857,19 +4812,19 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_64
+          schema: *ref_56
         - name: repository_id
           in: path
           description: |
             The identifier of the repository.
           required: true
-          schema: *ref_65
+          schema: *ref_57
         - name: rev
           in: path
           description: |
             The revision of the changeset.
           required: true
-          schema: *ref_66
+          schema: *ref_58
         - name: issue_id
           in: path
           description: |
@@ -4904,13 +4859,13 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_13
+          schema: *ref_11
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_14
+          schema: *ref_12
         - name: project_id
           in: path
           description: |
@@ -4923,11 +4878,11 @@ paths:
           description: |
             Query strings. Enable to specify multiple values separated by a space " ".
           required: true
-          schema: &ref_91
+          schema: &ref_79
             type: string
         - name: query
           in: query
-          schema: &ref_92
+          schema: &ref_80
             type: object
             properties:
               scope:
@@ -4980,7 +4935,7 @@ paths:
         '200':
           description: |
             Returns a list of search results.
-          content: &ref_93
+          content: &ref_81
             application/json:
               schema:
                 type: object
@@ -4991,8 +4946,6 @@ paths:
                       description: |
                         A single search result.
                       type: object
-                      required:
-                        - id
                       properties:
                         id:
                           type: integer
@@ -5047,11 +5000,11 @@ paths:
           description: |
             The ID or identifer of the project.
           required: true
-          schema: &ref_67
+          schema: &ref_59
             type: string
         - name: query
           in: query
-          schema: &ref_68
+          schema: &ref_60
             type: object
             properties:
               spent_on:
@@ -5159,7 +5112,7 @@ paths:
         '200':
           description: |
             Returns a list of time entries.
-          content: &ref_94
+          content: &ref_82
             text/csv:
               schema:
                 type: string
@@ -5188,27 +5141,27 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_13
+          schema: *ref_11
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_14
+          schema: *ref_12
         - name: project_id
           in: path
           description: |
             The ID or identifer of the project.
           required: true
-          schema: *ref_67
+          schema: *ref_59
         - name: query
           in: query
-          schema: *ref_68
+          schema: *ref_60
       responses:
         '200':
           description: |
             Returns a list of time entries.
-          content: &ref_95
+          content: &ref_83
             application/json:
               schema:
                 type: object
@@ -5219,8 +5172,7 @@ paths:
                       description: |
                         A single time entry.
                       type: object
-                      required: *ref_69
-                      properties: *ref_70
+                      properties: *ref_61
                   total_count:
                     type: integer
                     description: The total number of time entries.
@@ -5247,17 +5199,17 @@ paths:
           description: |
             The ID or identifer of the project.
           required: true
-          schema: *ref_67
+          schema: *ref_59
       requestBody:
         description: |
           The time entry to create or update.
-        content: *ref_71
+        content: *ref_62
         required: true
       responses:
         '201':
           description: |
             Returns the time entry with the specified ID.
-          content: *ref_72
+          content: *ref_63
         '401':
           description: not provided
         '403':
@@ -5286,18 +5238,18 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_13
+          schema: *ref_11
         - name: nometa
           in: query
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_73
+          schema: *ref_64
         - name: project_id
           in: path
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_74
+          schema: &ref_65
             type: string
       responses:
         '200':
@@ -5313,11 +5265,7 @@ paths:
                     items:
                       description: |
                         A single version.
-                      type: object
-                      required: &ref_75
-                        - id
-                        - name
-                      properties: &ref_76
+                      properties: &ref_66
                         id:
                           type: integer
                           description: The ID of the version.
@@ -5353,7 +5301,7 @@ paths:
                           type: array
                           items:
                             type: object
-                            properties: *ref_7
+                            properties: *ref_6
                         created_on:
                           type: string
                           format: date-time
@@ -5382,11 +5330,11 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_74
+          schema: *ref_65
       requestBody:
         description: |
           The version to create or update.
-        content: &ref_109
+        content: &ref_96
           application/json:
             schema:
               type: object
@@ -5440,13 +5388,13 @@ paths:
                       type: array
                       items:
                         type: object
-                        properties: *ref_7
+                        properties: *ref_6
         required: true
       responses:
         '201':
           description: |
             Returns the version with the specified ID.
-          content: &ref_108
+          content: &ref_95
             application/json:
               schema:
                 type: object
@@ -5454,12 +5402,10 @@ paths:
                   version:
                     description: |
                       A single version.
-                    allOf: &ref_115
+                    allOf: &ref_102
                       - description: |
                           A single version.
-                        type: object
-                        required: *ref_75
-                        properties: *ref_76
+                        properties: *ref_66
                       - type: object
                         properties:
                           estimated_hours:
@@ -5496,14 +5442,14 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: &ref_77
+          schema: &ref_67
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: &ref_80
+          schema: &ref_69
             type: array
             items:
               type: string
@@ -5515,7 +5461,7 @@ paths:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: &ref_81
+          content: &ref_70
             application/json:
               schema:
                 type: object
@@ -5523,14 +5469,11 @@ paths:
                   wiki_page:
                     description: |
                       A single wiki.
-                    allOf: &ref_116
+                    allOf: &ref_103
                       - description: |
                           A single wiki.
                         type: object
-                        required: &ref_78
-                          - title
-                          - version
-                        properties: &ref_79
+                        properties: &ref_68
                           title:
                             type: string
                             description: The title of the wiki.
@@ -5570,7 +5513,7 @@ paths:
                             description: The comments of the wiki.
                           attachments:
                             type: array
-                            items: *ref_35
+                            items: *ref_30
         '401':
           description: not provided
         '403':
@@ -5596,7 +5539,7 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_77
+          schema: *ref_67
       responses:
         '200':
           description: |
@@ -5612,8 +5555,7 @@ paths:
                       description: |
                         A single wiki.
                       type: object
-                      required: *ref_78
-                      properties: *ref_79
+                      properties: *ref_68
         '401':
           description: not provided
         '403':
@@ -5640,27 +5582,27 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_77
+          schema: *ref_67
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: &ref_82
+          schema: &ref_71
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: *ref_80
+          schema: *ref_69
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: *ref_81
+          content: *ref_70
         '401':
           description: not provided
         '403':
@@ -5679,17 +5621,17 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_77
+          schema: *ref_67
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_82
+          schema: *ref_71
       requestBody:
         description: |
           The wiki to create or update.
-        content: &ref_83
+        content: &ref_72
           application/json:
             schema:
               type: object
@@ -5716,7 +5658,7 @@ paths:
         '201':
           description: |
             Returns the wiki with the specified ID.
-          content: *ref_81
+          content: *ref_70
         '204':
           description: not provided
         '401':
@@ -5743,23 +5685,23 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_77
+          schema: *ref_67
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_82
+          schema: *ref_71
       requestBody:
         description: |
           The wiki to create or update.
-        content: *ref_83
+        content: *ref_72
         required: true
       responses:
         '201':
           description: |
             Returns the wiki with the specified ID.
-          content: *ref_81
+          content: *ref_70
         '204':
           description: not provided
         '401':
@@ -5787,13 +5729,13 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_77
+          schema: *ref_67
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_82
+          schema: *ref_71
       responses:
         '204':
           description: not provided
@@ -5823,26 +5765,26 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_77
+          schema: *ref_67
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_82
+          schema: *ref_71
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: *ref_80
+          schema: *ref_69
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: &ref_85
+          content: &ref_74
             application/pdf:
               schema:
                 type: string
@@ -5873,26 +5815,26 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_77
+          schema: *ref_67
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_82
+          schema: *ref_71
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: *ref_80
+          schema: *ref_69
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: &ref_86
+          content: &ref_75
             text/plain:
               schema:
                 type: string
@@ -5923,33 +5865,33 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_77
+          schema: *ref_67
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_82
+          schema: *ref_71
         - name: version
           in: path
           description: |
             The version of the wiki.
           required: true
-          schema: &ref_84
+          schema: &ref_73
             type: integer
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: *ref_80
+          schema: *ref_69
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: *ref_81
+          content: *ref_70
         '401':
           description: not provided
         '403':
@@ -5976,32 +5918,32 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_77
+          schema: *ref_67
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_82
+          schema: *ref_71
         - name: version
           in: path
           description: |
             The version of the wiki.
           required: true
-          schema: *ref_84
+          schema: *ref_73
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: *ref_80
+          schema: *ref_69
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: *ref_85
+          content: *ref_74
         '401':
           description: not provided
         '403':
@@ -6028,32 +5970,32 @@ paths:
           description: |
             The ID or identifier of the project.
           required: true
-          schema: *ref_77
+          schema: *ref_67
         - name: id
           in: path
           description: |
             The title of the wiki.
           required: true
-          schema: *ref_82
+          schema: *ref_71
         - name: version
           in: path
           description: |
             The version of the wiki.
           required: true
-          schema: *ref_84
+          schema: *ref_73
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `attachments`.
-          schema: *ref_80
+          schema: *ref_69
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the wiki with the specified ID.
-          content: *ref_86
+          content: *ref_75
         '401':
           description: not provided
         '403':
@@ -6078,13 +6020,13 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_13
+          schema: *ref_11
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_14
+          schema: *ref_12
       responses:
         '200':
           description: |
@@ -6100,9 +6042,6 @@ paths:
                       description: |
                         A single queries.
                       type: object
-                      required:
-                        - id
-                        - name
                       properties:
                         id:
                           type: integer
@@ -6149,13 +6088,13 @@ paths:
           description: |
             The ID of the relation.
           required: true
-          schema: &ref_88
+          schema: &ref_77
             type: integer
       responses:
         '200':
           description: |
             Returns the relation with the specified ID.
-          content: *ref_87
+          content: *ref_76
         '401':
           description: not provided
         '403':
@@ -6174,7 +6113,7 @@ paths:
           description: |
             The ID of the relation.
           required: true
-          schema: *ref_88
+          schema: *ref_77
       responses:
         '204':
           description: not provided
@@ -6212,10 +6151,7 @@ paths:
                       description: |
                         A single role.
                       type: object
-                      required: &ref_89
-                        - id
-                        - name
-                      properties: &ref_90
+                      properties: &ref_78
                         id:
                           type: integer
                           description: The ID of the role.
@@ -6260,12 +6196,11 @@ paths:
                   role:
                     description: |
                       A single role.
-                    allOf: &ref_117
+                    allOf: &ref_104
                       - description: |
                           A single role.
                         type: object
-                        required: *ref_89
-                        properties: *ref_90
+                        properties: *ref_78
                       - type: object
                         properties:
                           assignable:
@@ -6309,27 +6244,27 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_13
+          schema: *ref_11
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_14
+          schema: *ref_12
         - name: q
           in: query
           description: |
             Query strings. Enable to specify multiple values separated by a space " ".
           required: true
-          schema: *ref_91
+          schema: *ref_79
         - name: query
           in: query
-          schema: *ref_92
+          schema: *ref_80
       responses:
         '200':
           description: |
             Returns a list of search results.
-          content: *ref_93
+          content: *ref_81
         '401':
           description: not provided
         '403':
@@ -6350,12 +6285,12 @@ paths:
       parameters:
         - name: query
           in: query
-          schema: *ref_68
+          schema: *ref_60
       responses:
         '200':
           description: |
             Returns a list of time entries.
-          content: *ref_94
+          content: *ref_82
         '401':
           description: not provided
         '403':
@@ -6378,21 +6313,21 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_13
+          schema: *ref_11
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_14
+          schema: *ref_12
         - name: query
           in: query
-          schema: *ref_68
+          schema: *ref_60
       responses:
         '200':
           description: |
             Returns a list of time entries.
-          content: *ref_95
+          content: *ref_83
         '401':
           description: not provided
         '403':
@@ -6405,13 +6340,13 @@ paths:
       requestBody:
         description: |
           The time entry to create or update.
-        content: *ref_71
+        content: *ref_62
         required: true
       responses:
         '201':
           description: |
             Returns the time entry with the specified ID.
-          content: *ref_72
+          content: *ref_63
         '401':
           description: not provided
         '403':
@@ -6440,13 +6375,13 @@ paths:
           description: |
             The ID of the time entry.
           required: true
-          schema: &ref_96
+          schema: &ref_84
             type: integer
       responses:
         '200':
           description: |
             Returns the time entry with the specified ID.
-          content: *ref_72
+          content: *ref_63
         '401':
           description: not provided
         '403':
@@ -6465,11 +6400,11 @@ paths:
           description: |
             The ID of the time entry.
           required: true
-          schema: *ref_96
+          schema: *ref_84
       requestBody:
         description: |
           The time entry to create or update.
-        content: *ref_71
+        content: *ref_62
         required: true
       responses:
         '204':
@@ -6496,11 +6431,11 @@ paths:
           description: |
             The ID of the time entry.
           required: true
-          schema: *ref_96
+          schema: *ref_84
       requestBody:
         description: |
           The time entry to create or update.
-        content: *ref_71
+        content: *ref_62
         required: true
       responses:
         '204':
@@ -6527,7 +6462,7 @@ paths:
           description: |
             The ID of the time entry.
           required: true
-          schema: *ref_96
+          schema: *ref_84
       responses:
         '204':
           description: not provided
@@ -6569,9 +6504,6 @@ paths:
                       description: |
                         A single tracker.
                       type: object
-                      required:
-                        - id
-                        - name
                       properties:
                         id:
                           type: integer
@@ -6677,16 +6609,16 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_13
+          schema: *ref_11
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_14
+          schema: *ref_12
         - name: query
           in: query
-          schema: &ref_97
+          schema: &ref_85
             type: object
             properties:
               status:
@@ -6780,7 +6712,7 @@ paths:
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: &ref_98
+          schema: &ref_86
             type: array
             items:
               type: string
@@ -6821,22 +6753,22 @@ paths:
           in: header
           description: |
             If set to 1, the response will not include metadata information.
-          schema: *ref_13
+          schema: *ref_11
         - name: pagination
           in: query
           description: |
             Pagination parameters to control the number of items returned in the response.
             If not specified, it defaults to 25 items per page.
-          schema: *ref_14
+          schema: *ref_12
         - name: query
           in: query
-          schema: *ref_97
+          schema: *ref_85
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: *ref_98
+          schema: *ref_86
           style: form
           explode: false
       responses:
@@ -6854,12 +6786,7 @@ paths:
                       description: |
                         A single user.
                       type: object
-                      required: &ref_101
-                        - id
-                        - login
-                        - firstname
-                        - lastname
-                      properties: &ref_102
+                      properties: &ref_89
                         id:
                           type: integer
                           description: The ID of the user.
@@ -6921,7 +6848,7 @@ paths:
                           type: array
                           items:
                             type: object
-                            properties: *ref_7
+                            properties: *ref_6
                   total_count:
                     type: integer
                     description: The total number of users.
@@ -6943,7 +6870,7 @@ paths:
       requestBody:
         description: |
           The user to create or update.
-        content: &ref_105
+        content: &ref_92
           application/json:
             schema:
               type: object
@@ -6952,7 +6879,7 @@ paths:
                   description: |
                     A single user.
                   type: object
-                  properties: *ref_99
+                  properties: *ref_87
                 send_information:
                   type: boolean
                   description: |
@@ -6961,13 +6888,13 @@ paths:
                   description: |
                     The preferences of the user.
                   type: object
-                  properties: *ref_100
+                  properties: *ref_88
         required: true
       responses:
         '201':
           description: |
             Returns the user with the specified ID.
-          content: &ref_103
+          content: &ref_90
             application/json:
               schema:
                 type: object
@@ -6975,12 +6902,11 @@ paths:
                   user:
                     description: |
                       A single user.
-                    allOf: &ref_118
+                    allOf: &ref_105
                       - description: |
                           A single user.
                         type: object
-                        required: *ref_101
-                        properties: *ref_102
+                        properties: *ref_89
                       - type: object
                         properties:
                           api_key:
@@ -7057,21 +6983,21 @@ paths:
           description: |
             The ID or `current` of the user.
           required: true
-          schema: &ref_104
+          schema: &ref_91
             type: string
         - name: include
           in: query
           description: |
             fetch associated data (optional). Values should be separated by a comma ",".
             Possible values: `auth_source`, `memberships`, `groups`.
-          schema: *ref_98
+          schema: *ref_86
           style: form
           explode: false
       responses:
         '200':
           description: |
             Returns the user with the specified ID.
-          content: *ref_103
+          content: *ref_90
         '401':
           description: not provided
         '403':
@@ -7091,11 +7017,11 @@ paths:
           description: |
             The ID or `current` of the user.
           required: true
-          schema: *ref_104
+          schema: *ref_91
       requestBody:
         description: |
           The user to create or update.
-        content: *ref_105
+        content: *ref_92
         required: true
       responses:
         '204':
@@ -7123,11 +7049,11 @@ paths:
           description: |
             The ID or `current` of the user.
           required: true
-          schema: *ref_104
+          schema: *ref_91
       requestBody:
         description: |
           The user to create or update.
-        content: *ref_105
+        content: *ref_92
         required: true
       responses:
         '204':
@@ -7154,7 +7080,7 @@ paths:
           description: |
             The ID or `current` of the user.
           required: true
-          schema: *ref_104
+          schema: *ref_91
       responses:
         '204':
           description: not provided
@@ -7184,7 +7110,7 @@ paths:
       requestBody:
         description: |
           The watcher to create.
-        content: *ref_106
+        content: *ref_93
         required: true
       responses:
         '204':
@@ -7252,7 +7178,7 @@ paths:
           description: |
             The ID of the version.
           required: true
-          schema: &ref_107
+          schema: &ref_94
             type: integer
       responses:
         '200':
@@ -7289,12 +7215,12 @@ paths:
           description: |
             The ID of the version.
           required: true
-          schema: *ref_107
+          schema: *ref_94
       responses:
         '200':
           description: |
             Returns the version with the specified ID.
-          content: *ref_108
+          content: *ref_95
         '401':
           description: not provided
         '403':
@@ -7313,11 +7239,11 @@ paths:
           description: |
             The ID of the version.
           required: true
-          schema: *ref_107
+          schema: *ref_94
       requestBody:
         description: |
           The version to create or update.
-        content: *ref_109
+        content: *ref_96
         required: true
       responses:
         '204':
@@ -7344,11 +7270,11 @@ paths:
           description: |
             The ID of the version.
           required: true
-          schema: *ref_107
+          schema: *ref_94
       requestBody:
         description: |
           The version to create or update.
-        content: *ref_109
+        content: *ref_96
         required: true
       responses:
         '204':
@@ -7375,7 +7301,7 @@ paths:
           description: |
             The ID of the version.
           required: true
-          schema: *ref_107
+          schema: *ref_94
       responses:
         '204':
           description: not provided
@@ -7399,38 +7325,38 @@ components:
     group_detail:
       description: |
         A single group.
-      allOf: *ref_110
+      allOf: *ref_97
     issue_detail:
       description: |
         A single issue.
-      allOf: *ref_111
+      allOf: *ref_98
     news_detail:
       description: |
         A single news.
-      allOf: *ref_112
+      allOf: *ref_99
     project_detail:
       description: |
         A single project.
-      allOf: *ref_113
+      allOf: *ref_100
     file:
       description: A single file.
-      allOf: *ref_114
+      allOf: *ref_101
     version_detail:
       description: |
         A single version.
-      allOf: *ref_115
+      allOf: *ref_102
     wiki_detail:
       description: |
         A single wiki.
-      allOf: *ref_116
+      allOf: *ref_103
     role_detail:
       description: |
         A single role.
-      allOf: *ref_117
+      allOf: *ref_104
     user_detail:
       description: |
         A single user.
-      allOf: *ref_118
+      allOf: *ref_105
   responses:
     unprocessable_entity:
       description: |

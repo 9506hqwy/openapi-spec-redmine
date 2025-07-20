@@ -281,10 +281,6 @@ components:
       description: |
         A single project.
       type: object
-      required:
-        - id
-        - name
-        - identifier
       properties:
         id:
           type: integer

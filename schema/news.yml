@@ -150,11 +150,6 @@ components:
       description: |
         A single news.
       type: object
-      required:
-        - id
-        - login
-        - firstname
-        - lastname
       properties:
         id:
           type: integer
@@ -306,6 +301,7 @@ components:
             properties:
               news:
                 $ref: "#/components/schemas/news_new"
+      required: true
     news:
       description: |
         The news to create or update.

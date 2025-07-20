@@ -118,8 +118,6 @@ components:
       description: |
         A single issue category.
       type: object
-      required:
-        - id
       properties:
         id:
           type: integer

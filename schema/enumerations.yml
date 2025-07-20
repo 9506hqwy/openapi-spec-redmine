@@ -47,9 +47,6 @@ components:
       description: |
         A single enumeration.
       type: object
-      required:
-        - id
-        - name
       properties:
         id:
           type: integer

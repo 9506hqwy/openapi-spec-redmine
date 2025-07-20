@@ -73,8 +73,6 @@ components:
       description: |
         A single relation.
       type: object
-      required:
-        - id
       properties:
         id:
           type: integer

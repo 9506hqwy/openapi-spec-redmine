@@ -272,8 +272,6 @@ components:
       description: |
         A single issue.
       type: object
-      required:
-        - id
       properties:
         id:
           type: integer

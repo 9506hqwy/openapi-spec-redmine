@@ -19,9 +19,6 @@ components:
       description: |
         A single tracker.
       type: object
-      required:
-        - id
-        - name
       properties:
         id:
           type: integer
