@@ -842,7 +842,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `users`, `memberships`.
           schema:
             type: array
@@ -1273,7 +1273,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
           schema: &ref_14
             type: array
@@ -1337,7 +1337,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
           schema: *ref_14
           style: form
@@ -1816,7 +1816,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
           schema: *ref_14
           style: form
@@ -1915,7 +1915,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
           schema: *ref_14
           style: form
@@ -2043,7 +2043,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
           schema: *ref_14
           style: form
@@ -3342,7 +3342,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `attachments`, `comments`.
           schema:
             type: array
@@ -3595,7 +3595,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
           schema: &ref_35
             type: array
@@ -3654,7 +3654,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
           schema: *ref_35
           style: form
@@ -3947,7 +3947,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
           schema: *ref_35
           style: form
@@ -4305,7 +4305,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
           schema: *ref_14
           style: form
@@ -4362,7 +4362,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
           schema: *ref_14
           style: form
@@ -4451,7 +4451,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
           schema: *ref_14
           style: form
@@ -5514,7 +5514,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `attachments`.
           schema: &ref_69
             type: array
@@ -5660,7 +5660,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `attachments`.
           schema: *ref_69
           style: form
@@ -5842,7 +5842,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `attachments`.
           schema: *ref_69
           style: form
@@ -5892,7 +5892,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `attachments`.
           schema: *ref_69
           style: form
@@ -5949,7 +5949,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `attachments`.
           schema: *ref_69
           style: form
@@ -6001,7 +6001,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `attachments`.
           schema: *ref_69
           style: form
@@ -6053,7 +6053,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `attachments`.
           schema: *ref_69
           style: form
@@ -6782,7 +6782,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `auth_source`, `memberships`, `groups`.
           schema: &ref_86
             type: array
@@ -6838,7 +6838,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `auth_source`, `memberships`, `groups`.
           schema: *ref_86
           style: form
@@ -7060,7 +7060,7 @@ paths:
         - name: include
           in: query
           description: |
-            fetch associated data (optional). Values should be separated by a comma ",".
+            fetch associated data (optional).
             Possible values: `auth_source`, `memberships`, `groups`.
           schema: *ref_86
           style: form

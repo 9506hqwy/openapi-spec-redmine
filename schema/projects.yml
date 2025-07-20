@@ -529,7 +529,7 @@ components:
       name: include
       in: query
       description: |
-        fetch associated data (optional). Values should be separated by a comma ",".
+        fetch associated data (optional).
         Possible values: `trackers`, `issue_categories`, `enabled_modules`, `time_entry_activities`, `issue_custom_fields`.
       schema:
         type: array

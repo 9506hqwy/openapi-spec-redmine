@@ -723,7 +723,7 @@ components:
       name: include
       in: query
       description: |
-        fetch associated data (optional). Values should be separated by a comma ",".
+        fetch associated data (optional).
         Possible values: `allowed_statuses`, `attachments`, `changesets`, `children`, `journals`, `relations`, `watchers`.
       schema:
         type: array

@@ -458,7 +458,7 @@ components:
       name: include
       in: query
       description: |
-        fetch associated data (optional). Values should be separated by a comma ",".
+        fetch associated data (optional).
         Possible values: `auth_source`, `memberships`, `groups`.
       schema:
         type: array
