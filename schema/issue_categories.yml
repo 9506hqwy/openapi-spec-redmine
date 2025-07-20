@@ -91,6 +91,8 @@ paths:
           $ref: "./openapi.yml#/components/responses/no_content"
         "403":
           $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
     post:
       tags: ["issue_categories"]
       description: Creates an issue category with specified the project ID or identifier.

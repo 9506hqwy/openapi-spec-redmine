@@ -17,6 +17,8 @@ paths:
           $ref: "./openapi.yml#/components/responses/no_content"
         "403":
           $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
     post:
       tags: ["versions"]
       description: Creates a version for the project with the specified id or identifier (:project_id).

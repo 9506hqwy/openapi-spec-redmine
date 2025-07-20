@@ -33,6 +33,8 @@ paths:
           $ref: "./openapi.yml#/components/responses/no_content"
         "403":
           $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
     parameters:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /projects/{project_id}/wiki/{id}.json:

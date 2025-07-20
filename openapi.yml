@@ -2337,6 +2337,8 @@ paths:
           description: not provided
         '403':
           description: not provided
+        '404':
+          description: not provided
         '422':
           description: |
             The request was well-formed but was unable to be followed due to semantic errors.
@@ -4156,6 +4158,8 @@ paths:
           description: not provided
         '403':
           description: not provided
+        '404':
+          description: not provided
     post:
       tags:
         - files
@@ -4517,6 +4521,8 @@ paths:
           description: not provided
         '403':
           description: not provided
+        '404':
+          description: not provided
     post:
       tags:
         - issue_categories
@@ -4742,6 +4748,8 @@ paths:
         '401':
           description: not provided
         '403':
+          description: not provided
+        '404':
           description: not provided
     post:
       tags:
@@ -5018,6 +5026,8 @@ paths:
           description: not provided
         '403':
           description: not provided
+        '404':
+          description: not provided
     parameters:
       - name: X-Redmine-Switch-User
         in: header
@@ -5224,6 +5234,8 @@ paths:
           description: not provided
         '403':
           description: not provided
+        '404':
+          description: not provided
     post:
       tags:
         - timelog
@@ -5356,6 +5368,8 @@ paths:
         '401':
           description: not provided
         '403':
+          description: not provided
+        '404':
           description: not provided
     post:
       tags:
@@ -5603,6 +5617,8 @@ paths:
         '401':
           description: not provided
         '403':
+          description: not provided
+        '404':
           description: not provided
     parameters:
       - name: X-Redmine-Switch-User

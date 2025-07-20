@@ -13,6 +13,8 @@ paths:
           $ref: "./openapi.yml#/components/responses/no_content"
         "403":
           $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
     post:
       tags: ["files"]
       description: Creates a new file.
