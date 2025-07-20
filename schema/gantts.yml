@@ -1,0 +1,92 @@
+paths:
+  /issues/gantt.pdf:
+    get:
+      tags: ["gantts"]
+      description: Download gantt chart.
+      operationId: gantts#show-pdf
+      responses:
+        "200":
+          $ref: "#/components/responses/gantts-pdf"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /issues/gantt.png:
+    get:
+      tags: ["gantts"]
+      description: Download gantt chart.
+      operationId: gantts#show-png
+      responses:
+        "200":
+          $ref: "#/components/responses/gantts-png"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /projects/{project_id}/issues/gantt.pdf:
+    get:
+      tags: ["gantts"]
+      description: Download gantt chart.
+      operationId: gantts#show-project-pdf
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+      responses:
+        "200":
+          $ref: "#/components/responses/gantts-pdf"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /projects/{project_id}/issues/gantt.png:
+    get:
+      tags: ["gantts"]
+      description: Download gantt chart.
+      operationId: gantts#show-project-png
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+      responses:
+        "200":
+          $ref: "#/components/responses/gantts-png"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+components:
+  responses:
+    gantts-pdf:
+      description: |
+        Download gantt chart.
+      content:
+        application/pdf:
+          schema:
+            type: string
+            format: binary
+    gantts-png:
+      description: |
+        Download gantt chart.
+      content:
+        image/png:
+          schema:
+            type: string
+            format: binary
+  parameters:
+    project_id:
+      name: project_id
+      in: path
+      description: |
+        The ID or identifer of the project.
+      required: true
+      schema:
+        type: string

@@ -1,4 +1,62 @@
 paths:
+  /attachments/download/{id}:
+    get:
+      tags: ["attachments"]
+      description: |
+        Downloads the attachment with the specified ID.
+      operationId: attachments#download
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          $ref: "#/components/responses/attachment-raw"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /attachments/thumbnail/{id}:
+    get:
+      tags: ["attachments"]
+      description: |
+        Downloads the attachment thumbnail with the specified ID.
+      operationId: attachments#thumbnail
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          $ref: "#/components/responses/attachment-raw"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /attachments/thumbnail/{id}/{size}:
+    get:
+      tags: ["attachments"]
+      description: |
+        Downloads the attachment thumbnail with the specified ID.
+      operationId: attachments#thumbnail-size
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/size"
+      responses:
+        "200":
+          $ref: "#/components/responses/attachment-raw"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /attachments/{id}.json:
     get:
       tags: ["attachments"]
@@ -66,6 +124,26 @@ paths:
       responses:
         "204":
           $ref: "./openapi.yml#/components/responses/no_content"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /attachments/{object_type}/{object_id}/download.zip:
+    get:
+      tags: ["attachments"]
+      description: |
+        Downloads the attachment with the specified ID.
+      operationId: attachments#download_all
+      parameters:
+        - $ref: "#/components/parameters/object_type"
+        - $ref: "#/components/parameters/object_id"
+      responses:
+        "200":
+          $ref: "#/components/responses/attachment-zip"
         "401":
           $ref: "./openapi.yml#/components/responses/no_content"
         "403":
@@ -173,6 +251,20 @@ components:
             properties:
               attachment:
                 $ref: "#/components/schemas/attachment"
+    attachment-raw:
+      description: Returns a single attachment.
+      content:
+        "*/*":
+          schema:
+            type: string
+            format: binary
+    attachment-zip:
+      description: Returns a single attachment.
+      content:
+        application/zip:
+          schema:
+            type: string
+            format: binary
     upload:
       description: Returns a single attachment.
       content:
@@ -187,6 +279,27 @@ components:
       name: id
       in: path
       description: The ID of the attachment.
+      required: true
+      schema:
+        type: integer
+    size:
+      name: size
+      in: path
+      description: The size of the attachment.
+      required: true
+      schema:
+        type: integer
+    object_type:
+      name: object_type
+      in: path
+      description: The object type of the attachment.
+      required: true
+      schema:
+        type: string
+    object_id:
+      name: object_id
+      in: path
+      description: The object ID of the attachment.
       required: true
       schema:
         type: integer

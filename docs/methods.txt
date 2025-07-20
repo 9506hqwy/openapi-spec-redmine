@@ -2,10 +2,14 @@ attachments#show
 attachments#upload
 attachments#update
 attachments#destroy
+attachments#download
+attachments#download_all
+attachments#thumbnail
 custom_fields#index
 enumerations#index
 files#index
 files#create
+gantts#show
 groups#index
 groups#show
 groups#create
@@ -53,12 +57,14 @@ repositories#add_related_issue
 repositories#remove_related_issue
 roles#index
 roles#show
+# roles#permissions
 search#index
 timelog#index
 timelog#show
 timelog#create
 timelog#update
 timelog#destroy
+# timelog#report
 trackers#index
 users#index
 users#show
@@ -76,3 +82,4 @@ wiki#index
 wiki#show
 wiki#update
 wiki#destroy
+# wiki#export

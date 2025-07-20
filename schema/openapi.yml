@@ -5,8 +5,16 @@ info:
 servers:
   - url: http://127.0.0.1:3000
 paths:
+  /attachments/download/{id}:
+    $ref: "./attachments.yml#/paths/~1attachments~1download~1{id}"
+  /attachments/thumbnail/{id}:
+    $ref: "./attachments.yml#/paths/~1attachments~1thumbnail~1{id}"
+  /attachments/thumbnail/{id}/{size}:
+    $ref: "./attachments.yml#/paths/~1attachments~1thumbnail~1{id}~1{size}"
   /attachments/{id}.json:
     $ref: "./attachments.yml#/paths/~1attachments~1{id}.json"
+  /attachments/{object_type}/{object_id}/download.zip:
+    $ref: "./attachments.yml#/paths/~1attachments~1{object_type}~1{object_id}~1download.zip"
   /custom_fields.json:
     $ref: "./custom_fields.yml#/paths/~1custom_fields.json"
   /enumerations/document_categories.json:
@@ -23,10 +31,20 @@ paths:
     $ref: "./groups.yml#/paths/~1groups~1{id}~1users.json"
   /groups/{id}/users/{user_id}.json:
     $ref: "./groups.yml#/paths/~1groups~1{id}~1users~1{user_id}.json"
+  /issues.csv:
+    $ref: "./issues.yml#/paths/~1issues.csv"
   /issues.json:
     $ref: "./issues.yml#/paths/~1issues.json"
+  /issues.pdf:
+    $ref: "./issues.yml#/paths/~1issues.pdf"
+  /issues/gantt.pdf:
+    $ref: "./gantts.yml#/paths/~1issues~1gantt.pdf"
+  /issues/gantt.png:
+    $ref: "./gantts.yml#/paths/~1issues~1gantt.png"
   /issues/{id}.json:
     $ref: "./issues.yml#/paths/~1issues~1{id}.json"
+  /issues/{id}.pdf:
+    $ref: "./issues.yml#/paths/~1issues~1{id}.pdf"
   /issues/{issue_id}/relations.json:
     $ref: "./issue_relations.yml#/paths/~1issues~1{issue_id}~1relations.json"
   /issues/{issue_id}/time_entries.json:
@@ -49,6 +67,8 @@ paths:
     $ref: "./news.yml#/paths/~1news.json"
   /news/{id}.json:
     $ref: "./news.yml#/paths/~1news~1{id}.json"
+  /projects.csv:
+    $ref: "./projects.yml#/paths/~1projects.csv"
   /projects.json:
     $ref: "./projects.yml#/paths/~1projects.json"
   /projects/{id}.json:
@@ -59,10 +79,18 @@ paths:
     $ref: "./files.yml#/paths/~1projects~1{project_id}~1files.json"
   /projects/{id}/unarchive.json:
     $ref: "./projects.yml#/paths/~1projects~1{id}~1unarchive.json"
+  /projects/{project_id}/issues.csv:
+    $ref: "./issues.yml#/paths/~1projects~1{project_id}~1issues.csv"
   /projects/{project_id}/issues.json:
     $ref: "./issues.yml#/paths/~1projects~1{project_id}~1issues.json"
+  /projects/{project_id}/issues.pdf:
+    $ref: "./issues.yml#/paths/~1projects~1{project_id}~1issues.pdf"
   /projects/{project_id}/issue_categories.json:
     $ref: "./issue_categories.yml#/paths/~1projects~1{project_id}~1issue_categories.json"
+  /projects/{project_id}/issues/gantt.pdf:
+    $ref: "./gantts.yml#/paths/~1projects~1{project_id}~1issues~1gantt.pdf"
+  /projects/{project_id}/issues/gantt.png:
+    $ref: "./gantts.yml#/paths/~1projects~1{project_id}~1issues~1gantt.png"
   /projects/{project_id}/memberships.json:
     $ref: "./members.yml#/paths/~1projects~1{project_id}~1memberships.json"
   /projects/{project_id}/news.json:
@@ -73,6 +101,8 @@ paths:
     $ref: "./repositories.yml#/paths/~1projects~1{id}~1repository~1{repository_id}~1revisions~1{rev}~1issues~1{issue_id}.json"
   /projects/{project_id}/search.json:
     $ref: "./search.yml#/paths/~1projects~1{project_id}~1search.json"
+  /projects/{project_id}/time_entries.csv:
+    $ref: "./timelog.yml#/paths/~1projects~1{project_id}~1time_entries.csv"
   /projects/{project_id}/time_entries.json:
     $ref: "./timelog.yml#/paths/~1projects~1{project_id}~1time_entries.json"
   /projects/{project_id}/versions.json:
@@ -83,8 +113,16 @@ paths:
     $ref: "./wiki.yml#/paths/~1projects~1{project_id}~1wiki~1index.json"
   /projects/{project_id}/wiki/{id}.json:
     $ref: "./wiki.yml#/paths/~1projects~1{project_id}~1wiki~1{id}.json"
+  /projects/{project_id}/wiki/{id}.pdf:
+    $ref: "./wiki.yml#/paths/~1projects~1{project_id}~1wiki~1{id}.pdf"
+  /projects/{project_id}/wiki/{id}.txt:
+    $ref: "./wiki.yml#/paths/~1projects~1{project_id}~1wiki~1{id}.txt"
   /projects/{project_id}/wiki/{id}/{version}.json:
     $ref: "./wiki.yml#/paths/~1projects~1{project_id}~1wiki~1{id}~1{version}.json"
+  /projects/{project_id}/wiki/{id}/{version}.pdf:
+    $ref: "./wiki.yml#/paths/~1projects~1{project_id}~1wiki~1{id}~1{version}.pdf"
+  /projects/{project_id}/wiki/{id}/{version}.txt:
+    $ref: "./wiki.yml#/paths/~1projects~1{project_id}~1wiki~1{id}~1{version}.txt"
   /queries.json:
     $ref: "./queries.yml#/paths/~1queries.json"
   /relations/{id}.json:
@@ -95,6 +133,8 @@ paths:
     $ref: "./roles.yml#/paths/~1roles~1{id}.json"
   /search.json:
     $ref: "./search.yml#/paths/~1search.json"
+  /time_entries.csv:
+    $ref: "./timelog.yml#/paths/~1time_entries.csv"
   /time_entries.json:
     $ref: "./timelog.yml#/paths/~1time_entries.json"
   /time_entries/{id}.json:
@@ -103,12 +143,16 @@ paths:
     $ref: "./trackers.yml#/paths/~1trackers.json"
   /uploads.json:
     $ref: "./attachments.yml#/paths/~1uploads.json"
+  /users.csv:
+    $ref: "./users.yml#/paths/~1users.csv"
   /users.json:
     $ref: "./users.yml#/paths/~1users.json"
   /users/{id}.json:
     $ref: "./users.yml#/paths/~1users~1{id}.json"
   /watchers.json:
     $ref: "./watchers.yml#/paths/~1watchers.json"
+  /versions/{id}.txt:
+    $ref: "./versions.yml#/paths/~1versions~1{id}.txt"
   /versions/{id}.json:
     $ref: "./versions.yml#/paths/~1versions~1{id}.json"
 components:
@@ -248,6 +292,8 @@ tags:
     description: enumerations_controller's API
   - name: files
     description: files_controller's API
+  - name: gantts
+    description: gantts_controller's API
   - name: groups
     description: groups_controller's API
   - name: issues

@@ -1,4 +1,25 @@
 paths:
+  /issues.csv:
+    get:
+      tags: ["issues"]
+      description: Returns a paginated list of issues. By default, it returns open issues only.
+      operationId: issues#index-csv
+      parameters:
+        - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
+        - $ref: "./openapi.yml#/components/parameters/pagination"
+        - $ref: "#/components/parameters/query"
+        - $ref: "#/components/parameters/include"
+      responses:
+        "200":
+          $ref: "#/components/responses/issues-csv"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /issues.json:
     get:
       tags: ["issues"]
@@ -27,6 +48,27 @@ paths:
       responses:
         "201":
           $ref: "#/components/responses/issue"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /issues.pdf:
+    get:
+      tags: ["issues"]
+      description: Returns a paginated list of issues. By default, it returns open issues only.
+      operationId: issues#index-pdf
+      parameters:
+        - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
+        - $ref: "./openapi.yml#/components/parameters/pagination"
+        - $ref: "#/components/parameters/query"
+        - $ref: "#/components/parameters/include"
+      responses:
+        "200":
+          $ref: "#/components/responses/issues-pdf"
         "401":
           $ref: "./openapi.yml#/components/responses/no_content"
         "403":
@@ -113,6 +155,50 @@ paths:
           $ref: "./openapi.yml#/components/responses/unprocessable_entity"
     parameters:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /issues/{id}.pdf:
+    get:
+      tags: ["issues"]
+      description: |
+        Returns the issue with the specified ID.
+      operationId: issues#show-pdf
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/include"
+      responses:
+        "200":
+          $ref: "#/components/responses/issue-pdf"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /projects/{project_id}/issues.csv:
+    get:
+      tags: ["issues"]
+      description: Returns a paginated list of issues. By default, it returns open issues only.
+      operationId: issues#index-project-csv
+      parameters:
+        - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
+        - $ref: "./openapi.yml#/components/parameters/pagination"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/query"
+        - $ref: "#/components/parameters/include"
+      responses:
+        "200":
+          $ref: "#/components/responses/issues-csv"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /projects/{project_id}/issues.json:
     get:
       tags: ["issues"]
@@ -146,6 +232,30 @@ paths:
       responses:
         "201":
           $ref: "#/components/responses/issue"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "422":
+          $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /projects/{project_id}/issues.pdf:
+    get:
+      tags: ["issues"]
+      description: Returns a paginated list of issues. By default, it returns open issues only.
+      operationId: issues#index-project-pdf
+      parameters:
+        - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
+        - $ref: "./openapi.yml#/components/parameters/pagination"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/query"
+        - $ref: "#/components/parameters/include"
+      responses:
+        "200":
+          $ref: "#/components/responses/issues-pdf"
         "401":
           $ref: "./openapi.yml#/components/responses/no_content"
         "403":
@@ -560,6 +670,22 @@ components:
               limit:
                 type: integer
                 description: The maximum number of issues returned in the list.
+    issues-csv:
+      description: |
+        Returns a list of issues.
+      content:
+        text/csv:
+          schema:
+            type: string
+            format: binary
+    issues-pdf:
+      description: |
+        Returns a list of issues.
+      content:
+        application/pdf:
+          schema:
+            type: string
+            format: binary
     issue:
       description: |
         Returns the issue with the specified ID.
@@ -570,6 +696,14 @@ components:
             properties:
               issue:
                 $ref: "#/components/schemas/issue_detail"
+    issue-pdf:
+      description: |
+        Returns the issue with the specified ID.
+      content:
+        application/pdf:
+          schema:
+            type: string
+            format: binary
   parameters:
     project_id:
       name: project_id

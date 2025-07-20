@@ -1,4 +1,23 @@
 paths:
+  /users.csv:
+    get:
+      tags: ["users"]
+      description: Returns a list of users.
+      operationId: users#index-csv
+      parameters:
+        - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
+        - $ref: "./openapi.yml#/components/parameters/pagination"
+        - $ref: "#/components/parameters/query"
+        - $ref: "#/components/parameters/include"
+      responses:
+        "200":
+          $ref: "#/components/responses/users-csv"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /users.json:
     get:
       tags: ["users"]
@@ -389,6 +408,14 @@ components:
               limit:
                 type: integer
                 description: The maximum number of users returned in the list.
+    users-csv:
+      description: |
+        Returns a list of users.
+      content:
+        text/csv:
+          schema:
+            type: string
+            format: binary
     user:
       description: |
         Returns the user with the specified ID.

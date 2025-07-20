@@ -19,6 +19,25 @@ paths:
           $ref: "./openapi.yml#/components/responses/unprocessable_entity"
     parameters:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /projects/{project_id}/time_entries.csv:
+    get:
+      tags: ["timelog"]
+      description: Returns a list of time entries.
+      operationId: timelog#index-project-csv
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/query"
+      responses:
+        "200":
+          $ref: "#/components/responses/time_entries-csv"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /projects/{project_id}/time_entries.json:
     get:
       tags: ["timelog"]
@@ -53,6 +72,22 @@ paths:
           $ref: "./openapi.yml#/components/responses/no_content"
         "422":
           $ref: "./openapi.yml#/components/responses/unprocessable_entity"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /time_entries.csv:
+    get:
+      tags: ["timelog"]
+      description: Returns a list of time entries.
+      operationId: timelog#index-csv
+      parameters:
+        - $ref: "#/components/parameters/query"
+      responses:
+        "200":
+          $ref: "#/components/responses/time_entries-csv"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
     parameters:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /time_entries.json:
@@ -288,6 +323,14 @@ components:
               limit:
                 type: integer
                 description: The maximum number of time entries returned in the list.
+    time_entries-csv:
+      description: |
+        Returns a list of time entries.
+      content:
+        text/csv:
+          schema:
+            type: string
+            format: binary
     time_entry:
       description: |
         Returns the time entry with the specified ID.

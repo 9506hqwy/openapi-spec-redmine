@@ -36,6 +36,25 @@ paths:
           $ref: "./openapi.yml#/components/responses/unprocessable_entity"
     parameters:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /versions/{id}.txt:
+    get:
+      tags: ["versions"]
+      description: |
+        Returns the version with the specified ID.
+      operationId: versions#show-txt
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          $ref: "#/components/responses/version-txt"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /versions/{id}.json:
     get:
       tags: ["versions"]
@@ -251,6 +270,14 @@ components:
             properties:
               version:
                 $ref: "#/components/schemas/version_detail"
+    version-txt:
+      description: |
+        Returns the version with the specified ID.
+      content:
+        text/plain:
+          schema:
+            type: string
+            format: binary
   parameters:
     project_id:
       name: project_id

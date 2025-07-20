@@ -124,6 +124,48 @@ paths:
           $ref: "./openapi.yml#/components/responses/no_content"
     parameters:
       - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /projects/{project_id}/wiki/{id}.pdf:
+    get:
+      tags: ["wiki"]
+      description: |
+        Returns the details of a wiki page with the specified ID.
+      operationId: wiki#show-pdf
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/include"
+      responses:
+        "200":
+          $ref: "#/components/responses/wiki-pdf"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /projects/{project_id}/wiki/{id}.txt:
+    get:
+      tags: ["wiki"]
+      description: |
+        Returns the details of a wiki page with the specified ID.
+      operationId: wiki#show-txt
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/include"
+      responses:
+        "200":
+          $ref: "#/components/responses/wiki-txt"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
   /projects/{project_id}/wiki/{id}/{version}.json:
     get:
       tags: ["wiki"]
@@ -138,6 +180,50 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/wiki"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /projects/{project_id}/wiki/{id}/{version}.pdf:
+    get:
+      tags: ["wiki"]
+      description: |
+        Returns the details of an old version of a wiki page with the specified ID.
+      operationId: wiki#show-version-pdf
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/version"
+        - $ref: "#/components/parameters/include"
+      responses:
+        "200":
+          $ref: "#/components/responses/wiki-pdf"
+        "401":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "403":
+          $ref: "./openapi.yml#/components/responses/no_content"
+        "404":
+          $ref: "./openapi.yml#/components/responses/no_content"
+    parameters:
+      - $ref: "./openapi.yml#/components/parameters/X-Redmine-Switch-User"
+  /projects/{project_id}/wiki/{id}/{version}.txt:
+    get:
+      tags: ["wiki"]
+      description: |
+        Returns the details of an old version of a wiki page with the specified ID.
+      operationId: wiki#show-version-txt
+      parameters:
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/version"
+        - $ref: "#/components/parameters/include"
+      responses:
+        "200":
+          $ref: "#/components/responses/wiki-txt"
         "401":
           $ref: "./openapi.yml#/components/responses/no_content"
         "403":
@@ -241,6 +327,22 @@ components:
             properties:
               wiki_page:
                 $ref: "#/components/schemas/wiki_detail"
+    wiki-pdf:
+      description: |
+        Returns the wiki with the specified ID.
+      content:
+        application/pdf:
+          schema:
+            type: string
+            format: binary
+    wiki-txt:
+      description: |
+        Returns the wiki with the specified ID.
+      content:
+        text/plain:
+          schema:
+            type: string
+            format: binary
   parameters:
     project_id:
       name: project_id
