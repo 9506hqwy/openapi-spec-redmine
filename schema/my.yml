@@ -2,7 +2,7 @@ paths:
   /my/account.json:
     get:
       tags: ["my"]
-      description: Returns my account.
+      description: Returns the current user's account information.
       operationId: my#account
       responses:
         "200":
@@ -13,7 +13,7 @@ paths:
           $ref: "./openapi.yml#/components/responses/no_content"
     put:
       tags: ["my"]
-      description: Update my account.
+      description: Update the current user's account information.
       operationId: my#account-put
       requestBody:
         $ref: "#/components/requestBody/my"
@@ -32,45 +32,45 @@ components:
   schemas:
     user:
       description: |
-        A single user.
+        Represents a single user.
       type: object
       properties:
         id:
           type: integer
-          description: The ID of the user.
+          description: The unique identifier of the user.
         login:
           type: string
-          description: The login of the user.
+          description: The login name of the user.
         admin:
           type: boolean
-          description: The administrative of the user.
+          description: Whether the user has administrative privileges.
         firstname:
           type: string
-          description: The firstname of the user.
+          description: The first name of the user.
         lastname:
           type: string
-          description: The lastname of the user.
+          description: The last name of the user.
         mail:
           type: string
-          description: The mail of the user.
+          description: The email address of the user.
         created_on:
           type: string
           format: date-time
-          description: The date and time when the user was created.
+          description: The date and time when the user account was created.
         last_login_on:
           type: string
           format: date-time
-          description: The date and time when the user was last logon.
+          description: The date and time when the user last logged in.
         api_key:
           type: string
-          description: The API key of the user.
+          description: The API key for the user.
         custom_fields:
           type: array
           items:
             $ref: "./openapi.yml#/components/schemas/custom_field"
   responses:
     my:
-      description: Returns my account.
+      description: Returns the current user's account information.
       content:
         application/json:
           schema:
@@ -80,7 +80,7 @@ components:
                 $ref: "#/components/schemas/user"
   requestBody:
     my:
-      description: The my account to update.
+      description: The user account information to update.
       content:
         application/json:
           schema:

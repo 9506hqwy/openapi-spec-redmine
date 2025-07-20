@@ -2,7 +2,7 @@ paths:
   /projects/{project_id}/search.json:
     get:
       tags: ["search"]
-      description: Returns the search results by the specified condition parameters.
+      description: Returns search results based on the specified query parameters.
       operationId: search#index-project
       parameters:
         - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
@@ -24,7 +24,7 @@ paths:
   /search.json:
     get:
       tags: ["search"]
-      description: Returns the search results by the specified condition parameters.
+      description: Returns search results based on the specified query parameters.
       operationId: search#index
       parameters:
         - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
@@ -44,7 +44,7 @@ components:
   schemas:
     result:
       description: |
-        A single search result.
+        Represents a single search result.
       type: object
       properties:
         id:
@@ -93,7 +93,7 @@ components:
       name: project_id
       in: path
       description: |
-        The ID or identifier of the issue.
+        The ID or identifier of the project.
       required: true
       schema:
         type: string
@@ -101,7 +101,7 @@ components:
       name: q
       in: query
       description: |
-        Query strings. Enable to specify multiple values separated by a space " ".
+        Query string. Multiple values can be specified, separated by a space (" ").
       required: true
       schema:
         type: string

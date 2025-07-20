@@ -2,7 +2,7 @@ paths:
   /projects/{project_id}/files.json:
     get:
       tags: ["files"]
-      description: Returns all files.
+      description: Returns a list of all files.
       operationId: files#index
       parameters:
         - $ref: "#/components/parameters/project_id"
@@ -37,7 +37,7 @@ paths:
 components:
   schemas:
     file:
-      description: A single file.
+      description: Represents a single file.
       allOf:
         - $ref: "./attachments.yml#/components/schemas/attachment"
         - type: object
@@ -59,25 +59,25 @@ components:
               description: The downloads of the file.
     file_new:
       description: |
-        A single file.
+        Represents a new file to be created.
       type: object
       properties:
         token:
           type: string
-          description: The token of the file.
+          description: The upload token for the file.
         version_id:
           type: integer
-          description: The ID of the version.
+          description: The ID of the version associated with the file.
         filename:
           type: string
-          description: The filename of the file.
+          description: The name of the file.
         description:
           type: string
           description: The description of the file.
   responses:
     files:
       description: |
-        Returns all files.
+        Returns a list of all files.
       content:
         application/json:
           schema:
@@ -99,7 +99,7 @@ components:
   requestBody:
     file:
       description: |
-        The file to create.
+        The file object to create.
       content:
         application/json:
           schema:

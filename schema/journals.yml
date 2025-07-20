@@ -3,7 +3,7 @@ paths:
     patch:
       tags: ["journals"]
       description: |
-        Updates the journal with the specified ID.
+        Update the journal with the specified ID.
       operationId: journals#update-patch
       parameters:
         - $ref: "#/components/parameters/id"
@@ -23,7 +23,7 @@ paths:
     put:
       tags: ["journals"]
       description: |
-        Updates the journal with the specified ID.
+        Update the journal with the specified ID.
       operationId: journals#update-put
       parameters:
         - $ref: "#/components/parameters/id"
@@ -46,15 +46,15 @@ components:
   schemas:
     journal_new:
       description: |
-        A single journal.
+        Represents a single journal entry.
       type: object
       properties:
         notes:
           type: string
-          description: The notes of the journal.
+          description: The notes for the journal entry.
         private_notes:
           type: boolean
-          description: The private of the journal.q
+          description: Whether the notes is private.
   parameters:
     id:
       name: id
@@ -67,7 +67,7 @@ components:
   requestBody:
     journal:
       description: |
-        The journal to update.
+        The journal object to update.
       content:
         application/json:
           schema:

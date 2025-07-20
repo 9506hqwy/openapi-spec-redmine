@@ -3,7 +3,7 @@ paths:
     get:
       tags: ["versions"]
       description: |
-        Returns the versions available for the project with the specified id or identifier (:project_id).
+        Returns the versions available for the project with the specified ID or identifier (:project_id).
         The response may include shared versions from other projects.
       operationId: versions#index
       parameters:
@@ -21,7 +21,7 @@ paths:
           $ref: "./openapi.yml#/components/responses/no_content"
     post:
       tags: ["versions"]
-      description: Creates a version for the project with the specified id or identifier (:project_id).
+      description: Creates a new version for the project with the specified ID or identifier (:project_id).
       operationId: versions#create
       parameters:
         - $ref: "#/components/parameters/project_id"

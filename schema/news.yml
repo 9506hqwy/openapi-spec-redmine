@@ -2,7 +2,7 @@ paths:
   /projects/{project_id}/news.json:
     get:
       tags: ["news"]
-      description: Returns all news across all projects with pagination.
+      description: Returns all news items across all projects with pagination.
       operationId: news#index-project
       parameters:
         - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
@@ -19,7 +19,7 @@ paths:
           $ref: "./openapi.yml#/components/responses/no_content"
     post:
       tags: ["news"]
-      description: Creates a new news.
+      description: Creates a new news item.
       operationId: news#create-project
       parameters:
         - $ref: "#/components/parameters/project_id"
@@ -39,7 +39,7 @@ paths:
   /news.json:
     get:
       tags: ["news"]
-      description: Returns all news across all projects with pagination.
+      description: Returns all news items across all projects with pagination.
       operationId: news#index
       parameters:
         - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
@@ -53,7 +53,7 @@ paths:
           $ref: "./openapi.yml#/components/responses/no_content"
     post:
       tags: ["news"]
-      description: Creates a new news.
+      description: Creates a new news item.
       operationId: news#create
       requestBody:
         $ref: "#/components/requestBody/news"
@@ -72,7 +72,7 @@ paths:
     get:
       tags: ["news"]
       description: |
-        Returns the news with the specified ID.
+        Returns the news item with the specified ID.
       operationId: news#show
       parameters:
         - $ref: "#/components/parameters/id"

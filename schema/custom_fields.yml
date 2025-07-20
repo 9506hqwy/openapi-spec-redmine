@@ -2,7 +2,7 @@ paths:
   /custom_fields.json:
     get:
       tags: ["custom_fields"]
-      description: Returns all the custom fields definitions.
+      description: Returns all custom field definitions.
       operationId: custom_fields#index
       responses:
         "200":
@@ -17,51 +17,65 @@ components:
   schemas:
     custom_field:
       description: |
-        A single custom field.
+        Represents a single custom field.
       type: object
       properties:
         id:
           type: integer
-          description: The ID of the custom field.
+          description: The unique identifier of the custom field.
         name:
           type: string
           description: The name of the custom field.
         description:
           type: string
-          description: The description of the custom field.
+          description: A description of the custom field.
         customized_type:
           type: string
-          description: The customized type of the custom field.
+          description: The type of object this custom field is associated with.
         field_format:
           type: string
-          description: The field format of the custom field.
+          description: |
+            The format of the custom field.
+            Possible values are:
+            - `string`
+            - `text`
+            - `link`
+            - `int`
+            - `float`
+            - `date`
+            - `list`
+            - `bool`
+            - `enumeration`
+            - `user`
+            - `version`
+            - `attachement`
         regexp:
           type: string
-          description: The regexp of the custom field.
+          description: The regular expression pattern for the custom field value.
         min_length:
           type: integer
-          description: The min length of the custom field.
+          description: The minimum length allowed for the custom field value.
         max_length:
           type: integer
-          description: The max length of the custom field.
+          description: The maximum length allowed for the custom field value.
         is_required:
           type: boolean
-          description: The required of the custom field.
+          description: Whether the custom field is required.
         is_filter:
           type: boolean
-          description: The filter of the custom field.
+          description: Whether the custom field can be used as a filter.
         searchable:
           type: boolean
-          description: The searchable of the custom field.
+          description: Whether the custom field is searchable.
         multiple:
           type: boolean
-          description: The multiple of the custom field.
+          description: Whether the custom field allows multiple values.
         default_value:
           type: string
-          description: The default value of the custom field.
+          description: The default value for the custom field.
         visible:
           type: boolean
-          description: The visible of the custom field.
+          description: Whether the custom field is visible.
         editable:
           type: boolean
           description: The editable of the custom field.
@@ -102,7 +116,7 @@ components:
   responses:
     custom_fields:
       description: |
-        Returns a list of custom field.
+        Returns a list of custom fields.
       content:
         application/json:
           schema:

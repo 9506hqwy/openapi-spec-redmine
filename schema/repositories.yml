@@ -2,7 +2,7 @@ paths:
   /projects/{id}/repository/{repository_id}/revisions/{rev}/issues.json:
     post:
       tags: ["repositories"]
-      description: Add relation issue to revision.
+      description: Add a related issue to the specified revision.
       operationId: repositories#add_related_issue
       parameters:
         - $ref: "#/components/parameters/id"
@@ -26,7 +26,7 @@ paths:
   /projects/{id}/repository/{repository_id}/revisions/{rev}/issues/{issue_id}.json:
     delete:
       tags: ["repositories"]
-      description: Delete relation issue from revision.
+      description: Remove a related issue from the specified revision.
       operationId: repositories#remove_related_issue
       parameters:
         - $ref: "#/components/parameters/id"
@@ -58,7 +58,7 @@ components:
       name: repository_id
       in: path
       description: |
-        The identifier of the repository.
+        The unique identifier of the repository.
       required: true
       schema:
         type: string
@@ -66,7 +66,7 @@ components:
       name: rev
       in: path
       description: |
-        The revision of the changeset.
+        The revision identifier of the changeset.
       required: true
       schema:
         type: string
@@ -81,7 +81,7 @@ components:
   requestBody:
     repository:
       description: |
-        The repository to create or update.
+        The repository object to create or update.
       content:
         application/json:
           schema:

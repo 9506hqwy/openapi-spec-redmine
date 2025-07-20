@@ -2,7 +2,7 @@ paths:
   /groups.json:
     get:
       tags: ["groups"]
-      description: Returns a list of groups.
+      description: Returns a list of all groups.
       operationId: groups#index
       parameters:
         - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"

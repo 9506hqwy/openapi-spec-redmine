@@ -2,7 +2,7 @@ paths:
   /roles.json:
     get:
       tags: ["roles"]
-      description: Returns a list of roles.
+      description: Returns a list of all roles.
       operationId: roles#index
       responses:
         "200":
@@ -36,28 +36,28 @@ components:
   schemas:
     role:
       description: |
-        A single role.
+        Represents a single role.
       type: object
       properties:
         id:
           type: integer
-          description: The ID of the role.
+          description: The unique identifier of the role.
         name:
           type: string
           description: The name of the role.
     role_detail:
       description: |
-        A single role.
+        Represents a single role with additional details.
       allOf:
         - $ref: "#/components/schemas/role"
         - type: object
           properties:
             assignable:
               type: boolean
-              description: The assignable of the role.
+              description: Whether the role is assignable.
             issues_visibility:
               type: string
-              description: The issues visibility of the role.
+              description: The visibility of issues for this role.
             time_entries_visibility:
               type: string
               description: The time entries visibility of the role.
@@ -72,7 +72,7 @@ components:
   responses:
     roles:
       description: |
-        Returns a list of roles.
+        Returns a list of all roles.
       content:
         application/json:
           schema:

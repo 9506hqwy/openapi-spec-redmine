@@ -2,7 +2,7 @@ paths:
   /users.csv:
     get:
       tags: ["users"]
-      description: Returns a list of users.
+      description: Returns a list of all users in CSV format.
       operationId: users#index-csv
       parameters:
         - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
@@ -21,7 +21,7 @@ paths:
   /users.json:
     get:
       tags: ["users"]
-      description: Returns a list of users.
+      description: Returns a list of all users.
       operationId: users#index
       parameters:
         - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
@@ -57,7 +57,7 @@ paths:
       tags: ["users"]
       description: |
         Returns the user with the specified ID.
-        Use /users/current.json for retrieving the user whose credentials are used to access the API.
+        Use /users/current.json to retrieve the user whose credentials is used to access the API.
       operationId: users#show
       parameters:
         - $ref: "#/components/parameters/id"
@@ -75,7 +75,7 @@ paths:
       tags: ["users"]
       description: |
         Updates the user with the specified ID.
-        Use /users/current.json for retrieving the user whose credentials are used to access the API.
+        Use /users/current.json to update the user whose credentials is used to access the API.
       operationId: users#update-patch
       parameters:
         - $ref: "#/components/parameters/id"
@@ -96,7 +96,7 @@ paths:
       tags: ["users"]
       description: |
         Updates the user with the specified ID.
-        Use /users/current.json for retrieving the user whose credentials are used to access the API.
+        Use /users/current.json for retrieving the user whose credentials is used to access the API.
       operationId: users#update-put
       parameters:
         - $ref: "#/components/parameters/id"

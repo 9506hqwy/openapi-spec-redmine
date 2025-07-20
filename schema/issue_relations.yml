@@ -2,7 +2,7 @@ paths:
   /issues/{issue_id}/relations.json:
     get:
       tags: ["issue_relations"]
-      description: Returns the relations with the specified issue ID.
+      description: Returns the relations for the specified issue ID.
       operationId: issue_relations#index
       parameters:
         - $ref: "#/components/parameters/issue_id"
@@ -15,7 +15,7 @@ paths:
           $ref: "./openapi.yml#/components/responses/no_content"
     post:
       tags: ["issue_relations"]
-      description: Creates a relation with the specified issue ID.
+      description: Creates a relation for the specified issue ID.
       operationId: issue_relations#create
       parameters:
         - $ref: "#/components/parameters/issue_id"
@@ -71,7 +71,7 @@ components:
   schemas:
     issue_relation:
       description: |
-        A single relation.
+        Represents a single issue relation.
       type: object
       properties:
         id:
@@ -91,7 +91,7 @@ components:
           description: The delay of the relation.
     issue_relation_new:
       description: |
-        A single relation.
+        Represents a new issue relation to be created.
       type: object
       properties:
         issue_to_id:
@@ -126,7 +126,7 @@ components:
   responses:
     issue_relations:
       description: |
-        Returns a list of relation.
+        Returns a list of relations.
       content:
         application/json:
           schema:

@@ -2,7 +2,7 @@ paths:
   /issues/{issue_id}/watchers.json:
     post:
       tags: ["watchers"]
-      description: Creates a new watcher.
+      description: Creates a new watcher for the specified issue.
       operationId: watchers#create-issue
       parameters:
         - $ref: "#/components/parameters/issue_id"
@@ -23,7 +23,7 @@ paths:
     delete:
       tags: ["watchers"]
       description: |
-        Deletes the watcher with the specified ID.
+        Deletes the watcher with the specified ID from the issue.
       operationId: watchers#destroy-issue
       parameters:
         - $ref: "#/components/parameters/issue_id"
@@ -79,7 +79,7 @@ components:
   schemas:
     watcher_new:
       description: |
-        A single watcher.
+        Represents a single watcher.
       type: object
       properties:
         user_id:
@@ -111,7 +111,7 @@ components:
       name: object_type
       in: query
       description: |
-        The type of the object.
+        The type of the object to be watched.
       required: true
       schema:
         type: string

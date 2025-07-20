@@ -2,7 +2,7 @@ paths:
   /issues/{issue_id}/time_entries.json:
     post:
       tags: ["timelog"]
-      description: Creates a new time entry.
+      description: Creates a new time entry for the specified issue.
       operationId: timelog#create-issue
       parameters:
         - $ref: "#/components/parameters/issue_id"
@@ -24,7 +24,7 @@ paths:
   /projects/{project_id}/time_entries.csv:
     get:
       tags: ["timelog"]
-      description: Returns a list of time entries.
+      description: Returns a list of time entries for the specified project in CSV format.
       operationId: timelog#index-project-csv
       parameters:
         - $ref: "#/components/parameters/project_id"
@@ -43,7 +43,7 @@ paths:
   /projects/{project_id}/time_entries.json:
     get:
       tags: ["timelog"]
-      description: Returns a list of time entries.
+      description: Returns a list of time entries for the specified project.
       operationId: timelog#index-project
       parameters:
         - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"

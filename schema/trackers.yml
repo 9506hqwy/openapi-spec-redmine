@@ -2,7 +2,7 @@ paths:
   /trackers.json:
     get:
       tags: ["trackers"]
-      description: Returns a list of trackers.
+      description: Returns a list of all trackers.
       operationId: trackers#index
       responses:
         "200":
@@ -17,12 +17,12 @@ components:
   schemas:
     tracker:
       description: |
-        A single tracker.
+        Represents a single tracker.
       type: object
       properties:
         id:
           type: integer
-          description: The ID of the tracker.
+          description: The unique identifier of the tracker.
         name:
           type: string
           description: The name of the tracker.
@@ -31,22 +31,24 @@ components:
           properties:
             id:
               type: integer
-              description: The ID of the default status.
+              description: |
+                The unique identifier of the default status.
             name:
               type: string
-              description: The name of the default status.
+              description: |
+                The name of the default status.
         description:
           type: string
-          description: The description of the tracker.
+          description: A description of the tracker.
         enabled_standard_fields:
           type: array
           items:
             type: string
-            description: The enabled standard field.
+            description: The name of the enabled standard field.
   responses:
     trackers:
       description: |
-        Returns a list of trackers.
+        Returns a list of all trackers.
       content:
         application/json:
           schema:

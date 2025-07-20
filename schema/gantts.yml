@@ -2,7 +2,7 @@ paths:
   /issues/gantt.pdf:
     get:
       tags: ["gantts"]
-      description: Download gantt chart.
+      description: Download the Gantt chart.
       operationId: gantts#show-pdf
       responses:
         "200":
@@ -16,7 +16,7 @@ paths:
   /issues/gantt.png:
     get:
       tags: ["gantts"]
-      description: Download gantt chart.
+      description: Download the Gantt chart.
       operationId: gantts#show-png
       responses:
         "200":
@@ -30,7 +30,7 @@ paths:
   /projects/{project_id}/issues/gantt.pdf:
     get:
       tags: ["gantts"]
-      description: Download gantt chart.
+      description: Download the Gantt chart for the specified project.
       operationId: gantts#show-project-pdf
       parameters:
         - $ref: "#/components/parameters/project_id"
@@ -48,7 +48,7 @@ paths:
   /projects/{project_id}/issues/gantt.png:
     get:
       tags: ["gantts"]
-      description: Download gantt chart.
+      description: Download the Gantt chart for the specified project.
       operationId: gantts#show-project-png
       parameters:
         - $ref: "#/components/parameters/project_id"
@@ -67,7 +67,7 @@ components:
   responses:
     gantts-pdf:
       description: |
-        Download gantt chart.
+        Download the Gantt chart as a PDF file.
       content:
         application/pdf:
           schema:
@@ -75,7 +75,7 @@ components:
             format: binary
     gantts-png:
       description: |
-        Download gantt chart.
+        Download the Gantt chart as a PNG image.
       content:
         image/png:
           schema:
@@ -86,7 +86,7 @@ components:
       name: project_id
       in: path
       description: |
-        The ID or identifer of the project.
+        The ID or identifier of the project.
       required: true
       schema:
         type: string

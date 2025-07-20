@@ -2,7 +2,7 @@ paths:
   /issue_statuses.json:
     get:
       tags: ["issue_statuses"]
-      description: Returns a list of issue statuses.
+      description: Returns a list of all issue statuses.
       operationId: issue_statuses#index
       responses:
         "200":
@@ -17,25 +17,25 @@ components:
   schemas:
     issue_status:
       description: |
-        A single issue status.
+        Represents a single issue status.
       type: object
       properties:
         id:
           type: integer
-          description: The ID of the issue status.
+          description: The unique identifier of the issue status.
         name:
           type: string
           description: The name of the issue status.
         is_closed:
           type: boolean
-          description: The closed of the issue status.
+          description: Whether the issue status is closed.
         description:
           type: string
-          description: The description of the issue status.
+          description: A description of the issue status.
   responses:
     issue_statuses:
       description: |
-        Returns a list of issue_statuses.
+        Returns a list of all issue statuses.
       content:
         application/json:
           schema:

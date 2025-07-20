@@ -78,7 +78,7 @@ paths:
   /projects/{project_id}/issue_categories.json:
     get:
       tags: ["issue_categories"]
-      description: Returns the issue categories available with specified the project of ID or identifier.
+      description: Returns the issue categories available for the specified project by ID or identifier.
       operationId: issue_categories#index
       parameters:
         - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"

@@ -2,7 +2,7 @@ paths:
   /projects/{project_id}/memberships.json:
     get:
       tags: ["members"]
-      description: Returns a paginated list of the project memberships.
+      description: Returns a paginated list of project memberships.
       operationId: members#index
       parameters:
         - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
@@ -17,7 +17,7 @@ paths:
           $ref: "./openapi.yml#/components/responses/no_content"
     post:
       tags: ["members"]
-      description: Adds a project member.
+      description: Adds a new member to the project.
       operationId: members#create
       parameters:
         - $ref: "#/components/parameters/project_id"

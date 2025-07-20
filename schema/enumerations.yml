@@ -30,7 +30,7 @@ paths:
   /enumerations/time_entry_activities.json:
     get:
       tags: ["enumerations"]
-      description: Returns a list of time entry activity.
+      description: Returns a list of time entry activities.
       operationId: enumerations#index-time-entry-activity
       responses:
         "200":
@@ -45,12 +45,12 @@ components:
   schemas:
     enumeration:
       description: |
-        A single enumeration.
+        Represents a single enumeration value.
       type: object
       properties:
         id:
           type: integer
-          description: The ID of the enumeration.
+          description: The unique identifier of the enumeration.
         name:
           type: string
           description: The name of the enumeration.
@@ -67,7 +67,7 @@ components:
   responses:
     document_categories:
       description: |
-        Returns a list of enumerations.
+        Returns a list of enumeration values.
       content:
         application/json:
           schema:

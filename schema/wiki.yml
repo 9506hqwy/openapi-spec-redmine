@@ -3,7 +3,7 @@ paths:
     get:
       tags: ["wiki"]
       description: |
-        Returns the details of root wiki page.
+        Returns the details of the root wiki page.
       operationId: wiki#show-root
       parameters:
         - $ref: "#/components/parameters/project_id"
@@ -22,7 +22,7 @@ paths:
   /projects/{project_id}/wiki/index.json:
     get:
       tags: ["wiki"]
-      description: Returns the list of all pages in a project wiki.
+      description: Returns a list of all pages in the project wiki.
       operationId: wiki#index
       parameters:
         - $ref: "#/components/parameters/project_id"

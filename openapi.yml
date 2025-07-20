@@ -65,7 +65,7 @@ paths:
       tags:
         - attachments
       description: |
-        Downloads the attachment with the specified ID.
+        Download the attachment with the specified ID.
       operationId: attachments#download
       parameters:
         - name: id
@@ -76,7 +76,7 @@ paths:
             type: integer
       responses:
         '200':
-          description: Returns a single attachment.
+          description: Returns a single attachment object in raw format.
           content: &ref_1
             '*/*':
               schema:
@@ -101,7 +101,7 @@ paths:
       tags:
         - attachments
       description: |
-        Downloads the attachment thumbnail with the specified ID.
+        Download the thumbnail of the attachment with the specified ID.
       operationId: attachments#thumbnail
       parameters:
         - name: id
@@ -111,7 +111,7 @@ paths:
           schema: *ref_0
       responses:
         '200':
-          description: Returns a single attachment.
+          description: Returns a single attachment object in raw format.
           content: *ref_1
         '401':
           description: not provided
@@ -147,7 +147,7 @@ paths:
             type: integer
       responses:
         '200':
-          description: Returns a single attachment.
+          description: Returns a single attachment object in raw format.
           content: *ref_1
         '401':
           description: not provided
@@ -177,7 +177,7 @@ paths:
           schema: *ref_0
       responses:
         '200':
-          description: Returns a single attachment.
+          description: Returns a single attachment object.
           content:
             application/json:
               schema:
@@ -240,7 +240,7 @@ paths:
           required: true
           schema: *ref_0
       requestBody:
-        description: The attachment to update.
+        description: The attachment object to update.
         content: &ref_3
           application/json:
             schema:
@@ -295,7 +295,7 @@ paths:
           required: true
           schema: *ref_0
       requestBody:
-        description: The attachment to update.
+        description: The attachment object to update.
         content: *ref_3
         required: true
       responses:
@@ -361,7 +361,7 @@ paths:
             type: integer
       responses:
         '200':
-          description: Returns a single attachment.
+          description: Returns a single attachment as a ZIP file.
           content:
             application/zip:
               schema:
@@ -384,12 +384,12 @@ paths:
     get:
       tags:
         - custom_fields
-      description: Returns all the custom fields definitions.
+      description: Returns all custom field definitions.
       operationId: custom_fields#index
       responses:
         '200':
           description: |
-            Returns a list of custom field.
+            Returns a list of custom fields.
           content:
             application/json:
               schema:
@@ -399,51 +399,65 @@ paths:
                     type: array
                     items:
                       description: |
-                        A single custom field.
+                        Represents a single custom field.
                       type: object
                       properties:
                         id:
                           type: integer
-                          description: The ID of the custom field.
+                          description: The unique identifier of the custom field.
                         name:
                           type: string
                           description: The name of the custom field.
                         description:
                           type: string
-                          description: The description of the custom field.
+                          description: A description of the custom field.
                         customized_type:
                           type: string
-                          description: The customized type of the custom field.
+                          description: The type of object this custom field is associated with.
                         field_format:
                           type: string
-                          description: The field format of the custom field.
+                          description: |
+                            The format of the custom field.
+                            Possible values are:
+                            - `string`
+                            - `text`
+                            - `link`
+                            - `int`
+                            - `float`
+                            - `date`
+                            - `list`
+                            - `bool`
+                            - `enumeration`
+                            - `user`
+                            - `version`
+                            - `attachement`
                         regexp:
                           type: string
-                          description: The regexp of the custom field.
+                          description: The regular expression pattern for the custom field value.
                         min_length:
                           type: integer
-                          description: The min length of the custom field.
+                          description: The minimum length allowed for the custom field value.
                         max_length:
                           type: integer
-                          description: The max length of the custom field.
+                          description: The maximum length allowed for the custom field value.
                         is_required:
                           type: boolean
-                          description: The required of the custom field.
+                          description: Whether the custom field is required.
                         is_filter:
                           type: boolean
-                          description: The filter of the custom field.
+                          description: Whether the custom field can be used as a filter.
                         searchable:
                           type: boolean
-                          description: The searchable of the custom field.
+                          description: Whether the custom field is searchable.
                         multiple:
                           type: boolean
-                          description: The multiple of the custom field.
+                          description: Whether the custom field allows multiple values.
                         default_value:
                           type: string
-                          description: The default value of the custom field.
+                          description: The default value for the custom field.
                         visible:
                           type: boolean
-                          description: The visible of the custom field.
+                          description: Whether the custom field is visible.
                         editable:
                           type: boolean
                           description: The editable of the custom field.
@@ -501,7 +515,7 @@ paths:
       responses:
         '200':
           description: |
-            Returns a list of enumerations.
+            Returns a list of enumeration values.
           content:
             application/json:
               schema:
@@ -511,12 +525,12 @@ paths:
                     type: array
                     items:
                       description: |
-                        A single enumeration.
+                        Represents a single enumeration value.
                       type: object
                       properties: &ref_5
                         id:
                           type: integer
-                          description: The ID of the enumeration.
+                          description: The unique identifier of the enumeration.
                         name:
                           type: string
                           description: The name of the enumeration.
@@ -571,7 +585,7 @@ paths:
                     type: array
                     items:
                       description: |
-                        A single enumeration.
+                        Represents a single enumeration value.
                       type: object
                       properties: *ref_5
         '401':
@@ -589,7 +603,7 @@ paths:
     get:
       tags:
         - enumerations
-      description: Returns a list of time entry activity.
+      description: Returns a list of time entry activities.
       operationId: enumerations#index-time-entry-activity
       responses:
         '200':
@@ -604,7 +618,7 @@ paths:
                     type: array
                     items:
                       description: |
-                        A single enumeration.
+                        Represents a single enumeration value.
                       type: object
                       properties: *ref_5
         '401':
@@ -622,7 +636,7 @@ paths:
     get:
       tags:
         - groups
-      description: Returns a list of groups.
+      description: Returns a list of all groups.
       operationId: groups#index
       parameters:
         - name: X-Redmine-Nometa
@@ -1835,12 +1849,12 @@ paths:
     get:
       tags:
         - gantts
-      description: Download gantt chart.
+      description: Download the Gantt chart.
       operationId: gantts#show-pdf
       responses:
         '200':
           description: |
-            Download gantt chart.
+            Download the Gantt chart as a PDF file.
           content: &ref_48
             application/pdf:
               schema:
@@ -1861,12 +1875,12 @@ paths:
     get:
       tags:
         - gantts
-      description: Download gantt chart.
+      description: Download the Gantt chart.
       operationId: gantts#show-png
       responses:
         '200':
           description: |
-            Download gantt chart.
+            Download the Gantt chart as a PNG image.
           content: &ref_50
             image/png:
               schema:
@@ -2060,7 +2074,7 @@ paths:
     get:
       tags:
         - issue_relations
-      description: Returns the relations with the specified issue ID.
+      description: Returns the relations for the specified issue ID.
       operationId: issue_relations#index
       parameters:
         - name: issue_id
@@ -2073,7 +2087,7 @@ paths:
       responses:
         '200':
           description: |
-            Returns a list of relation.
+            Returns a list of relations.
           content:
             application/json:
               schema:
@@ -2083,7 +2097,7 @@ paths:
                     type: array
                     items:
                       description: |
-                        A single relation.
+                        Represents a single issue relation.
                       type: object
                       properties: &ref_21
                         id:
@@ -2108,7 +2122,7 @@ paths:
     post:
       tags:
         - issue_relations
-      description: Creates a relation with the specified issue ID.
+      description: Creates a relation for the specified issue ID.
       operationId: issue_relations#create
       parameters:
         - name: issue_id
@@ -2127,7 +2141,7 @@ paths:
               properties:
                 relation:
                   description: |
-                    A single relation.
+                    Represents a new issue relation to be created.
                   type: object
                   properties:
                     issue_to_id:
@@ -2171,7 +2185,7 @@ paths:
                 properties:
                   relation:
                     description: |
-                      A single relation.
+                      Represents a single issue relation.
                     type: object
                     properties: *ref_21
         '401':
@@ -2193,7 +2207,7 @@ paths:
     post:
       tags:
         - timelog
-      description: Creates a new time entry.
+      description: Creates a new time entry for the specified issue.
       operationId: timelog#create-issue
       parameters:
         - name: issue_id
@@ -2343,7 +2357,7 @@ paths:
     post:
       tags:
         - watchers
-      description: Creates a new watcher.
+      description: Creates a new watcher for the specified issue.
       operationId: watchers#create-issue
       parameters:
         - name: issue_id
@@ -2369,7 +2383,7 @@ paths:
                   description: The ID of the object.
                 watcher:
                   description: |
-                    A single watcher.
+                    Represents a single watcher.
                   type: object
                   properties:
                     user_id:
@@ -2402,7 +2416,7 @@ paths:
       tags:
         - watchers
       description: |
-        Deletes the watcher with the specified ID.
+        Deletes the watcher with the specified ID from the issue.
       operationId: watchers#destroy-issue
       parameters:
         - name: issue_id
@@ -2609,12 +2623,12 @@ paths:
     get:
       tags:
         - issue_statuses
-      description: Returns a list of issue statuses.
+      description: Returns a list of all issue statuses.
       operationId: issue_statuses#index
       responses:
         '200':
           description: |
-            Returns a list of issue_statuses.
+            Returns a list of all issue statuses.
           content:
             application/json:
               schema:
@@ -2624,21 +2638,21 @@ paths:
                     type: array
                     items:
                       description: |
-                        A single issue status.
+                        Represents a single issue status.
                       type: object
                       properties:
                         id:
                           type: integer
-                          description: The ID of the issue status.
+                          description: The unique identifier of the issue status.
                         name:
                           type: string
                           description: The name of the issue status.
                         is_closed:
                           type: boolean
-                          description: The closed of the issue status.
+                          description: Whether the issue status is closed.
                         description:
                           type: string
-                          description: The description of the issue status.
+                          description: A description of the issue status.
         '401':
           description: not provided
         '403':
@@ -2655,7 +2669,7 @@ paths:
       tags:
         - journals
       description: |
-        Updates the journal with the specified ID.
+        Update the journal with the specified ID.
       operationId: journals#update-patch
       parameters:
         - name: id
@@ -2667,7 +2681,7 @@ paths:
             type: integer
       requestBody:
         description: |
-          The journal to update.
+          The journal object to update.
         content: &ref_26
           application/json:
             schema:
@@ -2675,15 +2689,15 @@ paths:
               properties:
                 journal:
                   description: |
-                    A single journal.
+                    Represents a single journal entry.
                   type: object
                   properties:
                     notes:
                       type: string
-                      description: The notes of the journal.
+                      description: The notes for the journal entry.
                     private_notes:
                       type: boolean
-                      description: The private of the journal.q
+                      description: Whether the notes is private.
         required: true
       responses:
         '204':
@@ -2702,7 +2716,7 @@ paths:
       tags:
         - journals
       description: |
-        Updates the journal with the specified ID.
+        Update the journal with the specified ID.
       operationId: journals#update-put
       parameters:
         - name: id
@@ -2713,7 +2727,7 @@ paths:
           schema: *ref_25
       requestBody:
         description: |
-          The journal to update.
+          The journal object to update.
         content: *ref_26
         required: true
       responses:
@@ -2936,11 +2950,11 @@ paths:
     get:
       tags:
         - my
-      description: Returns my account.
+      description: Returns the current user's account information.
       operationId: my#account
       responses:
         '200':
-          description: Returns my account.
+          description: Returns the current user's account information.
           content:
             application/json:
               schema:
@@ -2948,38 +2962,38 @@ paths:
                 properties:
                   user:
                     description: |
-                      A single user.
+                      Represents a single user.
                     type: object
                     properties:
                       id:
                         type: integer
-                        description: The ID of the user.
+                        description: The unique identifier of the user.
                       login:
                         type: string
-                        description: The login of the user.
+                        description: The login name of the user.
                       admin:
                         type: boolean
-                        description: The administrative of the user.
+                        description: Whether the user has administrative privileges.
                       firstname:
                         type: string
-                        description: The firstname of the user.
+                        description: The first name of the user.
                       lastname:
                         type: string
-                        description: The lastname of the user.
+                        description: The last name of the user.
                       mail:
                         type: string
-                        description: The mail of the user.
+                        description: The email address of the user.
                       created_on:
                         type: string
                         format: date-time
-                        description: The date and time when the user was created.
+                        description: The date and time when the user account was created.
                       last_login_on:
                         type: string
                         format: date-time
-                        description: The date and time when the user was last logon.
+                        description: The date and time when the user last logged in.
                       api_key:
                         type: string
-                        description: The API key of the user.
+                        description: The API key for the user.
                       custom_fields:
                         type: array
                         items:
@@ -2992,10 +3006,10 @@ paths:
     put:
       tags:
         - my
-      description: Update my account.
+      description: Update the current user's account information.
       operationId: my#account-put
       requestBody:
-        description: The my account to update.
+        description: The user account information to update.
         content:
           application/json:
             schema:
@@ -3184,7 +3198,7 @@ paths:
     get:
       tags:
         - news
-      description: Returns all news across all projects with pagination.
+      description: Returns all news items across all projects with pagination.
       operationId: news#index
       parameters:
         - name: X-Redmine-Nometa
@@ -3264,7 +3278,7 @@ paths:
     post:
       tags:
         - news
-      description: Creates a new news.
+      description: Creates a new news item.
       operationId: news#create
       requestBody:
         description: |
@@ -3315,7 +3329,7 @@ paths:
       tags:
         - news
       description: |
-        Returns the news with the specified ID.
+        Returns the news item with the specified ID.
       operationId: news#show
       parameters:
         - name: id
@@ -4104,7 +4118,7 @@ paths:
     get:
       tags:
         - files
-      description: Returns all files.
+      description: Returns a list of all files.
       operationId: files#index
       parameters:
         - name: project_id
@@ -4117,7 +4131,7 @@ paths:
       responses:
         '200':
           description: |
-            Returns all files.
+            Returns a list of all files.
           content:
             application/json:
               schema:
@@ -4126,7 +4140,7 @@ paths:
                   files:
                     type: array
                     items:
-                      description: A single file.
+                      description: Represents a single file.
                       allOf: &ref_101
                         - type: object
                           properties: *ref_15
@@ -4168,7 +4182,7 @@ paths:
           schema: *ref_40
       requestBody:
         description: |
-          The file to create.
+          The file object to create.
         content:
           application/json:
             schema:
@@ -4176,18 +4190,18 @@ paths:
               properties:
                 file:
                   description: |
-                    A single file.
+                    Represents a new file to be created.
                   type: object
                   properties:
                     token:
                       type: string
-                      description: The token of the file.
+                      description: The upload token for the file.
                     version_id:
                       type: integer
-                      description: The ID of the version.
+                      description: The ID of the version associated with the file.
                     filename:
                       type: string
-                      description: The filename of the file.
+                      description: The name of the file.
                     description:
                       type: string
                       description: The description of the file.
@@ -4468,7 +4482,7 @@ paths:
     get:
       tags:
         - issue_categories
-      description: Returns the issue categories available with specified the project of ID or identifier.
+      description: Returns the issue categories available for the specified project by ID or identifier.
       operationId: issue_categories#index
       parameters:
         - name: X-Redmine-Nometa
@@ -4557,20 +4571,20 @@ paths:
     get:
       tags:
         - gantts
-      description: Download gantt chart.
+      description: Download the Gantt chart for the specified project.
       operationId: gantts#show-project-pdf
       parameters:
         - name: project_id
           in: path
           description: |
-            The ID or identifer of the project.
+            The ID or identifier of the project.
           required: true
           schema: &ref_49
             type: string
       responses:
         '200':
           description: |
-            Download gantt chart.
+            Download the Gantt chart as a PDF file.
           content: *ref_48
         '401':
           description: not provided
@@ -4589,19 +4603,19 @@ paths:
     get:
       tags:
         - gantts
-      description: Download gantt chart.
+      description: Download the Gantt chart for the specified project.
       operationId: gantts#show-project-png
       parameters:
         - name: project_id
           in: path
           description: |
-            The ID or identifer of the project.
+            The ID or identifier of the project.
           required: true
           schema: *ref_49
       responses:
         '200':
           description: |
-            Download gantt chart.
+            Download the Gantt chart as a PNG image.
           content: *ref_50
         '401':
           description: not provided
@@ -4620,7 +4634,7 @@ paths:
     get:
       tags:
         - members
-      description: Returns a paginated list of the project memberships.
+      description: Returns a paginated list of project memberships.
       operationId: members#index
       parameters:
         - name: X-Redmine-Nometa
@@ -4673,7 +4687,7 @@ paths:
     post:
       tags:
         - members
-      description: Adds a project member.
+      description: Adds a new member to the project.
       operationId: members#create
       parameters:
         - name: project_id
@@ -4711,7 +4725,7 @@ paths:
     get:
       tags:
         - news
-      description: Returns all news across all projects with pagination.
+      description: Returns all news items across all projects with pagination.
       operationId: news#index-project
       parameters:
         - name: X-Redmine-Nometa
@@ -4746,7 +4760,7 @@ paths:
     post:
       tags:
         - news
-      description: Creates a new news.
+      description: Creates a new news item.
       operationId: news#create-project
       parameters:
         - name: project_id
@@ -4782,7 +4796,7 @@ paths:
     post:
       tags:
         - repositories
-      description: Add relation issue to revision.
+      description: Add a related issue to the specified revision.
       operationId: repositories#add_related_issue
       parameters:
         - name: id
@@ -4795,20 +4809,20 @@ paths:
         - name: repository_id
           in: path
           description: |
-            The identifier of the repository.
+            The unique identifier of the repository.
           required: true
           schema: &ref_57
             type: string
         - name: rev
           in: path
           description: |
-            The revision of the changeset.
+            The revision identifier of the changeset.
           required: true
           schema: &ref_58
             type: string
       requestBody:
         description: |
-          The repository to create or update.
+          The repository object to create or update.
         content:
           application/json:
             schema:
@@ -4842,7 +4856,7 @@ paths:
     delete:
       tags:
         - repositories
-      description: Delete relation issue from revision.
+      description: Remove a related issue from the specified revision.
       operationId: repositories#remove_related_issue
       parameters:
         - name: id
@@ -4854,13 +4868,13 @@ paths:
         - name: repository_id
           in: path
           description: |
-            The identifier of the repository.
+            The unique identifier of the repository.
           required: true
           schema: *ref_57
         - name: rev
           in: path
           description: |
-            The revision of the changeset.
+            The revision identifier of the changeset.
           required: true
           schema: *ref_58
         - name: issue_id
@@ -4890,7 +4904,7 @@ paths:
     get:
       tags:
         - search
-      description: Returns the search results by the specified condition parameters.
+      description: Returns search results based on the specified query parameters.
       operationId: search#index-project
       parameters:
         - name: X-Redmine-Nometa
@@ -4907,14 +4921,14 @@ paths:
         - name: project_id
           in: path
           description: |
-            The ID or identifier of the issue.
+            The ID or identifier of the project.
           required: true
           schema:
             type: string
         - name: q
           in: query
           description: |
-            Query strings. Enable to specify multiple values separated by a space " ".
+            Query string. Multiple values can be specified, separated by a space (" ").
           required: true
           schema: &ref_79
             type: string
@@ -4987,7 +5001,7 @@ paths:
                     type: array
                     items:
                       description: |
-                        A single search result.
+                        Represents a single search result.
                       type: object
                       properties:
                         id:
@@ -5035,7 +5049,7 @@ paths:
     get:
       tags:
         - timelog
-      description: Returns a list of time entries.
+      description: Returns a list of time entries for the specified project in CSV format.
       operationId: timelog#index-project-csv
       parameters:
         - name: project_id
@@ -5177,7 +5191,7 @@ paths:
     get:
       tags:
         - timelog
-      description: Returns a list of time entries.
+      description: Returns a list of time entries for the specified project.
       operationId: timelog#index-project
       parameters:
         - name: X-Redmine-Nometa
@@ -5273,7 +5287,7 @@ paths:
       tags:
         - versions
       description: |
-        Returns the versions available for the project with the specified id or identifier (:project_id).
+        Returns the versions available for the project with the specified ID or identifier (:project_id).
         The response may include shared versions from other projects.
       operationId: versions#index
       parameters:
@@ -5365,7 +5379,7 @@ paths:
     post:
       tags:
         - versions
-      description: Creates a version for the project with the specified id or identifier (:project_id).
+      description: Creates a new version for the project with the specified ID or identifier (:project_id).
       operationId: versions#create
       parameters:
         - name: project_id
@@ -5487,7 +5501,7 @@ paths:
       tags:
         - wiki
       description: |
-        Returns the details of root wiki page.
+        Returns the details of the root wiki page.
       operationId: wiki#show-root
       parameters:
         - name: project_id
@@ -5584,7 +5598,7 @@ paths:
     get:
       tags:
         - wiki
-      description: Returns the list of all pages in a project wiki.
+      description: Returns a list of all pages in the project wiki.
       operationId: wiki#index
       parameters:
         - name: project_id
@@ -6066,7 +6080,7 @@ paths:
     get:
       tags:
         - queries
-      description: Returns a list of queries.
+      description: Returns a list of all queries.
       operationId: queries#index
       parameters:
         - name: X-Redmine-Nometa
@@ -6093,30 +6107,33 @@ paths:
                     type: array
                     items:
                       description: |
-                        A single queries.
+                        Represents a single query.
                       type: object
                       properties:
                         id:
                           type: integer
-                          description: The ID of the queries.
+                          description: The unique identifier of the query.
                         name:
                           type: string
-                          description: The name of the queries.
+                          description: The name of the query.
                         is_public:
                           type: boolean
-                          description: The public of the queries.
+                          description: Whether the query is public.
                         project_id:
                           type: integer
-                          description: The ID of the project.
+                          description: The unique identifier of the project.
                   total_count:
                     type: integer
-                    description: The total number of queries.
+                    description: |
+                      The total number of queries returned.
                   offset:
                     type: integer
-                    description: The offset of the first query in the list.
+                    description: |
+                      The offset of the first query in the result set.
                   limit:
                     type: integer
-                    description: The maximum number of queries returned in the list.
+                    description: |
+                      The maximum number of queries returned in the result set.
         '401':
           description: not provided
         '403':
@@ -6187,12 +6204,12 @@ paths:
     get:
       tags:
         - roles
-      description: Returns a list of roles.
+      description: Returns a list of all roles.
       operationId: roles#index
       responses:
         '200':
           description: |
-            Returns a list of roles.
+            Returns a list of all roles.
           content:
             application/json:
               schema:
@@ -6202,12 +6219,12 @@ paths:
                     type: array
                     items:
                       description: |
-                        A single role.
+                        Represents a single role.
                       type: object
                       properties: &ref_78
                         id:
                           type: integer
-                          description: The ID of the role.
+                          description: The unique identifier of the role.
                         name:
                           type: string
                           description: The name of the role.
@@ -6248,20 +6265,20 @@ paths:
                 properties:
                   role:
                     description: |
-                      A single role.
+                      Represents a single role with additional details.
                     allOf: &ref_104
                       - description: |
-                          A single role.
+                          Represents a single role.
                         type: object
                         properties: *ref_78
                       - type: object
                         properties:
                           assignable:
                             type: boolean
-                            description: The assignable of the role.
+                            description: Whether the role is assignable.
                           issues_visibility:
                             type: string
-                            description: The issues visibility of the role.
+                            description: The visibility of issues for this role.
                           time_entries_visibility:
                             type: string
                             description: The time entries visibility of the role.
@@ -6290,7 +6307,7 @@ paths:
     get:
       tags:
         - search
-      description: Returns the search results by the specified condition parameters.
+      description: Returns search results based on the specified query parameters.
       operationId: search#index
       parameters:
         - name: X-Redmine-Nometa
@@ -6307,7 +6324,7 @@ paths:
         - name: q
           in: query
           description: |
-            Query strings. Enable to specify multiple values separated by a space " ".
+            Query string. Multiple values can be specified, separated by a space (" ").
           required: true
           schema: *ref_79
         - name: query
@@ -6540,12 +6557,12 @@ paths:
     get:
       tags:
         - trackers
-      description: Returns a list of trackers.
+      description: Returns a list of all trackers.
       operationId: trackers#index
       responses:
         '200':
           description: |
-            Returns a list of trackers.
+            Returns a list of all trackers.
           content:
             application/json:
               schema:
@@ -6555,12 +6572,12 @@ paths:
                     type: array
                     items:
                       description: |
-                        A single tracker.
+                        Represents a single tracker.
                       type: object
                       properties:
                         id:
                           type: integer
-                          description: The ID of the tracker.
+                          description: The unique identifier of the tracker.
                         name:
                           type: string
                           description: The name of the tracker.
@@ -6569,18 +6586,20 @@ paths:
                           properties:
                             id:
                               type: integer
-                              description: The ID of the default status.
+                              description: |
+                                The unique identifier of the default status.
                             name:
                               type: string
-                              description: The name of the default status.
+                              description: |
+                                The name of the default status.
                         description:
                           type: string
-                          description: The description of the tracker.
+                          description: A description of the tracker.
                         enabled_standard_fields:
                           type: array
                           items:
                             type: string
-                            description: The enabled standard field.
+                            description: The name of the enabled standard field.
         '401':
           description: not provided
         '403':
@@ -6610,7 +6629,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: The attachment to upload.
+        description: The attachment object to upload.
         content:
           application/octet-stream:
             schema:
@@ -6619,7 +6638,7 @@ paths:
         required: true
       responses:
         '201':
-          description: Returns a single attachment.
+          description: Returns a single uploaded attachment object.
           content:
             application/json:
               schema:
@@ -6655,7 +6674,7 @@ paths:
     get:
       tags:
         - users
-      description: Returns a list of users.
+      description: Returns a list of all users in CSV format.
       operationId: users#index-csv
       parameters:
         - name: X-Redmine-Nometa
@@ -6799,7 +6818,7 @@ paths:
     get:
       tags:
         - users
-      description: Returns a list of users.
+      description: Returns a list of all users.
       operationId: users#index
       parameters:
         - name: X-Redmine-Nometa
@@ -7028,7 +7047,7 @@ paths:
         - users
       description: |
         Returns the user with the specified ID.
-        Use /users/current.json for retrieving the user whose credentials are used to access the API.
+        Use /users/current.json to retrieve the user whose credentials is used to access the API.
       operationId: users#show
       parameters:
         - name: id
@@ -7062,7 +7081,7 @@ paths:
         - users
       description: |
         Updates the user with the specified ID.
-        Use /users/current.json for retrieving the user whose credentials are used to access the API.
+        Use /users/current.json to update the user whose credentials is used to access the API.
       operationId: users#update-patch
       parameters:
         - name: id
@@ -7094,7 +7113,7 @@ paths:
         - users
       description: |
         Updates the user with the specified ID.
-        Use /users/current.json for retrieving the user whose credentials are used to access the API.
+        Use /users/current.json for retrieving the user whose credentials is used to access the API.
       operationId: users#update-put
       parameters:
         - name: id
@@ -7184,7 +7203,7 @@ paths:
         - name: object_type
           in: query
           description: |
-            The type of the object.
+            The type of the object to be watched.
           required: true
           schema:
             type: string
@@ -7392,7 +7411,7 @@ components:
         A single project.
       allOf: *ref_100
     file:
-      description: A single file.
+      description: Represents a single file.
       allOf: *ref_101
     version_detail:
       description: |
@@ -7404,7 +7423,7 @@ components:
       allOf: *ref_103
     role_detail:
       description: |
-        A single role.
+        Represents a single role with additional details.
       allOf: *ref_104
     user_detail:
       description: |

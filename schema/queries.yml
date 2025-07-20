@@ -2,7 +2,7 @@ paths:
   /queries.json:
     get:
       tags: ["queries"]
-      description: Returns a list of queries.
+      description: Returns a list of all queries.
       operationId: queries#index
       parameters:
         - $ref: "./openapi.yml#/components/parameters/X-Redmine-Nometa"
@@ -20,21 +20,21 @@ components:
   schemas:
     query:
       description: |
-        A single queries.
+        Represents a single query.
       type: object
       properties:
         id:
           type: integer
-          description: The ID of the queries.
+          description: The unique identifier of the query.
         name:
           type: string
-          description: The name of the queries.
+          description: The name of the query.
         is_public:
           type: boolean
-          description: The public of the queries.
+          description: Whether the query is public.
         project_id:
           type: integer
-          description: The ID of the project.
+          description: The unique identifier of the project.
   responses:
     queries:
       description: |
@@ -50,10 +50,13 @@ components:
                   $ref: "#/components/schemas/query"
               total_count:
                 type: integer
-                description: The total number of queries.
+                description: |
+                  The total number of queries returned.
               offset:
                 type: integer
-                description: The offset of the first query in the list.
+                description: |
+                  The offset of the first query in the result set.
               limit:
                 type: integer
-                description: The maximum number of queries returned in the list.
+                description: |
+                  The maximum number of queries returned in the result set.
