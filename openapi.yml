@@ -521,7 +521,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  document_category:
+                  document_categories:
                     type: array
                     items:
                       description: |
@@ -581,7 +581,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  issue_priority:
+                  issue_priorities:
                     type: array
                     items:
                       description: |
@@ -614,7 +614,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  time_entry_activity:
+                  time_entry_activities:
                     type: array
                     items:
                       description: |
