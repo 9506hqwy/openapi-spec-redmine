@@ -378,10 +378,10 @@ components:
           type: boolean
           description: The private of the issue.
         estimated_hours:
-          type: integer
+          type: number
           description: The estimated hours of the issue.
         total_estimated_hours:
-          type: integer
+          type: number
           description: The total estimated hours of the issue.
         spent_hours:
           type: number
@@ -480,7 +480,7 @@ components:
                         type: string
                         description: The name of the user.
                   notes:
-                    type: integer
+                    type: string
                     description: The notes of the journal.
                   created_on:
                     type: string
@@ -574,8 +574,8 @@ components:
       type: object
       properties:
         project_id:
-          type: integer
-          description: The project id of the issue.
+          type: string
+          description: The project ID or identifier of the issue.
         tracker_id:
           type: integer
           description: The tracker id of the issue.
@@ -612,7 +612,7 @@ components:
           type: integer
           description: The done ratio of the issue.
         estimated_hours:
-          type: integer
+          type: number
           description: The estimated hours of the issue.
         custom_field_values:
           $ref: "./openapi.yml#/components/schemas/custom_field_values"
@@ -707,7 +707,7 @@ components:
       name: project_id
       in: path
       description: |
-        The ID or identifier of the issue.
+        The ID or identifier of the project.
       required: true
       schema:
         type: string
@@ -753,7 +753,7 @@ components:
           project_id:
             type: string
             description: |
-              The expression of project id of the issue.
+              The expression of project ID or identifier of the issue.
               The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
           tracker_id:
             type: string
@@ -921,7 +921,7 @@ components:
           subproject_id:
             type: string
             description: |
-              The expression of sub project id of the issue.
+              The expression of sub project ID or identifier of the issue.
               The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
           project.status:
             type: string

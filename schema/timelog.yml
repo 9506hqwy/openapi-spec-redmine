@@ -384,12 +384,12 @@ components:
           project_id:
             type: string
             description: |
-              The expression of project id of the time entry.
+              The expression of project ID or identifier of the time entry.
               The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
           subproject_id:
             type: string
             description: |
-              The expression of sub project id of the time entry.
+              The expression of sub project ID or identifier of the time entry.
               The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
           issue_id:
             type: string

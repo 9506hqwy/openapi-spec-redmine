@@ -1068,7 +1068,7 @@ paths:
               project_id:
                 type: string
                 description: |
-                  The expression of project id of the issue.
+                  The expression of project ID or identifier of the issue.
                   The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
               tracker_id:
                 type: string
@@ -1236,7 +1236,7 @@ paths:
               subproject_id:
                 type: string
                 description: |
-                  The expression of sub project id of the issue.
+                  The expression of sub project ID or identifier of the issue.
                   The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
               project.status:
                 type: string
@@ -1463,10 +1463,10 @@ paths:
                           type: boolean
                           description: The private of the issue.
                         estimated_hours:
-                          type: integer
+                          type: number
                           description: The estimated hours of the issue.
                         total_estimated_hours:
-                          type: integer
+                          type: number
                           description: The total estimated hours of the issue.
                         spent_hours:
                           type: number
@@ -1553,8 +1553,8 @@ paths:
                   type: object
                   properties:
                     project_id:
-                      type: integer
-                      description: The project id of the issue.
+                      type: string
+                      description: The project ID or identifier of the issue.
                     tracker_id:
                       type: integer
                       description: The tracker id of the issue.
@@ -1591,7 +1591,7 @@ paths:
                       type: integer
                       description: The done ratio of the issue.
                     estimated_hours:
-                      type: integer
+                      type: number
                       description: The estimated hours of the issue.
                     custom_field_values:
                       type: object
@@ -1713,7 +1713,7 @@ paths:
                                       type: string
                                       description: The name of the user.
                                 notes:
-                                  type: integer
+                                  type: string
                                   description: The notes of the journal.
                                 created_on:
                                   type: string
@@ -2145,10 +2145,8 @@ paths:
                   type: object
                   properties:
                     issue_to_id:
-                      type: array
-                      items:
-                        type: string
-                        description: The ID of the issue to. Values should be separated by a comma ",".
+                      type: string
+                      description: The ID of the issue to. Values should be separated by a comma ",".
                     relation_type:
                       type: string
                       enum:
@@ -3048,9 +3046,9 @@ paths:
                         - `none`: no events
                     notified_project_ids:
                       type: array
-                      description: The notified project id of the user.
+                      description: The notified project ID or identifier of the user.
                       items:
-                        type: integer
+                        type: string
                     language:
                       type: string
                       description: The language of the user.
@@ -4295,7 +4293,7 @@ paths:
         - name: project_id
           in: path
           description: |
-            The ID or identifier of the issue.
+            The ID or identifier of the project.
           required: true
           schema: &ref_42
             type: string
@@ -4353,7 +4351,7 @@ paths:
         - name: project_id
           in: path
           description: |
-            The ID or identifier of the issue.
+            The ID or identifier of the project.
           required: true
           schema: *ref_42
         - name: query
@@ -4391,7 +4389,7 @@ paths:
         - name: project_id
           in: path
           description: |
-            The ID or identifier of the issue.
+            The ID or identifier of the project.
           required: true
           schema: *ref_42
       requestBody:
@@ -4442,7 +4440,7 @@ paths:
         - name: project_id
           in: path
           description: |
-            The ID or identifier of the issue.
+            The ID or identifier of the project.
           required: true
           schema: *ref_42
         - name: query
@@ -5075,12 +5073,12 @@ paths:
               project_id:
                 type: string
                 description: |
-                  The expression of project id of the time entry.
+                  The expression of project ID or identifier of the time entry.
                   The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
               subproject_id:
                 type: string
                 description: |
-                  The expression of sub project id of the time entry.
+                  The expression of sub project ID or identifier of the time entry.
                   The expression format is "[operator]\<values>". Values should be separated by a pipe "|".
               issue_id:
                 type: string

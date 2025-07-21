@@ -286,9 +286,9 @@ components:
             - `none`: no events
         notified_project_ids:
           type: array
-          description: The notified project id of the user.
+          description: The notified project ID or identifier of the user.
           items:
-            type: integer
+            type: string
         language:
           type: string
           description: The language of the user.

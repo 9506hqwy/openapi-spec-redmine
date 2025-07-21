@@ -95,10 +95,8 @@ components:
       type: object
       properties:
         issue_to_id:
-          type: array
-          items:
-            type: string
-            description: The ID of the issue to. Values should be separated by a comma ",".
+          type: string
+          description: The ID of the issue to. Values should be separated by a comma ",".
         relation_type:
           type: string
           enum:
