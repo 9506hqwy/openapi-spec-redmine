@@ -5407,6 +5407,7 @@ paths:
                       description: The description of the version.
                     effective_date:
                       type: string
+                      format: date
                       description: The effective date of the version.
                     due_date:
                       type: string
