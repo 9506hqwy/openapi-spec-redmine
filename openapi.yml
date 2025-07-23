@@ -1471,7 +1471,7 @@ paths:
                         spent_hours:
                           type: number
                           description: The spent hours of the issue.
-                        total_spent_hour:
+                        total_spent_hours:
                           type: number
                           description: The total spent hours of the issue.
                         custom_fields:
