@@ -350,8 +350,11 @@ components:
           enum: [asc, desc]
           description: The sorting order of comments. Possible values are `asc` and `desc`.
         warn_on_leaving_unsaved:
-          type: boolean
-          description: Whether to warn the user when leaving a page with unsaved changes.
+          type: string
+          description: |
+            Whether to warn the user when leaving a page with unsaved changes. Possible values are:
+            - `0`: Disable
+            - `1`: Enable
         no_self_notified:
           type: boolean
           description: Whether the user should not be notified of their own actions.
