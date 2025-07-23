@@ -1603,9 +1603,6 @@ paths:
                       items:
                         type: object
                         properties: *ref_6
-                    lock_version:
-                      type: string
-                      description: The lock version of the issue.
                     notes:
                       type: string
                       description: The notes of the issue.

@@ -620,9 +620,6 @@ components:
           type: array
           items:
             $ref: "./openapi.yml#/components/schemas/custom_field"
-        lock_version:
-          type: string
-          description: The lock version of the issue.
         notes:
           type: string
           description: The notes of the issue.
