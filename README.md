@@ -5,7 +5,7 @@
 Bundle one file.
 
 ```sh
-redocly bundle -d --remove-unused-components -o openapi.yml ./schema/openapi.yml
+redocly bundle -d --remove-unused-components ./schema/openapi.yml | yq 'explode(.)' > openapi.yml
 ```
 
 Verify OpenAPI schema format.
